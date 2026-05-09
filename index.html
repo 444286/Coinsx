@@ -90,12 +90,13 @@ html,body{height:100%;background:var(--dark);font-family:'DM Sans',sans-serif;co
 
 /* AD CARDS */
 .ad-cards{display:flex;flex-direction:column;gap:12px;margin-bottom:24px}
-.ad-card{border-radius:20px;overflow:hidden;background:var(--dark3);border:1px solid var(--card-border);min-height:170px}
-.ad-card-header{padding:14px 16px 10px;display:flex;align-items:center;justify-content:space-between}
+.ad-card{border-radius:20px;overflow:hidden;background:var(--dark3);border:1px solid var(--card-border);padding:18px 16px}
+.ad-card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
 .ad-badge{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#000;font-size:10px;font-weight:700;padding:3px 10px;border-radius:20px;letter-spacing:.5px}
 .ad-earn{font-size:12px;color:var(--emerald);font-weight:600}
-.ad-iframe-wrap{width:100%;height:130px;background:#0d0d18;overflow:hidden}
-.ad-iframe-wrap iframe{width:100%;height:100%;border:none;display:block}
+.ad-watch-btn{width:100%;background:linear-gradient(135deg,var(--gold),var(--gold2));border:none;border-radius:14px;padding:15px;color:#000;font-family:'Syne',sans-serif;font-size:15px;font-weight:800;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 6px 20px rgba(255,209,102,.3)}
+.ad-watch-btn:active{transform:scale(.97)}
+.ad-watch-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
 
 /* QUICK ACTIONS */
 .quick-actions{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px}
@@ -502,21 +503,36 @@ function updateMinWithdraw() {
 
 function renderAdCards() {
   const c = document.getElementById('adCardsContainer');
-  const ads = appConfig.ads ? Object.values(appConfig.ads).filter(a=>a.active) : [];
+  const ads = appConfig.ads ? Object.entries(appConfig.ads).filter(([,a])=>a.active) : [];
   if(!ads.length) {
     c.innerHTML = '<div style="text-align:center;padding:30px;color:var(--muted);font-size:13px">No ads available right now</div>';
     return;
   }
-  c.innerHTML = ads.map((ad,i) => `
+  c.innerHTML = ads.map(([key,ad],i) => `
   <div class="ad-card fade-in stagger-${Math.min(i+1,4)}">
     <div class="ad-card-header">
       <span class="ad-badge">⚡ LIVE AD</span>
       <span class="ad-earn">🪙 ${ad.earn||'Watch & Earn'}</span>
     </div>
-    <div class="ad-iframe-wrap">
-      <iframe src="${ad.link}" frameborder="0" scrolling="no" allowfullscreen loading="lazy"></iframe>
-    </div>
+    <button class="ad-watch-btn" id="adBtn-${key}" onclick="openAd('${key}','${ad.link}')">
+      ▶ বিজ্ঞাপন দেখুন
+    </button>
   </div>`).join('');
+}
+
+function openAd(key, link) {
+  const btn = document.getElementById('adBtn-' + key);
+  if(btn) { btn.disabled = true; btn.textContent = '⏳ Loading...'; }
+  // Open ad link
+  if(window.Telegram?.WebApp) {
+    Telegram.WebApp.openLink(link);
+  } else {
+    window.open(link, '_blank');
+  }
+  // Re-enable after 3s
+  setTimeout(() => {
+    if(btn) { btn.disabled = false; btn.innerHTML = '▶ বিজ্ঞাপন দেখুন'; }
+  }, 3000);
 }
 
 function renderHelpCards() {
@@ -659,4 +675,4 @@ function hideSplash() {
 }
 </script>
 </body>
-  </html>
+</html>
