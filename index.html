@@ -184,7 +184,7 @@ body{display:flex;flex-direction:column;}
   background:linear-gradient(145deg,var(--card2),var(--bg3));
   border:1px solid rgba(255,255,255,0.1);
   border-radius:24px;
-  padding:28px 22px 24px;
+  padding:32px 24px 28px;
   box-shadow:0 24px 64px rgba(0,0,0,0.7);
   text-align:center;
   position:relative;
@@ -196,62 +196,50 @@ body{display:flex;flex-direction:column;}
   background:radial-gradient(circle,rgba(61,107,255,.18),transparent 70%);
   pointer-events:none;
 }
-.chain-glow-dot{
-  width:64px;height:64px;border-radius:50%;
-  background:linear-gradient(135deg,var(--accent),var(--accent2));
-  display:flex;align-items:center;justify-content:center;
-  font-size:28px;margin:0 auto 16px;
-  box-shadow:0 0 32px rgba(61,107,255,.45);
-  animation:chainPulse 1.8s ease-in-out infinite;
+
+/* ── Gorgeous loading ring ── */
+.chain-loader-wrap{
+  position:relative;width:104px;height:104px;margin:0 auto 22px;
 }
-@keyframes chainPulse{0%,100%{box-shadow:0 0 32px rgba(61,107,255,.4);}50%{box-shadow:0 0 48px rgba(61,107,255,.7),0 0 80px rgba(107,68,255,.3);}}
+.chain-loader-ring{
+  position:absolute;inset:0;border-radius:50%;
+  background:conic-gradient(from 0deg,var(--accent),var(--accent2),var(--gold),var(--accent));
+  animation:chainSpin 1.4s linear infinite;
+  -webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 6px),#000 calc(100% - 6px));
+  mask:radial-gradient(farthest-side,transparent calc(100% - 6px),#000 calc(100% - 6px));
+  filter:drop-shadow(0 0 14px rgba(107,68,255,.55));
+}
+@keyframes chainSpin{to{transform:rotate(360deg);}}
+.chain-loader-core{
+  position:absolute;inset:8px;border-radius:50%;
+  background:linear-gradient(145deg,var(--card2),var(--bg3));
+  display:flex;align-items:center;justify-content:center;
+  font-size:34px;
+  box-shadow:inset 0 0 20px rgba(0,0,0,.4);
+  animation:chainCorePulse 1.8s ease-in-out infinite;
+}
+@keyframes chainCorePulse{0%,100%{transform:scale(1);}50%{transform:scale(1.06);}}
 .chain-title{font-family:var(--font-en);font-weight:800;font-size:17px;color:var(--text);margin-bottom:6px;}
-.chain-sub{font-size:12px;color:var(--text2);margin-bottom:20px;line-height:1.5;}
-/* step dots */
-.chain-steps{display:flex;align-items:center;justify-content:center;gap:0;margin-bottom:20px;}
-.chain-step-dot{
-  width:28px;height:28px;border-radius:50%;
-  background:var(--bg3);border:2px solid rgba(255,255,255,0.1);
-  display:flex;align-items:center;justify-content:center;
-  font-family:var(--font-en);font-weight:800;font-size:11px;color:var(--text2);
-  flex-shrink:0;transition:all .3s;
-}
-.chain-step-dot.done{background:var(--green);border-color:var(--green);color:#000;}
-.chain-step-dot.active{background:linear-gradient(135deg,var(--accent),var(--accent2));border-color:var(--accent);color:#fff;box-shadow:0 0 16px rgba(61,107,255,.5);}
-.chain-step-line{width:24px;height:2px;background:rgba(255,255,255,0.08);flex-shrink:0;}
-.chain-step-line.done{background:var(--green);}
+.chain-sub{font-size:12px;color:var(--text2);margin-bottom:20px;line-height:1.5;min-height:34px;}
+/* soft glowing dots — no numbers, just an ambient "still working" indicator */
+.chain-dots{display:flex;align-items:center;justify-content:center;gap:7px;margin-bottom:22px;}
+.chain-dots span{width:7px;height:7px;border-radius:50%;background:var(--accent);opacity:.35;animation:dotPulse 1.2s ease-in-out infinite;}
+.chain-dots span:nth-child(2){animation-delay:.15s;}
+.chain-dots span:nth-child(3){animation-delay:.3s;}
+.chain-dots span:nth-child(4){animation-delay:.45s;}
+@keyframes dotPulse{0%,100%{opacity:.25;transform:scale(1);}50%{opacity:1;transform:scale(1.35);}}
 /* earn badge */
 .chain-earn-badge{
   background:rgba(245,200,66,.12);border:1px solid rgba(245,200,66,.25);
-  border-radius:12px;padding:10px 16px;margin-bottom:18px;
+  border-radius:12px;padding:10px 16px;margin-bottom:20px;
   display:inline-flex;align-items:center;gap:8px;
 }
 .chain-earn-badge .earn-amt{font-family:var(--font-en);font-weight:900;font-size:22px;color:var(--gold);}
 .chain-earn-badge .earn-lbl{font-size:11px;color:var(--text2);text-align:left;line-height:1.4;}
-/* progress bar */
-.chain-progress-wrap{background:var(--bg);border-radius:6px;height:6px;margin-bottom:20px;overflow:hidden;}
-.chain-progress-bar{height:100%;border-radius:6px;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .5s ease;}
-/* ad network label */
-.chain-network-label{
-  font-size:11px;font-weight:700;letter-spacing:.5px;
-  color:var(--text2);text-transform:uppercase;margin-bottom:14px;
-  display:flex;align-items:center;justify-content:center;gap:6px;
-}
-.chain-network-label .nl-badge{
-  background:var(--bg3);border:1px solid var(--border);
-  border-radius:6px;padding:3px 8px;font-size:10px;color:var(--text);
-}
-/* action button */
-.chain-action-btn{
-  width:100%;background:linear-gradient(90deg,var(--accent2),var(--accent));
-  color:#fff;border:none;border-radius:14px;padding:14px;
-  font-size:14px;font-weight:800;cursor:pointer;font-family:var(--font-bn);
-  transition:filter .2s,transform .15s;
-  box-shadow:0 6px 24px rgba(61,107,255,.35);
-  display:flex;align-items:center;justify-content:center;gap:8px;
-}
-.chain-action-btn:active{transform:scale(.97);}
-.chain-action-btn:disabled{opacity:.5;cursor:not-allowed;transform:none;}
+/* slow ambient progress bar (not tied to a literal step count) */
+.chain-progress-wrap{background:var(--bg);border-radius:6px;height:6px;margin-bottom:4px;overflow:hidden;}
+.chain-progress-bar{height:100%;border-radius:6px;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .4s linear;}
+.chain-hint{font-size:11px;color:var(--text2);margin-top:10px;opacity:.8;}
 /* credit animation */
 .chain-credit-flash{
   position:fixed;inset:0;z-index:6000;pointer-events:none;
@@ -324,13 +312,16 @@ body{display:flex;flex-direction:column;}
 <script src="https://pl29863526.effectivecpmnetwork.com/04/56/9f/04569fac4b7bfedec84c1ea44e7b51b8.js"></script>
 <div class="bg-mesh"></div>
 
-<!-- AD CHAIN OVERLAY -->
+<!-- AD CHAIN OVERLAY (auto-advancing, no manual button, no exact step count shown) -->
 <div id="adChainOverlay">
   <div class="chain-box">
-    <div class="chain-glow-dot" id="chainIcon">📺</div>
-    <div class="chain-title" id="chainTitle">এড দেখুন</div>
-    <div class="chain-sub" id="chainSub">লোড হচ্ছে...</div>
-    <div class="chain-steps" id="chainSteps"></div>
+    <div class="chain-loader-wrap">
+      <div class="chain-loader-ring"></div>
+      <div class="chain-loader-core" id="chainIcon">📺</div>
+    </div>
+    <div class="chain-title" id="chainTitle">এড লোড হচ্ছে...</div>
+    <div class="chain-sub" id="chainSub">দয়া করে অপেক্ষা করুন, বন্ধ করবেন না</div>
+    <div class="chain-dots"><span></span><span></span><span></span><span></span></div>
     <div class="chain-earn-badge">
       <div>
         <div class="earn-amt" id="chainEarnAmt">৳0.00</div>
@@ -338,14 +329,9 @@ body{display:flex;flex-direction:column;}
       <div class="earn-lbl">সম্পূর্ণ হলে<br>ব্যালেন্সে যোগ হবে</div>
     </div>
     <div class="chain-progress-wrap">
-      <div class="chain-progress-bar" id="chainProgressBar" style="width:0%"></div>
+      <div class="chain-progress-bar" id="chainProgressBar" style="width:6%"></div>
     </div>
-    <div class="chain-network-label">
-      নেটওয়ার্ক: <span class="nl-badge" id="chainNetworkBadge">—</span>
-    </div>
-    <button class="chain-action-btn" id="chainActionBtn" onclick="chainNextStep()">
-      <span id="chainBtnText">এড দেখুন</span> <span>▶</span>
-    </button>
+    <div class="chain-hint" id="chainHint">একাধিক বিজ্ঞাপন প্রদর্শিত হতে পারে — সম্পূর্ণ হলে অটো যোগ হবে</div>
   </div>
 </div>
 <div class="chain-credit-flash" id="chainCreditFlash"></div>
@@ -522,6 +508,7 @@ let _chain = {
   earn: 0,           // total earn for this slot
   running: false,
   _called: false,    // guard flag
+  _progTimer: null,  // ambient progress ticker
 };
 
 /* ══════════════════════════════════════════
@@ -736,7 +723,12 @@ function unlockAd(n){
 }
 
 /* ══════════════════════════════════════════
-   WATCH AD — CHAIN SYSTEM
+   WATCH AD — AUTO-CHAIN SYSTEM
+   One tap starts the whole sequence. No per-step button.
+   The overlay shows a continuous loading animation and an
+   ambient progress bar — it does not expose the literal
+   step count, but it does keep an honest, generic notice
+   that more than one ad may be shown before credit lands.
 ══════════════════════════════════════════ */
 function watchAd(n){
   if(isDailyLimitReached(n)){showToast('আজকের দৈনিক লিমিট শেষ হয়েছে','error');return;}
@@ -760,10 +752,12 @@ function watchAd(n){
   const earn=Number(chain?.earn || config[`ad${n}Earn`] || 0);
 
   // Init chain state
-  _chain={slotN:n,steps,current:0,earn,running:true,_called:false};
+  _chain={slotN:n,steps,current:0,earn,running:true,_called:false,_progTimer:null};
 
-  // Show overlay
+  // Show overlay and kick off the auto-chain immediately
   _showChainOverlay();
+  _startAmbientProgress();
+  chainAdvance();
 }
 
 /* fallback for slots without chain config */
@@ -782,54 +776,41 @@ function _buildFallbackSteps(n){
   return steps;
 }
 
-/* ── OVERLAY RENDER ── */
+/* ── OVERLAY RENDER (initial paint) ──
+   Deliberately does NOT show "x/y" numbers or step dots —
+   just a generic, gorgeous loading state. */
 function _showChainOverlay(){
-  const total=_chain.steps.length;
-  const cur=_chain.current;
-  const step=_chain.steps[cur];
-
-  // Step dots
-  const dotsEl=document.getElementById('chainSteps');
-  let dotsHTML='';
-  _chain.steps.forEach((s,i)=>{
-    if(i>0) dotsHTML+=`<div class="chain-step-line ${i<=cur?'done':''}"></div>`;
-    let cls='';
-    if(i<cur) cls='done';
-    else if(i===cur) cls='active';
-    dotsHTML+=`<div class="chain-step-dot ${cls}">${i<cur?'✓':(i+1)}</div>`;
-  });
-  dotsEl.innerHTML=dotsHTML;
-
-  // Progress
-  const pct=Math.round((cur/total)*100);
-  document.getElementById('chainProgressBar').style.width=pct+'%';
-
-  // Earn
   document.getElementById('chainEarnAmt').textContent=`৳${_chain.earn.toFixed(2)}`;
-
-  // Network badge
-  const netNames={adsgram:'Adsgram',monetag:'Monetag',adsterra:'Adsterra'};
-  document.getElementById('chainNetworkBadge').textContent=netNames[step?.type]||step?.type||'—';
-
-  // Title / sub
-  document.getElementById('chainTitle').textContent=`এড ${cur+1}/${total} দেখুন`;
-  document.getElementById('chainSub').textContent='নিচের বাটনে ক্লিক করুন এবং এড দেখুন';
-
-  // Icon
-  const icons={adsgram:'🎮',monetag:'⚡',adsterra:'📡'};
-  document.getElementById('chainIcon').textContent=icons[step?.type]||'📺';
-
-  // Button
-  const btn=document.getElementById('chainActionBtn');
-  btn.disabled=false;
-  document.getElementById('chainBtnText').textContent=`এড ${cur+1} দেখুন`;
-
+  document.getElementById('chainTitle').textContent='এড লোড হচ্ছে...';
+  document.getElementById('chainSub').textContent='দয়া করে অপেক্ষা করুন, বন্ধ করবেন না';
+  document.getElementById('chainIcon').textContent='📺';
+  document.getElementById('chainProgressBar').style.width='6%';
+  document.getElementById('chainHint').textContent='একাধিক বিজ্ঞাপন প্রদর্শিত হতে পারে — সম্পূর্ণ হলে অটো যোগ হবে';
   document.getElementById('adChainOverlay').classList.add('active');
-  _chain._called=false;
 }
 
-/* ── NEXT STEP ── */
-function chainNextStep(){
+/* ── Ambient progress: a smooth, slightly-randomized creep
+   towards 92% while ads play, independent of exact step count.
+   The real jump to 100% only happens in _chainFinish(). ── */
+function _startAmbientProgress(){
+  const bar=document.getElementById('chainProgressBar');
+  let pct=6;
+  clearInterval(_chain._progTimer);
+  _chain._progTimer=setInterval(()=>{
+    if(pct<92){
+      pct+=Math.random()*3+1;
+      if(pct>92)pct=92;
+      bar.style.width=pct+'%';
+    }
+  },400);
+}
+function _stopAmbientProgress(){
+  clearInterval(_chain._progTimer);
+  _chain._progTimer=null;
+}
+
+/* ── AUTO ADVANCE: called once per step, no user click needed ── */
+function chainAdvance(){
   if(!_chain.running) return;
   if(_chain._called) return;
   _chain._called=true;
@@ -837,8 +818,11 @@ function chainNextStep(){
   const step=_chain.steps[_chain.current];
   if(!step){_chainFinish();return;}
 
-  const btn=document.getElementById('chainActionBtn');
-  btn.disabled=true;
+  // Rotate icon/network feel a little so it still looks alive,
+  // without printing literal "ad 2 of 3" anywhere.
+  const icons={adsgram:'🎮',monetag:'⚡',adsterra:'📡'};
+  document.getElementById('chainIcon').textContent=icons[step.type]||'📺';
+  document.getElementById('chainSub').textContent='দয়া করে অপেক্ষা করুন, বন্ধ করবেন না';
 
   if(step.type==='adsterra'){
     _playAdsterra(step);
@@ -854,9 +838,8 @@ function chainNextStep(){
 
 function _playAdsterra(step){
   const link=step.link;
-  if(!link){showToast('Adsterra লিংক নেই','error');_chainStepDone();return;}
+  if(!link){_chainStepDone();return;}
   window.open(link,'_blank');
-  // After opening, move on after short delay
   setTimeout(()=>_chainStepDone(), 1500);
 }
 
@@ -864,35 +847,26 @@ function _playMonetag(step){
   const zoneId=step.zoneId;
   const fnName=`show_${zoneId}`;
   if(typeof window[fnName]==='function'){
-    try{
-      window[fnName]();
-    }catch(e){
-      console.warn('Monetag error',e);
-    }
-    // Wait then proceed (Monetag interstitial — no callback)
+    try{ window[fnName](); }catch(e){ console.warn('Monetag error',e); }
     setTimeout(()=>_chainStepDone(), 3000);
   } else {
-    showToast('Monetag এড লোড হচ্ছে...','');
     setTimeout(()=>_chainStepDone(), 3000);
   }
 }
 
 function _playAdsgram(step){
   const blockId=step.blockId;
-  if(!blockId){showToast('Adsgram Block ID নেই','error');_chainStepDone();return;}
+  if(!blockId){_chainStepDone();return;}
   try{
     const AdController=window.Adsgram?.init({blockId});
     if(!AdController){
-      showToast('Adsgram লোড হয়নি','error');
       setTimeout(()=>_chainStepDone(),1000);
       return;
     }
-    AdController.show().then(result=>{
-      // result.done = true if user watched fully
+    AdController.show().then(()=>{
       _chainStepDone();
     }).catch(err=>{
       console.warn('Adsgram err',err);
-      // still proceed even on skip/error
       _chainStepDone();
     });
   }catch(e){
@@ -901,32 +875,38 @@ function _playAdsgram(step){
   }
 }
 
-/* ── STEP DONE → next or finish ── */
+/* ── STEP DONE → auto-continue to next, or finish. No button. ── */
 function _chainStepDone(){
   _chain._called=false;
   _chain.current++;
   if(_chain.current>=_chain.steps.length){
     _chainFinish();
   } else {
-    // Update overlay for next step
-    _showChainOverlay();
-    // Update title to "continue" feel
-    document.getElementById('chainSub').textContent='পরবর্তী এড দেখুন';
+    // Immediately auto-advance to next ad — no tap required
+    chainAdvance();
   }
 }
 
 /* ── CHAIN FINISH → credit ── */
 async function _chainFinish(){
   _chain.running=false;
-  // Close overlay
+  _stopAmbientProgress();
+
+  // Snap progress bar to 100% briefly before closing
+  const bar=document.getElementById('chainProgressBar');
+  bar.style.width='100%';
+  document.getElementById('chainTitle').textContent='সম্পন্ন হচ্ছে...';
+  document.getElementById('chainSub').textContent='ব্যালেন্স যোগ করা হচ্ছে';
+
+  await new Promise(r=>setTimeout(r,450));
+
   document.getElementById('adChainOverlay').classList.remove('active');
-  // Flash
   const flash=document.getElementById('chainCreditFlash');
   flash.style.display='block';
   setTimeout(()=>flash.style.display='none',600);
 
   await creditAd(_chain.slotN);
-  _chain={slotN:0,steps:[],current:0,earn:0,running:false,_called:false};
+  _chain={slotN:0,steps:[],current:0,earn:0,running:false,_called:false,_progTimer:null};
 }
 
 /* ── CREDIT ── */
