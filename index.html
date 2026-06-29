@@ -196,8 +196,6 @@ body{display:flex;flex-direction:column;}
   background:radial-gradient(circle,rgba(61,107,255,.18),transparent 70%);
   pointer-events:none;
 }
-
-/* ── Gorgeous loading ring ── */
 .chain-loader-wrap{
   position:relative;width:104px;height:104px;margin:0 auto 22px;
 }
@@ -221,14 +219,12 @@ body{display:flex;flex-direction:column;}
 @keyframes chainCorePulse{0%,100%{transform:scale(1);}50%{transform:scale(1.06);}}
 .chain-title{font-family:var(--font-en);font-weight:800;font-size:17px;color:var(--text);margin-bottom:6px;}
 .chain-sub{font-size:12px;color:var(--text2);margin-bottom:20px;line-height:1.5;min-height:34px;}
-/* soft glowing dots — no numbers, just an ambient "still working" indicator */
 .chain-dots{display:flex;align-items:center;justify-content:center;gap:7px;margin-bottom:22px;}
 .chain-dots span{width:7px;height:7px;border-radius:50%;background:var(--accent);opacity:.35;animation:dotPulse 1.2s ease-in-out infinite;}
 .chain-dots span:nth-child(2){animation-delay:.15s;}
 .chain-dots span:nth-child(3){animation-delay:.3s;}
 .chain-dots span:nth-child(4){animation-delay:.45s;}
 @keyframes dotPulse{0%,100%{opacity:.25;transform:scale(1);}50%{opacity:1;transform:scale(1.35);}}
-/* earn badge */
 .chain-earn-badge{
   background:rgba(245,200,66,.12);border:1px solid rgba(245,200,66,.25);
   border-radius:12px;padding:10px 16px;margin-bottom:20px;
@@ -236,11 +232,9 @@ body{display:flex;flex-direction:column;}
 }
 .chain-earn-badge .earn-amt{font-family:var(--font-en);font-weight:900;font-size:22px;color:var(--gold);}
 .chain-earn-badge .earn-lbl{font-size:11px;color:var(--text2);text-align:left;line-height:1.4;}
-/* slow ambient progress bar (not tied to a literal step count) */
 .chain-progress-wrap{background:var(--bg);border-radius:6px;height:6px;margin-bottom:4px;overflow:hidden;}
 .chain-progress-bar{height:100%;border-radius:6px;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .4s linear;}
 .chain-hint{font-size:11px;color:var(--text2);margin-top:10px;opacity:.8;}
-/* credit animation */
 .chain-credit-flash{
   position:fixed;inset:0;z-index:6000;pointer-events:none;
   background:radial-gradient(circle at 50% 40%,rgba(34,216,122,.22),transparent 70%);
@@ -312,7 +306,7 @@ body{display:flex;flex-direction:column;}
 <script src="https://pl29863526.effectivecpmnetwork.com/04/56/9f/04569fac4b7bfedec84c1ea44e7b51b8.js"></script>
 <div class="bg-mesh"></div>
 
-<!-- AD CHAIN OVERLAY (auto-advancing, no manual button, no exact step count shown) -->
+<!-- AD CHAIN OVERLAY -->
 <div id="adChainOverlay">
   <div class="chain-box">
     <div class="chain-loader-wrap">
@@ -502,13 +496,15 @@ let adCooldownTimers={1:null,2:null,3:null};
    AD CHAIN STATE
 ══════════════════════════════════════════ */
 let _chain = {
-  slotN: 0,          // which slot (1/2/3)
-  steps: [],         // array of {type:'adsgram'|'monetag'|'adsterra', ...params}
-  current: 0,        // current step index (0-based)
-  earn: 0,           // total earn for this slot
+  slotN: 0,
+  steps: [],
+  current: 0,
+  earn: 0,
   running: false,
-  _called: false,    // guard flag
-  _progTimer: null,  // ambient progress ticker
+  _called: false,
+  _progTimer: null,
+  _visibilityHandler: null,   // ← NEW: track active visibility listener
+  _fallbackTimer: null,       // ← NEW: track active fallback timer
 };
 
 /* ══════════════════════════════════════════
@@ -532,7 +528,6 @@ function getAdDailyLimit(n){
 function isDailyLimitReached(n){return getTodayWatchCount(n)>=getAdDailyLimit(n);}
 function formatTime(s){const m=Math.floor(s/60);const sc=s%60;return m>0?`${m}মি ${sc}সে`:`${sc}সে`;}
 
-/* get chain config for slot n */
 function getSlotChain(n){
   return config.adChains?.[`slot${n}`] || null;
 }
@@ -609,15 +604,13 @@ function listenUserBalance(){
 }
 
 /* ══════════════════════════════════════════
-   SDK SETUP — Adsgram + Monetag
+   SDK SETUP
 ══════════════════════════════════════════ */
 function setupSDKs(){
-  // Monetag — load SDK per slot chain config
   _loadMonetagZones();
 }
 
 function _loadMonetagZones(){
-  // Collect all unique monetag zone IDs from all slot chains
   const zones = new Set();
   if(config.adChains){
     Object.values(config.adChains).forEach(chain=>{
@@ -629,7 +622,6 @@ function _loadMonetagZones(){
       });
     });
   }
-  // Also legacy ad2Zone
   if(config.ad2Zone && config.ad2Zone!=='0000000') zones.add(config.ad2Zone);
 
   zones.forEach(zoneId=>{
@@ -644,7 +636,7 @@ function _loadMonetagZones(){
 }
 
 /* ══════════════════════════════════════════
-   RENDER FUNCTIONS (unchanged)
+   RENDER FUNCTIONS
 ══════════════════════════════════════════ */
 function renderAll(){renderProfile();renderAds();renderTasks();renderWithdraw();renderHistory();renderSupport();}
 
@@ -724,25 +716,18 @@ function unlockAd(n){
 
 /* ══════════════════════════════════════════
    WATCH AD — AUTO-CHAIN SYSTEM
-   One tap starts the whole sequence. No per-step button.
-   The overlay shows a continuous loading animation and an
-   ambient progress bar — it does not expose the literal
-   step count, but it does keep an honest, generic notice
-   that more than one ad may be shown before credit lands.
 ══════════════════════════════════════════ */
 function watchAd(n){
   if(isDailyLimitReached(n)){showToast('আজকের দৈনিক লিমিট শেষ হয়েছে','error');return;}
 
   const chain=getSlotChain(n);
 
-  // Build steps array
   let steps=[];
   if(chain && chain.steps){
     const raw=Array.isArray(chain.steps)?chain.steps:Object.values(chain.steps);
     steps=raw.filter(s=>s && s.type && s.enabled!==false);
   }
 
-  // Fallback: no chain config → use old behavior as single step
   if(steps.length===0){
     steps=_buildFallbackSteps(n);
   }
@@ -751,16 +736,23 @@ function watchAd(n){
 
   const earn=Number(chain?.earn || config[`ad${n}Earn`] || 0);
 
-  // Init chain state
-  _chain={slotN:n,steps,current:0,earn,running:true,_called:false,_progTimer:null};
+  _chain={
+    slotN:n,
+    steps,
+    current:0,
+    earn,
+    running:true,
+    _called:false,
+    _progTimer:null,
+    _visibilityHandler:null,
+    _fallbackTimer:null,
+  };
 
-  // Show overlay and kick off the auto-chain immediately
   _showChainOverlay();
   _startAmbientProgress();
   chainAdvance();
 }
 
-/* fallback for slots without chain config */
 function _buildFallbackSteps(n){
   const steps=[];
   if(n===1){
@@ -776,9 +768,6 @@ function _buildFallbackSteps(n){
   return steps;
 }
 
-/* ── OVERLAY RENDER (initial paint) ──
-   Deliberately does NOT show "x/y" numbers or step dots —
-   just a generic, gorgeous loading state. */
 function _showChainOverlay(){
   document.getElementById('chainEarnAmt').textContent=`৳${_chain.earn.toFixed(2)}`;
   document.getElementById('chainTitle').textContent='এড লোড হচ্ছে...';
@@ -789,9 +778,6 @@ function _showChainOverlay(){
   document.getElementById('adChainOverlay').classList.add('active');
 }
 
-/* ── Ambient progress: a smooth, slightly-randomized creep
-   towards 92% while ads play, independent of exact step count.
-   The real jump to 100% only happens in _chainFinish(). ── */
 function _startAmbientProgress(){
   const bar=document.getElementById('chainProgressBar');
   let pct=6;
@@ -809,7 +795,41 @@ function _stopAmbientProgress(){
   _chain._progTimer=null;
 }
 
-/* ── AUTO ADVANCE: called once per step, no user click needed ── */
+/* ── Helper: clean up any active visibility listener & fallback timer ── */
+function _clearVisibilityWatcher(){
+  if(_chain._visibilityHandler){
+    document.removeEventListener('visibilitychange', _chain._visibilityHandler);
+    _chain._visibilityHandler=null;
+  }
+  if(_chain._fallbackTimer){
+    clearTimeout(_chain._fallbackTimer);
+    _chain._fallbackTimer=null;
+  }
+}
+
+/* ── Helper: attach a one-shot visibility watcher that fires _chainStepDone()
+   when the user returns to the app after the ad opened in a new tab/window.
+   A 30-second fallback ensures we never get stuck. ── */
+function _waitForReturn(onReturn){
+  _clearVisibilityWatcher(); // safety: remove any previous watcher
+
+  function handler(){
+    if(document.hidden) return;           // still hidden — not back yet
+    _clearVisibilityWatcher();            // clean up
+    setTimeout(onReturn, 800);            // small grace delay, then continue
+  }
+
+  _chain._visibilityHandler = handler;
+  document.addEventListener('visibilitychange', handler);
+
+  // Fallback: if user never returns within 30 s, auto-continue
+  _chain._fallbackTimer = setTimeout(()=>{
+    _clearVisibilityWatcher();
+    onReturn();
+  }, 30000);
+}
+
+/* ── AUTO ADVANCE ── */
 function chainAdvance(){
   if(!_chain.running) return;
   if(_chain._called) return;
@@ -818,8 +838,6 @@ function chainAdvance(){
   const step=_chain.steps[_chain.current];
   if(!step){_chainFinish();return;}
 
-  // Rotate icon/network feel a little so it still looks alive,
-  // without printing literal "ad 2 of 3" anywhere.
   const icons={adsgram:'🎮',monetag:'⚡',adsterra:'📡'};
   document.getElementById('chainIcon').textContent=icons[step.type]||'📺';
   document.getElementById('chainSub').textContent='দয়া করে অপেক্ষা করুন, বন্ধ করবেন না';
@@ -831,29 +849,40 @@ function chainAdvance(){
   } else if(step.type==='adsgram'){
     _playAdsgram(step);
   } else {
-    // unknown type, skip
     _chainStepDone();
   }
 }
 
+/* ══════════════════════════════════════════
+   AD PLAYERS — FIXED with visibility detection
+══════════════════════════════════════════ */
+
+/* Adsterra: opens a new tab, then waits for user to come back */
 function _playAdsterra(step){
   const link=step.link;
   if(!link){_chainStepDone();return;}
+
   window.open(link,'_blank');
-  setTimeout(()=>_chainStepDone(), 1500);
+
+  // Wait until user returns to this tab/webview, then continue chain
+  _waitForReturn(()=>_chainStepDone());
 }
 
+/* Monetag: triggers interstitial popup, then waits for user to dismiss & return */
 function _playMonetag(step){
   const zoneId=step.zoneId;
   const fnName=`show_${zoneId}`;
+
+  // Trigger the ad first
   if(typeof window[fnName]==='function'){
     try{ window[fnName](); }catch(e){ console.warn('Monetag error',e); }
-    setTimeout(()=>_chainStepDone(), 3000);
-  } else {
-    setTimeout(()=>_chainStepDone(), 3000);
   }
+
+  // Wait for user to close the ad and return to the page
+  _waitForReturn(()=>_chainStepDone());
 }
 
+/* Adsgram: uses its own promise-based callback — no visibility polling needed */
 function _playAdsgram(step){
   const blockId=step.blockId;
   if(!blockId){_chainStepDone();return;}
@@ -875,14 +904,14 @@ function _playAdsgram(step){
   }
 }
 
-/* ── STEP DONE → auto-continue to next, or finish. No button. ── */
+/* ── STEP DONE → auto-continue ── */
 function _chainStepDone(){
+  _clearVisibilityWatcher();   // always clean up before moving on
   _chain._called=false;
   _chain.current++;
   if(_chain.current>=_chain.steps.length){
     _chainFinish();
   } else {
-    // Immediately auto-advance to next ad — no tap required
     chainAdvance();
   }
 }
@@ -890,9 +919,9 @@ function _chainStepDone(){
 /* ── CHAIN FINISH → credit ── */
 async function _chainFinish(){
   _chain.running=false;
+  _clearVisibilityWatcher();
   _stopAmbientProgress();
 
-  // Snap progress bar to 100% briefly before closing
   const bar=document.getElementById('chainProgressBar');
   bar.style.width='100%';
   document.getElementById('chainTitle').textContent='সম্পন্ন হচ্ছে...';
@@ -906,7 +935,7 @@ async function _chainFinish(){
   setTimeout(()=>flash.style.display='none',600);
 
   await creditAd(_chain.slotN);
-  _chain={slotN:0,steps:[],current:0,earn:0,running:false,_called:false,_progTimer:null};
+  _chain={slotN:0,steps:[],current:0,earn:0,running:false,_called:false,_progTimer:null,_visibilityHandler:null,_fallbackTimer:null};
 }
 
 /* ── CREDIT ── */
