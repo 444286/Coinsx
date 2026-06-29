@@ -799,6 +799,8 @@ function _stopAmbientProgress(){
 function _clearVisibilityWatcher(){
   if(_chain._visibilityHandler){
     document.removeEventListener('visibilitychange', _chain._visibilityHandler);
+    window.removeEventListener('focus', _chain._visibilityHandler);
+    window.removeEventListener('pageshow', _chain._visibilityHandler);
     _chain._visibilityHandler=null;
   }
   if(_chain._fallbackTimer){
@@ -807,23 +809,31 @@ function _clearVisibilityWatcher(){
   }
 }
 
-/* ── Helper: attach a one-shot visibility watcher that fires _chainStepDone()
-   when the user returns to the app after the ad opened in a new tab/window.
-   A 30-second fallback ensures we never get stuck. ── */
+/* ── Helper: Telegram WebApp এ visibilitychange কাজ না করায়
+   focus + pageshow + visibilitychange তিনটাই একসাথে ব্যবহার করা হচ্ছে।
+   যেকোনো একটা fire হলেই পরের step এ যাবে। ── */
 function _waitForReturn(onReturn){
-  _clearVisibilityWatcher(); // safety: remove any previous watcher
+  _clearVisibilityWatcher();
+  let _fired = false;
 
   function handler(){
-    if(document.hidden) return;           // still hidden — not back yet
-    _clearVisibilityWatcher();            // clean up
-    setTimeout(onReturn, 800);            // small grace delay, then continue
+    if(_fired) return;
+    // visibilitychange এর ক্ষেত্রে hidden হলে skip
+    if(arguments[0] && arguments[0].type === 'visibilitychange' && document.hidden) return;
+    _fired = true;
+    _clearVisibilityWatcher();
+    setTimeout(onReturn, 1000);
   }
 
   _chain._visibilityHandler = handler;
   document.addEventListener('visibilitychange', handler);
+  window.addEventListener('focus', handler);
+  window.addEventListener('pageshow', handler);
 
-  // Fallback: if user never returns within 30 s, auto-continue
+  // Fallback: 30 সেকেন্ডে auto-continue
   _chain._fallbackTimer = setTimeout(()=>{
+    if(_fired) return;
+    _fired = true;
     _clearVisibilityWatcher();
     onReturn();
   }, 30000);
@@ -857,29 +867,37 @@ function chainAdvance(){
    AD PLAYERS — FIXED with visibility detection
 ══════════════════════════════════════════ */
 
-/* Adsterra: opens a new tab, then waits for user to come back */
+/* Adsterra: opens a new tab, minimum 3s পর user return detect করে */
 function _playAdsterra(step){
   const link=step.link;
   if(!link){_chainStepDone();return;}
 
   window.open(link,'_blank');
 
-  // Wait until user returns to this tab/webview, then continue chain
-  _waitForReturn(()=>_chainStepDone());
+  // Telegram WebApp এ link open হতে সময় লাগে।
+  // ৩ সেকেন্ড minimum wait করি, তারপর return detect শুরু।
+  setTimeout(()=>{
+    if(!_chain.running) return;
+    _waitForReturn(()=>_chainStepDone());
+  }, 3000);
 }
 
-/* Monetag: triggers interstitial popup, then waits for user to dismiss & return */
+/* Monetag: interstitial popup trigger করে, ৫ সেকেন্ড fixed delay তারপর পরের step */
 function _playMonetag(step){
   const zoneId=step.zoneId;
   const fnName=`show_${zoneId}`;
 
-  // Trigger the ad first
   if(typeof window[fnName]==='function'){
     try{ window[fnName](); }catch(e){ console.warn('Monetag error',e); }
   }
 
-  // Wait for user to close the ad and return to the page
-  _waitForReturn(()=>_chainStepDone());
+  // Monetag popup এর জন্য page leave হয় না।
+  // ৫ সেকেন্ড fixed delay দিয়ে পরের step এ যাই।
+  // (user ad দেখার জন্য যথেষ্ট সময়)
+  setTimeout(()=>{
+    if(!_chain.running) return;
+    _chainStepDone();
+  }, 5000);
 }
 
 /* Adsgram: uses its own promise-based callback — no visibility polling needed */
