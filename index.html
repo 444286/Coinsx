@@ -367,7 +367,7 @@ body{display:flex;flex-direction:column;}
       <div class="popup-message" id="popupMessage">লোড হচ্ছে...</div>
     </div>
     <button class="popup-okay-btn" id="popupOkayBtn" onclick="closePopup()">
-      Continue <span class="popup-btn-arrow">&#8250;</span>
+      Continue <span class="popup-btn-arrow">›</span>
     </button>
   </div>
 </div>
@@ -389,26 +389,6 @@ body{display:flex;flex-direction:column;}
         <div class="balance-sub" id="homeEarnedTotal">মোট আয়: ৳0.00</div>
       </div>
       <div class="section-title">📺 এড দেখুন ও আয় করুন</div>
-      <div class="ad-grid">
-        <div class="ad-card" id="adCard1">
-          <div class="ad-card-glow"></div>
-          <div class="ad-icon">📡</div>
-          <div class="ad-name">এড স্লট</div>
-          <div class="ad-earn" id="adEarn1">৳0.50</div>
-          <button class="ad-btn" onclick="watchAd(1)">এড দেখুন</button>
-          <div class="ad-cooldown" id="adCooldown1"></div>
-          <div class="ad-limit-badge" id="adLimit1"></div>
-        </div>
-        <div class="ad-card" id="adCard2">
-          <div class="ad-card-glow"></div>
-          <div class="ad-icon">⚡</div>
-          <div class="ad-name">Ad slot 2</div>
-          <div class="ad-earn" id="adEarn2">৳1.00</div>
-          <button class="ad-btn" onclick="watchAd(2)">এড দেখুন</button>
-          <div class="ad-cooldown" id="adCooldown2"></div>
-          <div class="ad-limit-badge" id="adLimit2"></div>
-        </div>
-      </div>
       <div class="ad-card-wide" id="adCard3" style="margin-bottom:14px;">
         <div class="ad-card-glow"></div>
         <div class="ad-left">
@@ -510,7 +490,7 @@ body{display:flex;flex-direction:column;}
    CORE STATE
 ══════════════════════════════════════════ */
 let tgUser=null, userData={}, config={}, currentPage='home', selectedMethod='bkash';
-let adCooldownTimers={1:null,2:null,3:null};
+let adCooldownTimers={3:null};
 
 /* ══════════════════════════════════════════
    FIREBASE HELPERS
@@ -689,11 +669,9 @@ function updateBalanceUI(){
 }
 
 function renderAds(){
-  document.getElementById('adEarn1').textContent=`৳${Number(getSlotChain(1)?.reward ?? 0.5).toFixed(2)}`;
-  document.getElementById('adEarn2').textContent=`৳${Number(getSlotChain(2)?.reward ?? 1.0).toFixed(2)}`;
   document.getElementById('adEarn3').textContent=`৳${Number(getSlotChain(3)?.reward ?? 0.75).toFixed(2)}`;
   document.getElementById('wMinLabel').textContent=`সর্বনিম্ন উইথড্র: ৳${config.minWithdraw||50}`;
-  checkAdCooldown(1);checkAdCooldown(2);checkAdCooldown(3);
+  checkAdCooldown(3);
   renderWithdrawChainNotice();
 }
 
@@ -758,19 +736,20 @@ function unlockAd(n){
    WATCH AD — EARNZIO-STYLE AD CHAIN SYSTEM
    Ported from Earnzio's startAdChain()/playAdFromNetwork() logic.
 
-   Each ad slot (1/2/3 on Home) and the withdraw gate use the same
-   engine: adChains.slotN / withdrawChain = {count, slots[], reward,
-   cooldownSec, dailyLimit}. `slots` cycles (network per step) up to
-   `count` steps, drawing credentials from config.credentials.
-   Adsgram/Monetag auto-advance on completion; Adsterra opens the
-   link and — on every step except the last — waits for the user to
-   tap "পরবর্তী বিজ্ঞাপন" (Continue) before moving on, exactly like
-   Earnzio. The final step always credits automatically.
+   Each ad slot (only slot 3 remains on Home) and the withdraw gate
+   use the same engine: adChains.slotN / withdrawChain = {count,
+   slots[], reward, cooldownSec, dailyLimit}. `slots` cycles
+   (network per step) up to `count` steps, drawing credentials from
+   config.credentials. Adsgram/Monetag auto-advance on completion;
+   Adsterra opens the link and — on every step except the last —
+   waits for the user to tap "পরবর্তী বিজ্ঞাপন" (Continue) before
+   moving on, exactly like Earnzio. The final step always credits
+   automatically.
 ══════════════════════════════════════════════════════════════ */
 let adChainState = {
   running:false,
   mode:'watch',      // 'watch' or 'withdraw'
-  slotN:0,            // 1/2/3 for watch mode, 0 for withdraw
+  slotN:0,            // 3 for watch mode, 0 for withdraw
   currentStep:0,       // 1-indexed
   totalSteps:1,
   orderedNetworks:[],
