@@ -1,946 +1,747 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Zomato · Earn</title>
-  <!-- fonts & minimal reset -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Syne:wght@700;800&family=Hind+Siliguri:wght@600;700&display=swap" rel="stylesheet">
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      -webkit-tap-highlight-color: transparent;
-    }
-    body {
-      font-family: 'Inter', sans-serif;
-      background: #07080d;
-      color: #e2e4ef;
-      min-height: 100vh;
-      padding-bottom: 84px;
-      font-size: 14px;
-      overflow-x: hidden;
-    }
-    ::-webkit-scrollbar { display: none; }
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Zomato Rewards</title>
+    <!-- Font Awesome 6 (Free) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <style>
+        /* ----- RESET & BASE ----- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
 
-    /* ----- VARIABLES (matching screenshot) ----- */
-    :root {
-      --bg: #07080d;
-      --bg2: #0f111a;
-      --bg3: #171a26;
-      --card: #111420;
-      --border: rgba(255,255,255,0.07);
-      --accent: #7c6ffd;
-      --as: rgba(124,111,253,0.12);
-      --green: #00e096;
-      --gs: rgba(0,224,150,0.12);
-      --yellow: #ffc84a;
-      --ys: rgba(255,200,74,0.12);
-      --red: #ff5f5f;
-      --rs: rgba(255,95,95,0.12);
-      --text: #e2e4ef;
-      --muted: #5a6280;
-      --taka: #ffc84a;
-    }
+        body {
+            background: #e8ecf1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 12px;
+        }
 
-    /* ----- typography & helpers ----- */
-    .pg-title {
-      font-family: 'Syne', sans-serif;
-      font-size: 22px;
-      font-weight: 800;
-      background: linear-gradient(120deg, #fff 30%, var(--accent));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    .sec-title {
-      font-family: 'Syne', sans-serif;
-      font-size: 16px;
-      font-weight: 700;
-      color: #fff;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin: 18px 0 12px;
-    }
-    .chip {
-      background: var(--as);
-      border: 1px solid rgba(124,111,253,0.25);
-      border-radius: 20px;
-      padding: 4px 12px;
-      font-size: 10px;
-      font-weight: 600;
-      color: var(--accent);
-      letter-spacing: 0.3px;
-    }
-    .empty-state {
-      text-align: center;
-      padding: 28px 12px;
-      color: var(--muted);
-      font-size: 13px;
-    }
-    .empty-state .eic { font-size: 36px; margin-bottom: 8px; }
+        /* ----- PHONE FRAME ----- */
+        .phone {
+            max-width: 390px;
+            width: 100%;
+            background: #f5f7fa;
+            border-radius: 36px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.20);
+            position: relative;
+            padding-bottom: 8px;
+        }
 
-    /* ----- bottom nav (exact match) ----- */
-    .bnav {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: rgba(10,12,18,0.97);
-      backdrop-filter: blur(24px);
-      border-top: 1px solid var(--border);
-      display: flex;
-      z-index: 100;
-      padding: 10px 0 16px;
-    }
-    .ni {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 4px;
-      cursor: pointer;
-      padding: 2px 0;
-    }
-    .ni-ic { font-size: 22px; transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1); }
-    .ni-lb { font-size: 10px; font-weight: 600; color: var(--muted); letter-spacing: 0.3px; }
-    .ni.active .ni-lb { color: var(--accent); }
-    .ni.active .ni-ic { transform: translateY(-3px); }
-    .ni-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--accent); opacity: 0; margin-top: -3px; }
-    .ni.active .ni-dot { opacity: 1; }
+        /* ----- STATUS BAR (fake) ----- */
+        .status-bar {
+            background: #0f1a2f;
+            padding: 10px 20px 6px;
+            display: flex;
+            justify-content: space-between;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+        }
+        .status-bar .time {
+            color: #fff;
+            font-weight: 600;
+        }
+        .status-bar .icons i {
+            margin-left: 5px;
+            font-size: 12px;
+        }
 
-    /* ----- pages ----- */
-    .page { display: none; padding: 0 16px; animation: fadeIn 0.28s ease; }
-    .page.active { display: block; }
-    @keyframes fadeIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+        /* ----- HEADER ----- */
+        .header {
+            background: linear-gradient(145deg, #0f1a2f, #1a2a44);
+            padding: 16px 20px 20px;
+            color: #fff;
+            position: relative;
+        }
 
-    /* ----- profile card ----- */
-    .prof {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      padding: 22px 0 16px;
-    }
-    .ava {
-      width: 54px; height: 54px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--accent), #b06bff);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 21px;
-      font-weight: 700;
-      color: #fff;
-      flex-shrink: 0;
-      border: 2px solid rgba(124,111,253,0.3);
-      overflow: hidden;
-    }
-    .ava img { width:100%; height:100%; object-fit:cover; border-radius:50%; }
-    .pname { font-family: 'Syne', sans-serif; font-size: 17px; font-weight: 700; color: #fff; }
-    .pid { font-size: 11px; color: var(--muted); font-family: monospace; letter-spacing: 0.5px; margin-top: 3px; }
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 18px;
+        }
 
-    /* ----- balance card (exact gradient) ----- */
-    .balc {
-      background: linear-gradient(140deg, #100e30, #1c1060 55%, #2e1285);
-      border-radius: 22px;
-      padding: 22px 20px;
-      margin-bottom: 13px;
-      position: relative;
-      overflow: hidden;
-      border: 1px solid rgba(124,111,253,0.25);
-    }
-    .balc::before {
-      content: '';
-      position: absolute;
-      top: -50px;
-      right: -50px;
-      width: 180px;
-      height: 180px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(124,111,253,0.2), transparent 70%);
-    }
-    .balbl { font-size: 11px; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 2px; font-weight: 600; }
-    .balamt-wrap {
-      display: flex;
-      align-items: baseline;
-      gap: 8px;
-      margin: 8px 0 4px;
-      position: relative;
-      z-index: 1;
-    }
-    .balamt { font-family: Arial, sans-serif; font-size: 42px; font-weight: 700; color: #fff; line-height: 1; }
-    .bal-taka { font-family: 'Hind Siliguri', sans-serif; font-size: 20px; font-weight: 700; color: var(--taka); }
-    .balrow {
-      display: flex;
-      gap: 10px;
-      margin-top: 16px;
-      position: relative;
-      z-index: 1;
-    }
-    .bals {
-      flex: 1;
-      background: rgba(255,255,255,0.08);
-      border-radius: 12px;
-      padding: 10px;
-      text-align: center;
-    }
-    .balsv { font-family: Arial, sans-serif; font-size: 15px; font-weight: 700; color: #fff; }
-    .bals-unit { font-size: 10px; color: var(--taka); font-weight: 700; font-family: 'Hind Siliguri', sans-serif; }
-    .balsl { font-size: 10px; color: rgba(255,255,255,0.45); margin-top: 2px; }
+        .greeting h2 {
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+        }
+        .greeting h2 span {
+            font-weight: 300;
+            opacity: 0.9;
+        }
+        .greeting .user-id {
+            font-size: 12px;
+            opacity: 0.65;
+            margin-top: 2px;
+            font-weight: 400;
+            letter-spacing: 0.3px;
+        }
 
-    /* ----- watch ad card (yellow accent) ----- */
-    .wcard {
-      background: linear-gradient(135deg, #0d1220, #131b2e);
-      border-radius: 20px;
-      padding: 20px;
-      margin-bottom: 13px;
-      border: 1px solid rgba(255,200,74,0.2);
-    }
-    .wchd {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 14px;
-    }
-    .wctitle { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700; color: #fff; }
-    .wcrb {
-      background: var(--ys);
-      color: var(--yellow);
-      border: 1px solid rgba(255,200,74,0.3);
-      border-radius: 20px;
-      padding: 5px 12px;
-      font-size: 12px;
-      font-weight: 700;
-    }
-    .wcinfo {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 14px;
-    }
-    .wcstat {
-      flex: 1;
-      background: rgba(255,255,255,0.04);
-      border-radius: 12px;
-      padding: 10px;
-      text-align: center;
-    }
-    .wcsv { font-family: 'Syne', sans-serif; font-size: 17px; font-weight: 800; color: #fff; }
-    .wcsl { font-size: 10px; color: var(--muted); margin-top: 2px; letter-spacing: 0.2px; }
+        .header-icons {
+            display: flex;
+            gap: 14px;
+            font-size: 18px;
+            color: rgba(255, 255, 255, 0.8);
+            padding-top: 4px;
+        }
+        .header-icons i {
+            cursor: default;
+        }
 
-    .bigbtn {
-      width: 100%;
-      border: none;
-      border-radius: 16px;
-      padding: 17px;
-      font-size: 16px;
-      font-weight: 700;
-      cursor: pointer;
-      font-family: 'Inter', sans-serif;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      transition: all 0.2s;
-      letter-spacing: 0.2px;
-    }
-    .bigbtn:active { transform: scale(0.97); }
-    .watchbtn {
-      background: linear-gradient(135deg, #ffc84a, #ff9f2a);
-      color: #000;
-    }
-    .watchbtn.cooldown {
-      background: linear-gradient(135deg, #2a2a3a, #1a1a2a);
-      color: var(--muted);
-      border: 1px solid var(--border);
-    }
-    .watchbtn.limit-done {
-      background: linear-gradient(135deg, #1a2a1a, #0d1a0d);
-      color: #4a7a4a;
-      border: 1px solid rgba(0,100,0,0.3);
-    }
-    .cooldown-bar-wrap {
-      width: 100%;
-      height: 4px;
-      background: rgba(255,255,255,0.1);
-      border-radius: 4px;
-      margin-top: 10px;
-      overflow: hidden;
-      display: none;
-    }
-    .cooldown-bar {
-      height: 100%;
-      background: var(--yellow);
-      border-radius: 4px;
-      transition: width 1s linear;
-    }
-    .limit-info {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-top: 10px;
-      padding: 8px 12px;
-      background: rgba(255,255,255,0.04);
-      border-radius: 10px;
-      font-size: 12px;
-    }
-    .limit-txt { color: var(--muted); }
-    .limit-val { color: var(--yellow); font-weight: 600; }
+        /* ----- BALANCE CARDS ROW ----- */
+        .balance-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 6px;
+            margin-top: 4px;
+        }
 
-    /* ----- mini cards (group & tutorial) ----- */
-    .minicard {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 12px 14px;
-      margin-bottom: 10px;
-    }
-    .minicard-ic {
-      width: 38px; height: 38px;
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 18px;
-      flex-shrink: 0;
-    }
-    .minicard-inf { flex:1; min-width:0; }
-    .minicard-t { font-size: 13px; font-weight: 600; color: #fff; font-family: 'Hind Siliguri', sans-serif; }
-    .minicard-d { font-size: 11px; color: var(--muted); margin-top: 2px; font-family: 'Hind Siliguri', sans-serif; }
-    .minicard-btn {
-      background: var(--as);
-      color: var(--accent);
-      border: 1px solid rgba(124,111,253,0.3);
-      border-radius: 8px;
-      padding: 8px 14px;
-      font-size: 11px;
-      font-weight: 700;
-      cursor: pointer;
-      font-family: 'Inter', sans-serif;
-      white-space: nowrap;
-    }
-    .minicard-btn:active { transform: scale(0.95); }
+        .balance-item {
+            background: rgba(255, 255, 255, 0.07);
+            backdrop-filter: blur(2px);
+            border-radius: 14px;
+            padding: 10px 6px 8px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+        .balance-item .label {
+            font-size: 9px;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            opacity: 0.6;
+            font-weight: 500;
+        }
+        .balance-item .value {
+            font-size: 16px;
+            font-weight: 700;
+            margin-top: 3px;
+            letter-spacing: -0.2px;
+        }
+        .balance-item .value.green {
+            color: #4cd9b2;
+        }
+        .balance-item .value.blue {
+            color: #7bb3ff;
+        }
+        .balance-item .value.orange {
+            color: #ffb347;
+        }
+        .balance-item .value.purple {
+            color: #c084fc;
+        }
 
-    /* ----- tasks ----- */
-    .titem {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 14px;
-      margin-bottom: 8px;
-    }
-    .titem.done { opacity: 0.55; }
-    .tic {
-      width: 42px; height: 42px;
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 20px;
-      flex-shrink: 0;
-    }
-    .tinf { flex:1; min-width:0; }
-    .tnm { font-size: 13px; font-weight: 600; color: #fff; }
-    .tds { font-size: 11px; color: var(--muted); margin-top: 2px; }
-    .trw { font-size: 13px; font-weight: 700; color: var(--green); white-space: nowrap; }
-    .task-actions { display: flex; flex-direction: column; align-items: flex-end; gap: 5px; }
-    .tbtn {
-      background: var(--gs);
-      color: var(--green);
-      border: 1px solid rgba(0,224,150,0.25);
-      border-radius: 8px;
-      padding: 6px 13px;
-      font-size: 11px;
-      font-weight: 600;
-      cursor: pointer;
-      font-family: 'Inter', sans-serif;
-      white-space: nowrap;
-    }
-    .tbtn:active { transform: scale(0.95); }
-    .tdone {
-      width: 28px; height: 28px;
-      border-radius: 50%;
-      background: var(--gs);
-      border: 2px solid var(--green);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 13px;
-      color: var(--green);
-      flex-shrink: 0;
-    }
+        /* ----- REFERRAL & ADS ROW ----- */
+        .stats-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            padding: 14px 18px 8px;
+            background: #f5f7fa;
+        }
 
-    /* ----- support video card ----- */
-    .vcard {
-      background: #000;
-      border-radius: 20px;
-      overflow: hidden;
-      margin-bottom: 14px;
-      border: 1px solid var(--border);
-    }
-    .vph {
-      width: 100%;
-      aspect-ratio: 16/9;
-      background: linear-gradient(135deg, #0a0a1a, #141428);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      position: relative;
-      overflow: hidden;
-      cursor: pointer;
-    }
-    .vplay {
-      width: 62px; height: 62px;
-      border-radius: 50%;
-      background: rgba(124,111,253,0.75);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 26px;
-      border: 2px solid rgba(255,255,255,0.2);
-      z-index: 2;
-    }
-    .vbar { padding: 12px 16px; background: var(--bg2); }
-    .vbart { font-size: 13px; font-weight: 600; color: #fff; font-family: 'Hind Siliguri', sans-serif; }
+        .stat-card {
+            background: #fff;
+            border-radius: 18px;
+            padding: 14px 12px 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .stat-card .icon-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: #fff;
+            flex-shrink: 0;
+        }
+        .stat-card .icon-circle.gold {
+            background: linear-gradient(135deg, #f9b93b, #f5a623);
+        }
+        .stat-card .icon-circle.blue {
+            background: linear-gradient(135deg, #4a90d9, #357abd);
+        }
+        .stat-card .info .num {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1a1a2e;
+            line-height: 1.2;
+        }
+        .stat-card .info .num small {
+            font-size: 13px;
+            font-weight: 500;
+            color: #4cd9b2;
+            margin-left: 4px;
+        }
+        .stat-card .info .desc {
+            font-size: 11px;
+            color: #888;
+            font-weight: 500;
+            letter-spacing: 0.2px;
+        }
+        .stat-card .info .desc span {
+            color: #4cd9b2;
+            font-weight: 600;
+        }
 
-    /* ----- support grid ----- */
-    .sgrid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-top: 4px;
-    }
-    .scard {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 16px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.2s;
-      text-decoration: none;
-    }
-    .scard:active { transform: scale(0.96); }
-    .sic {
-      width: 46px; height: 46px;
-      border-radius: 14px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 22px;
-    }
-    .st { font-size: 13px; font-weight: 600; color: #fff; font-family: 'Hind Siliguri', sans-serif; }
-    .sd { font-size: 11px; color: var(--muted); font-family: 'Hind Siliguri', sans-serif; }
+        /* ----- ADS SECTION (Hindi) ----- */
+        .ads-section {
+            background: #fff;
+            margin: 0 14px 12px;
+            border-radius: 20px;
+            padding: 16px 16px 14px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+        }
 
-    /* ----- referral page ----- */
-    .rhero {
-      background: linear-gradient(135deg, #0d1117, #1a1f35);
-      border: 1px solid rgba(124,111,253,0.2);
-      border-radius: 20px;
-      padding: 24px 20px;
-      text-align: center;
-      margin-bottom: 14px;
-      position: relative;
-      overflow: hidden;
-    }
-    .rhero::before { content: '👥'; position: absolute; font-size: 110px; opacity: 0.04; top: -10px; right: -20px; }
-    .remo { font-size: 40px; margin-bottom: 8px; }
-    .rht { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 800; color: #fff; margin-bottom: 5px; }
-    .rhs { font-size: 12px; color: var(--muted); }
-    .rstats {
-      display: flex;
-      gap: 10px;
-      margin-top: 18px;
-    }
-    .rstat {
-      flex: 1;
-      background: var(--as);
-      border: 1px solid rgba(124,111,253,0.2);
-      border-radius: 12px;
-      padding: 12px;
-      text-align: center;
-    }
-    .rsv { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 800; color: var(--accent); }
-    .rsl { font-size: 10px; color: var(--muted); margin-top: 3px; letter-spacing: 0.2px; }
-    .rlc {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 16px;
-      margin-bottom: 12px;
-    }
-    .flbl {
-      font-size: 10px;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 1.2px;
-      font-weight: 700;
-      margin-bottom: 8px;
-      display: block;
-    }
-    .rbox {
-      display: flex;
-      gap: 8px;
-      align-items: center;
-    }
-    .rtxt {
-      flex: 1;
-      background: var(--bg3);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 10px 12px;
-      font-size: 12px;
-      color: var(--accent);
-      font-family: monospace;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-    .cbtn {
-      background: var(--accent);
-      color: #fff;
-      border: none;
-      border-radius: 10px;
-      padding: 10px 16px;
-      font-size: 12px;
-      font-weight: 600;
-      cursor: pointer;
-      font-family: 'Inter', sans-serif;
-      flex-shrink: 0;
-    }
-    .cbtn:active { transform: scale(0.94); }
-    .sbtn {
-      width: 100%;
-      background: linear-gradient(135deg, #25D366, #128C7E);
-      color: #fff;
-      border: none;
-      border-radius: 12px;
-      padding: 14px;
-      font-size: 14px;
-      font-weight: 600;
-      cursor: pointer;
-      font-family: 'Inter', sans-serif;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      margin-top: 10px;
-    }
-    .ritem {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 12px 0;
-      border-bottom: 1px solid var(--border);
-    }
-    .ritem:last-child { border-bottom: none; }
-    .rava {
-      width: 36px; height: 36px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--accent), #b06bff);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 14px;
-      font-weight: 700;
-      color: #fff;
-      flex-shrink: 0;
-    }
-    .run { font-size: 13px; font-weight: 600; color: #fff; }
-    .rdt { font-size: 11px; color: var(--muted); margin-top: 2px; }
-    .re { font-size: 13px; font-weight: 700; color: var(--green); margin-left: auto; white-space: nowrap; }
+        .ads-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+        }
+        .ads-header .ads-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: #1a1a2e;
+            letter-spacing: 0.2px;
+        }
+        .ads-header .ads-title i {
+            color: #f5a623;
+            margin-right: 4px;
+        }
+        .ads-header .badge-group {
+            display: flex;
+            gap: 10px;
+            font-size: 11px;
+            font-weight: 600;
+            color: #555;
+        }
+        .ads-header .badge-group span {
+            background: #f0f2f5;
+            padding: 2px 10px;
+            border-radius: 30px;
+        }
+        .ads-header .badge-group span i {
+            margin-right: 4px;
+            font-size: 10px;
+        }
+        .ads-header .badge-group .green-badge {
+            background: #e6f9f2;
+            color: #1aa37a;
+        }
 
-    /* ----- wallet page ----- */
-    .wbal {
-      background: linear-gradient(135deg, #0d1117, #0a1f18);
-      border: 1px solid rgba(0,224,150,0.2);
-      border-radius: 20px;
-      padding: 22px;
-      margin-bottom: 14px;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-    .wbal::before {
-      content: '';
-      position: absolute;
-      top: -30px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 220px;
-      height: 220px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(0,224,150,0.07), transparent 70%);
-    }
-    .wbl { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 2px; font-weight: 700; }
-    .wba-wrap {
-      display: flex;
-      align-items: baseline;
-      justify-content: center;
-      gap: 8px;
-      position: relative;
-      z-index: 1;
-    }
-    .wba { font-family: Arial, sans-serif; font-size: 44px; font-weight: 700; color: var(--green); line-height: 1; }
-    .wba-taka { font-family: 'Hind Siliguri', sans-serif; font-size: 20px; font-weight: 700; color: var(--taka); }
-    .wbs { font-size: 12px; color: var(--muted); margin-top: 4px; }
+        .ads-hindi {
+            background: #f8faff;
+            border-radius: 14px;
+            padding: 12px 14px;
+            margin: 10px 0 8px;
+            border: 1px solid #eef2f7;
+        }
+        .ads-hindi .line1 {
+            font-size: 13px;
+            font-weight: 600;
+            color: #1a1a2e;
+        }
+        .ads-hindi .line1 i {
+            color: #f5a623;
+            margin-right: 4px;
+        }
+        .ads-hindi .line2 {
+            font-size: 12px;
+            color: #666;
+            margin-top: 2px;
+        }
+        .ads-hindi .line2 i {
+            color: #4cd9b2;
+            margin-right: 4px;
+        }
+        .ads-hindi .line3 {
+            font-size: 12px;
+            color: #888;
+            margin-top: 1px;
+        }
 
-    .wdform {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 18px;
-      margin-bottom: 14px;
-    }
-    .ftitle { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700; color: #fff; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
-    .fg { margin-bottom: 14px; }
-    .sw { position: relative; }
-    select.fi, input.fi {
-      width: 100%;
-      background: var(--bg3);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 13px 14px;
-      font-size: 14px;
-      color: #fff;
-      font-family: 'Inter', sans-serif;
-      outline: none;
-      transition: border-color 0.2s;
-      appearance: none;
-      -webkit-appearance: none;
-    }
-    select.fi:focus, input.fi:focus { border-color: rgba(124,111,253,0.5); }
-    .sarr { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); color: var(--muted); pointer-events: none; font-size: 12px; }
-    .wdbtn-main {
-      background: linear-gradient(135deg, var(--green), #00b377);
-      color: #fff;
-    }
-    .wd-ad-info {
-      background: rgba(124,111,253,0.08);
-      border: 1px solid rgba(124,111,253,0.2);
-      border-radius: 12px;
-      padding: 12px 14px;
-      margin-top: 12px;
-      font-size: 12px;
-      color: rgba(255,255,255,0.7);
-      display: none;
-    }
+        .ads-stats {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 6px;
+            padding: 0 2px;
+        }
+        .ads-stats .left {
+            display: flex;
+            gap: 14px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #444;
+        }
+        .ads-stats .left span i {
+            margin-right: 4px;
+            font-size: 11px;
+            color: #4cd9b2;
+        }
+        .ads-stats .right {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: #e6f9f2;
+            padding: 4px 14px 4px 12px;
+            border-radius: 40px;
+            font-size: 12px;
+            font-weight: 700;
+            color: #1aa37a;
+        }
+        .ads-stats .right i {
+            font-size: 13px;
+        }
 
-    /* history items */
-    .hitem {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 14px;
-      margin-bottom: 9px;
-    }
-    .htop {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 8px;
-    }
-    .hwallet {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .hwic {
-      width: 32px; height: 32px;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 16px;
-    }
-    .hwn { font-size: 13px; font-weight: 600; color: #fff; }
-    .hamt { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700; color: #fff; }
-    .hbtm {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .hacc { font-size: 11px; color: var(--muted); font-family: monospace; }
-    .sbdg {
-      border-radius: 20px;
-      padding: 4px 10px;
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.2px;
-    }
-    .sp { background: var(--ys); color: var(--yellow); border: 1px solid rgba(255,200,74,0.25); }
-    .sa { background: var(--gs); color: var(--green); border: 1px solid rgba(0,224,150,0.25); }
-    .sr { background: var(--rs); color: var(--red); border: 1px solid rgba(255,95,95,0.25); }
-    .ht { font-size: 11px; color: var(--muted); margin-top: 6px; }
-    .hrr {
-      background: var(--rs);
-      border: 1px solid rgba(255,95,95,0.2);
-      border-radius: 8px;
-      padding: 8px 10px;
-      font-size: 11px;
-      color: var(--red);
-      margin-top: 8px;
-      display: flex;
-      gap: 6px;
-    }
+        .ads-action {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 10px;
+            background: #f0f7ff;
+            border-radius: 14px;
+            padding: 10px 14px;
+            border: 1px dashed #c5d9f0;
+        }
+        .ads-action .btn-watch {
+            background: linear-gradient(135deg, #4cd9b2, #2bbd94);
+            border: none;
+            color: #fff;
+            font-weight: 700;
+            font-size: 12px;
+            padding: 8px 18px;
+            border-radius: 40px;
+            cursor: default;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+            letter-spacing: 0.3px;
+        }
+        .ads-action .btn-watch i {
+            font-size: 13px;
+        }
+        .ads-action .ads-earn {
+            font-size: 13px;
+            font-weight: 600;
+            color: #1a1a2e;
+        }
+        .ads-action .ads-earn small {
+            font-weight: 400;
+            color: #777;
+            font-size: 11px;
+        }
+        .ads-action .ads-earn i {
+            color: #f5a623;
+            margin-right: 2px;
+        }
 
-    /* toast */
-    .toast {
-      position: fixed;
-      top: 20px;
-      left: 50%;
-      transform: translateX(-50%) translateY(-80px);
-      background: rgba(20,24,38,0.97);
-      border: 1px solid rgba(124,111,253,0.3);
-      color: #fff;
-      padding: 12px 20px;
-      border-radius: 30px;
-      font-size: 13px;
-      font-weight: 500;
-      z-index: 9999;
-      transition: transform 0.3s cubic-bezier(0.34,1.4,0.64,1);
-      backdrop-filter: blur(20px);
-      white-space: nowrap;
-      font-family: 'Inter', sans-serif;
-    }
-    .toast.show { transform: translateX(-50%) translateY(0); }
-  </style>
+        .ads-footer {
+            font-size: 10px;
+            color: #aaa;
+            margin-top: 8px;
+            text-align: center;
+            letter-spacing: 0.2px;
+        }
+        .ads-footer i {
+            color: #f5a623;
+            margin-right: 3px;
+        }
+
+        /* ----- TASKS SECTION ----- */
+        .tasks-section {
+            background: #fff;
+            margin: 0 14px 14px;
+            border-radius: 20px;
+            padding: 14px 16px 12px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .tasks-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .tasks-header h4 {
+            font-size: 15px;
+            font-weight: 700;
+            color: #1a1a2e;
+            letter-spacing: -0.2px;
+        }
+        .tasks-header a {
+            font-size: 12px;
+            color: #4cd9b2;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .task-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f2f5;
+        }
+        .task-item:last-child {
+            border-bottom: none;
+        }
+
+        .task-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .task-left .task-icon {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: #f0f7ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            color: #4a90d9;
+        }
+        .task-left .task-icon.orange {
+            background: #fff4e6;
+            color: #f5a623;
+        }
+        .task-left .task-icon.green {
+            background: #e6f9f2;
+            color: #2bbd94;
+        }
+        .task-left .task-info .task-name {
+            font-size: 13px;
+            font-weight: 600;
+            color: #1a1a2e;
+        }
+        .task-left .task-info .task-sub {
+            font-size: 10px;
+            color: #999;
+            margin-top: 1px;
+            font-weight: 400;
+        }
+
+        .task-amount {
+            font-size: 15px;
+            font-weight: 700;
+            color: #1a1a2e;
+            background: #f5f7fa;
+            padding: 2px 14px;
+            border-radius: 30px;
+            letter-spacing: -0.2px;
+        }
+        .task-amount i {
+            font-size: 11px;
+            color: #4cd9b2;
+            margin-right: 2px;
+        }
+
+        /* ----- BOTTOM NAV ----- */
+        .bottom-nav {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            background: #fff;
+            padding: 8px 10px 6px;
+            margin: 0 12px 6px;
+            border-radius: 30px;
+            box-shadow: 0 -2px 16px rgba(0, 0, 0, 0.06);
+            border: 1px solid rgba(0, 0, 0, 0.03);
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+            color: #999;
+            font-size: 10px;
+            font-weight: 500;
+            transition: 0.2s;
+            padding: 4px 12px;
+            border-radius: 20px;
+            cursor: default;
+        }
+        .nav-item i {
+            font-size: 20px;
+            margin-bottom: 1px;
+        }
+        .nav-item.active {
+            color: #1a1a2e;
+            font-weight: 600;
+        }
+        .nav-item.active i {
+            color: #4cd9b2;
+        }
+        .nav-item .badge-dot {
+            width: 6px;
+            height: 6px;
+            background: #f5a623;
+            border-radius: 50%;
+            margin-top: -2px;
+        }
+
+        /* ----- UTILITY ----- */
+        .mt-1 {
+            margin-top: 4px;
+        }
+        .text-muted {
+            color: #888;
+        }
+
+        /* ----- RESPONSIVE TWEAKS ----- */
+        @media (max-width: 400px) {
+            .balance-item .value {
+                font-size: 14px;
+            }
+            .balance-item .label {
+                font-size: 8px;
+            }
+            .stat-card .info .num {
+                font-size: 17px;
+            }
+            .ads-action {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .ads-stats {
+                flex-wrap: wrap;
+                gap: 6px;
+            }
+            .task-item {
+                flex-wrap: wrap;
+                gap: 6px;
+            }
+            .task-amount {
+                font-size: 13px;
+                padding: 2px 10px;
+            }
+        }
+
+        @media (max-width: 350px) {
+            .balance-row {
+                grid-template-columns: 1fr 1fr;
+                gap: 4px;
+            }
+            .stats-row {
+                grid-template-columns: 1fr;
+            }
+            .header-top {
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+        }
+    </style>
 </head>
 <body>
 
-  <!-- ========== PAGES ========== -->
-  <!-- HOME -->
-  <div class="page active" id="page-home">
-    <div class="prof">
-      <div class="ava" id="uava">Z</div>
-      <div style="flex:1"><div class="pname" id="uname">Zomato User</div><div class="pid" id="uid">ID: ZOM789654</div></div>
-      <div class="chip">⭐ Active</div>
-    </div>
+    <div class="phone">
 
-    <div class="balc">
-      <div class="balbl">Total Balance</div>
-      <div class="balamt-wrap"><div class="balamt" id="hbal">125.50</div><div class="bal-taka">টাকা</div></div>
-      <div class="balrow">
-        <div class="bals"><div class="balsv" id="sEarned">175.50</div><div class="bals-unit">টাকা</div><div class="balsl">Earned</div></div>
-        <div class="bals"><div class="balsv" id="sWd">50.00</div><div class="bals-unit">টাকা</div><div class="balsl">Withdrawn</div></div>
-        <div class="bals"><div class="balsv" id="sRef">12</div><div class="balsl" style="margin-top:12px">Referrals</div></div>
-      </div>
-    </div>
-
-    <!-- marquee (exact match) -->
-    <div style="background:linear-gradient(90deg,#1c1060,#2e1285);border:1px solid rgba(124,111,253,.3);border-radius:10px;padding:8px 0;margin-bottom:13px;overflow:hidden;">
-      <marquee behavior="scroll" direction="left" scrollamount="3" style="color:#ffd54f;font-weight:700;font-size:13px;">
-        🛑একমাত্র আমাদের সাইটেই পাবেন ১০০% পেমেন্ট গ্যারান্টি।🛑।🛑অ্যাডের টাইমার সম্পূর্ণ শেষ না হওয়া পর্যন্ত পেজ কাটবেন না।নিয়ম মেনে কাজ না করলে পেমেন্ট রিজেক্ট করা হবে।🛑
-      </marquee>
-    </div>
-
-    <!-- watch card -->
-    <div class="wcard">
-      <div class="wchd"><div class="wctitle">📺 বিজ্ঞাপন দেখে আয় করুন</div><div class="wcrb" id="wcRB">+৳ 0.50</div></div>
-      <div class="wcinfo">
-        <div class="wcstat" style="display:none"><div class="wcsv" id="wcAds">0</div><div class="wcsl">Ads / session</div></div>
-        <div class="wcstat"><div class="wcsv" id="wcToday">3</div><div class="wcsl">Watched today</div></div>
-        <div class="wcstat"><div class="wcsv" id="wcLimit">5</div><div class="wcsl">Daily limit</div></div>
-      </div>
-      <button class="bigbtn watchbtn" id="watchBtn" onclick="alert('▶ watch ad flow (simulated)')">▶ বিজ্ঞাপন দেখুন</button>
-      <div class="cooldown-bar-wrap" id="cooldownBarWrap"><div class="cooldown-bar" id="cooldownBar" style="width:100%"></div></div>
-      <div class="limit-info"><span class="limit-txt">Today's progress</span><span class="limit-val" id="limitProgress">3 / 5</span></div>
-    </div>
-
-    <!-- mini cards: group & tutorial -->
-    <div class="minicard">
-      <div class="minicard-ic" style="background:rgba(34,158,217,.15)">📢</div>
-      <div class="minicard-inf">
-        <div class="minicard-t">পেমেন্ট প্রুফ গ্রুপ</div>
-        <div class="minicard-d">পেমেন্টের সকল প্রমাণ দেখতে পারবেন গ্রুপে</div>
-      </div>
-      <button class="minicard-btn" onclick="alert('📢 group link (simulated)')">জয়েন করুন</button>
-    </div>
-    <div class="minicard">
-      <div class="minicard-ic" style="background:rgba(255,200,74,.15)">🎬</div>
-      <div class="minicard-inf">
-        <div class="minicard-t">কাজের সঠিক নিয়মের ভিডিও</div>
-        <div class="minicard-d">কিভাবে কাজ করবেন দেখে নিন</div>
-      </div>
-      <button class="minicard-btn" onclick="alert('🎬 tutorial video (simulated)')">দেখুন</button>
-    </div>
-
-    <div class="sec-title">⚡ Tasks</div>
-    <div id="taskList">
-      <!-- tasks from screenshot -->
-      <div class="titem">
-        <div class="tic" style="background:rgba(255,200,74,.15)">📢</div>
-        <div class="tinf"><div class="tnm">দিল্লি শাম জালন</div><div class="tds">জলদি ক্রক্রন</div></div>
-        <div class="task-actions"><div class="trw">+₹2.00</div><button class="tbtn">Start</button></div>
-      </div>
-      <div class="titem">
-        <div class="tic" style="background:rgba(0,224,150,.12)">✅</div>
-        <div class="tinf"><div class="tnm">হ্যান্ডিটিভার জালন</div><div class="tds">সাবধানী ক্রক্রন</div></div>
-        <div class="task-actions"><div class="trw">+₹1.00</div><button class="tbtn">Start</button></div>
-      </div>
-      <div class="titem">
-        <div class="tic" style="background:rgba(255,200,74,.15)">📢</div>
-        <div class="tinf"><div class="tnm">দিল্লি শাম খপ</div><div class="tds">জলদি ক্রক্রন</div></div>
-        <div class="task-actions"><div class="trw">+₹1.50</div><button class="tbtn">Start</button></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- SUPPORT -->
-  <div class="page" id="page-support">
-    <div style="padding:20px 0 10px;"><span class="pg-title" style="font-family:'Hind Siliguri',sans-serif;">সাপোর্ট</span></div>
-    <div class="vcard">
-      <div class="vph" onclick="alert('🎬 tutorial video (simulated)')">
-        <div class="vplay">▶</div>
-        <div style="font-size:13px;color:rgba(255,255,255,.5);z-index:2;font-family:'Hind Siliguri',sans-serif;">টিউটোরিয়াল ভিডিও</div>
-      </div>
-      <div class="vbar"><div class="vbart">কিভাবে কাজ করবেন তার ভিডিও</div></div>
-    </div>
-    <div class="sec-title" style="font-family:'Hind Siliguri',sans-serif;">🛟 সাহায্য নিন</div>
-    <div class="sgrid">
-      <a href="#" class="scard"><div class="sic" style="background:rgba(34,158,217,.15)">💬</div><div class="st">সাপোর্ট গ্রুপ</div><div class="sd">যেকোনো সমস্যায়</div></a>
-      <a href="#" class="scard"><div class="sic" style="background:rgba(255,200,74,.15)">📞</div><div class="st">হেল্পলাইন</div><div class="sd">কল/মেসেজ</div></a>
-      <a href="#" class="scard"><div class="sic" style="background:rgba(124,111,253,.15)">❓</div><div class="st">FAQ</div><div class="sd">সাধারণ প্রশ্ন</div></a>
-      <a href="#" class="scard"><div class="sic" style="background:rgba(0,224,150,.15)">📢</div><div class="st">আপডেট</div><div class="sd">সর্বশেষ খবর</div></a>
-    </div>
-  </div>
-
-  <!-- REFERRAL -->
-  <div class="page" id="page-referral">
-    <div style="padding:20px 0 10px;"><span class="pg-title">Referral</span></div>
-    <div class="rhero">
-      <div class="remo">🤝</div>
-      <div class="rht">Invite & Earn</div>
-      <div class="rhs">Earn <span style="color:var(--taka);font-weight:700;font-family:'Hind Siliguri',sans-serif;">৳ 5.00</span> bonus per referral</div>
-      <div class="rstats">
-        <div class="rstat"><div class="rsv">12</div><div class="rsl">Total Refs</div></div>
-        <div class="rstat"><div class="rsv">৳60</div><div class="rsl">Earned</div></div>
-        <div class="rstat"><div class="rsv">12</div><div class="rsl">Active</div></div>
-      </div>
-    </div>
-    <div class="rlc">
-      <span class="flbl">Your Referral Link</span>
-      <div class="rbox"><div class="rtxt">https://t.me/YourBot?start=ZOM789654</div><button class="cbtn" onclick="alert('📋 copied (simulated)')">Copy</button></div>
-      <button class="sbtn" onclick="alert('📤 share on Telegram (simulated)')">📤 Share on Telegram</button>
-    </div>
-    <div class="sec-title">👥 Your Referrals</div>
-    <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:4px 16px">
-      <div class="ritem"><div class="rava">R</div><div><div class="run">Rahul</div><div class="rdt">2h ago</div></div><div class="re">+৳5.00</div></div>
-      <div class="ritem"><div class="rava">S</div><div><div class="run">Sneha</div><div class="rdt">1d ago</div></div><div class="re">+৳5.00</div></div>
-      <div class="ritem"><div class="rava">A</div><div><div class="run">Amit</div><div class="rdt">3d ago</div></div><div class="re">+৳5.00</div></div>
-    </div>
-  </div>
-
-  <!-- WALLET -->
-  <div class="page" id="page-wallet">
-    <div style="padding:20px 0 10px;"><span class="pg-title">Wallet</span></div>
-    <div class="wbal">
-      <div class="wbl">Available Balance</div>
-      <div class="wba-wrap"><div class="wba">125.50</div><div class="wba-taka">টাকা</div></div>
-      <div class="wbs">Withdrawable</div>
-    </div>
-    <div class="wdform">
-      <div class="ftitle">💸 Withdraw Request</div>
-      <div class="fg"><span class="flbl">Payment Method</span>
-        <div class="sw">
-          <select class="fi">
-            <option value="">— Select method —</option>
-            <option value="bkash">💰 bKash</option>
-            <option value="nagad">💰 Nagad</option>
-            <option value="rocket">💰 Rocket</option>
-            <option value="binance">🟡 Binance (USDT)</option>
-            <option value="crypto">₿ Crypto</option>
-          </select>
-          <span class="sarr">▾</span>
+        <!-- Fake Status Bar -->
+        <div class="status-bar">
+            <span class="time">9:41</span>
+            <span class="icons">
+                <i class="fas fa-signal"></i>
+                <i class="fas fa-wifi"></i>
+                <i class="fas fa-battery-three-quarters"></i>
+            </span>
         </div>
-      </div>
-      <div class="fg"><span class="flbl">Account Number</span><input class="fi" type="text" placeholder="Enter your number..." inputmode="numeric"></div>
-      <div class="fg">
-        <span class="flbl">Amount</span>
-        <input class="fi" type="number" placeholder="0.00" inputmode="numeric" min="0">
-        <div style="font-size:11px;color:var(--muted);margin-top:5px;font-family:'Inter',sans-serif;">Minimum: <span style="color:var(--taka);font-family:'Hind Siliguri',sans-serif;">৳ 50</span></div>
-      </div>
-      <button class="bigbtn wdbtn-main" onclick="alert('💸 withdraw request (simulated)')">Withdraw Now →</button>
-      <div class="wd-ad-info" style="display:block;">⚡ <span>Watch ads before withdrawal</span></div>
+
+        <!-- HEADER -->
+        <div class="header">
+
+            <div class="header-top">
+                <div class="greeting">
+                    <h2>Hello, Zomato User</h2>
+                    <div class="user-id">ID: ZOM789654</div>
+                </div>
+                <div class="header-icons">
+                    <i class="far fa-bell"></i>
+                    <i class="far fa-user-circle"></i>
+                </div>
+            </div>
+
+            <!-- Balance Row -->
+            <div class="balance-row">
+                <div class="balance-item">
+                    <div class="label">Total Balance</div>
+                    <div class="value green">₹125.50</div>
+                </div>
+                <div class="balance-item">
+                    <div class="label">Available</div>
+                    <div class="value blue">₹50.00</div>
+                </div>
+                <div class="balance-item">
+                    <div class="label">Withdrawn</div>
+                    <div class="value orange">₹175.50</div>
+                </div>
+                <div class="balance-item">
+                    <div class="label">Total Earned</div>
+                    <div class="value purple">₹60.00</div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- STATS ROW: Referrals + Ads Watched -->
+        <div class="stats-row">
+            <!-- Referrals -->
+            <div class="stat-card">
+                <div class="icon-circle gold">
+                    <i class="fas fa-user-friends"></i>
+                </div>
+                <div class="info">
+                    <div class="num">12 <small>₹60.00</small></div>
+                    <div class="desc">Referrals <span>Earned</span></div>
+                </div>
+            </div>
+            <!-- Ads Watched Today + Daily Limit -->
+            <div class="stat-card">
+                <div class="icon-circle blue">
+                    <i class="fas fa-play-circle"></i>
+                </div>
+                <div class="info">
+                    <div class="num">3 <small style="color:#f5a623;font-size:12px;">/ 5</small></div>
+                    <div class="desc">Ads Watched Today <span>Completed</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ADS SECTION (Hindi) -->
+        <div class="ads-section">
+
+            <div class="ads-header">
+                <div class="ads-title">
+                    <i class="fas fa-ad"></i> विज्ञापन
+                </div>
+                <div class="badge-group">
+                    <span><i class="far fa-eye"></i> 3 आज देखें</span>
+                    <span class="green-badge"><i class="fas fa-check-circle"></i> 5 आज देखें</span>
+                </div>
+            </div>
+
+            <div class="ads-hindi">
+                <div class="line1"><i class="fas fa-bolt"></i> विज्ञापन देखें आये क्रक्रन</div>
+                <div class="line2"><i class="fas fa-circle" style="font-size:6px;vertical-align:middle;"></i> विज्ञापन देखने पर बंद रहेगा</div>
+                <div class="line3"><i class="fas fa-circle" style="font-size:6px;vertical-align:middle;"></i> स्विभेदित होगा और क्रक्रन क्रक्रन</div>
+            </div>
+
+            <div class="ads-stats">
+                <div class="left">
+                    <span><i class="fas fa-play"></i> 3 आज देखें</span>
+                    <span><i class="fas fa-clock"></i> 5 आज देखें</span>
+                </div>
+                <div class="right">
+                    <i class="fas fa-coins"></i> ₹0.50 स्विभेदित करें
+                </div>
+            </div>
+
+            <div class="ads-action">
+                <button class="btn-watch"><i class="fas fa-play"></i> विज्ञापन देखें</button>
+                <div class="ads-earn">
+                    <i class="fas fa-coins"></i> स्विभेदित करें ₹0.50 <small>आये क्रक्रन</small>
+                </div>
+            </div>
+
+            <div class="ads-footer">
+                <i class="fas fa-arrow-left"></i> पूर्वी विज्ञापन देखें पर पूर्वक्रक्रार पान
+            </div>
+        </div>
+
+        <!-- TASKS SECTION -->
+        <div class="tasks-section">
+
+            <div class="tasks-header">
+                <h4><i class="fas fa-tasks" style="color:#4cd9b2;margin-right:6px;"></i>Tasks</h4>
+                <a href="#">सब देखें</a>
+            </div>
+
+            <!-- Task 1 -->
+            <div class="task-item">
+                <div class="task-left">
+                    <div class="task-icon orange">
+                        <i class="fas fa-video"></i>
+                    </div>
+                    <div class="task-info">
+                        <div class="task-name">देखेंगे आये जाने जाने क्रक्रन</div>
+                        <div class="task-sub">जाने क्रक्रन</div>
+                    </div>
+                </div>
+                <div class="task-amount"><i class="fas fa-coins"></i> ₹2.00</div>
+            </div>
+
+            <!-- Task 2 -->
+            <div class="task-item">
+                <div class="task-left">
+                    <div class="task-icon">
+                        <i class="fas fa-hand-holding-heart"></i>
+                    </div>
+                    <div class="task-info">
+                        <div class="task-name">हैंडिटेड जाने जाने क्रक्रन</div>
+                        <div class="task-sub">जाने क्रक्रन</div>
+                    </div>
+                </div>
+                <div class="task-amount"><i class="fas fa-coins"></i> ₹1.00</div>
+            </div>
+
+            <!-- Task 3 -->
+            <div class="task-item">
+                <div class="task-left">
+                    <div class="task-icon green">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="task-info">
+                        <div class="task-name">देखेंगे सफल जाने क्रक्रन</div>
+                        <div class="task-sub">जाने क्रक्रन</div>
+                    </div>
+                </div>
+                <div class="task-amount"><i class="fas fa-coins"></i> ₹1.50</div>
+            </div>
+
+        </div>
+
+        <!-- BOTTOM NAV -->
+        <div class="bottom-nav">
+            <div class="nav-item active">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </div>
+            <div class="nav-item">
+                <i class="fas fa-headset"></i>
+                <span>Support</span>
+            </div>
+            <div class="nav-item">
+                <i class="fas fa-user-friends"></i>
+                <span>Referral</span>
+                <span class="badge-dot"></span>
+            </div>
+            <div class="nav-item">
+                <i class="fas fa-wallet"></i>
+                <span>Wallet</span>
+            </div>
+        </div>
+
     </div>
-    <div class="sec-title">📋 Withdrawal History</div>
-    <div>
-      <div class="hitem">
-        <div class="htop"><div class="hwallet"><div class="hwic" style="background:rgba(220,50,120,.15)">💰</div><div class="hwn">bKash</div></div><div class="hamt">৳ 50.00</div></div>
-        <div class="hbtm"><div class="hacc">017****1234</div><div class="sbdg sp">⏳ Pending</div></div>
-        <div class="ht">🕐 Feb 28, 2025</div>
-      </div>
-      <div class="hitem">
-        <div class="htop"><div class="hwallet"><div class="hwic" style="background:rgba(0,224,150,.15)">💰</div><div class="hwn">Nagad</div></div><div class="hamt">৳ 25.00</div></div>
-        <div class="hbtm"><div class="hacc">018****5678</div><div class="sbdg sa">✓ Approved</div></div>
-        <div class="ht">🕐 Feb 27, 2025</div>
-      </div>
-    </div>
-  </div>
+    <!-- end .phone -->
 
-  <!-- BOTTOM NAV -->
-  <nav class="bnav">
-    <div class="ni active" onclick="switchPage('home',this)"><div class="ni-ic">🏠</div><div class="ni-lb">Home</div><div class="ni-dot"></div></div>
-    <div class="ni" onclick="switchPage('support',this)"><div class="ni-ic">☎️</div><div class="ni-lb">Support</div><div class="ni-dot"></div></div>
-    <div class="ni" onclick="switchPage('referral',this)"><div class="ni-ic">🤝</div><div class="ni-lb">Referral</div><div class="ni-dot"></div></div>
-    <div class="ni" onclick="switchPage('wallet',this)"><div class="ni-ic">💰</div><div class="ni-lb">Wallet</div><div class="ni-dot"></div></div>
-  </nav>
-
-  <!-- TOAST -->
-  <div class="toast" id="toast"></div>
-
-  <script>
-    // simple page switching
-    function switchPage(page, el) {
-      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-      document.querySelectorAll('.ni').forEach(n => n.classList.remove('active'));
-      document.getElementById('page-'+page).classList.add('active');
-      el.classList.add('active');
-    }
-
-    // toast helper
-    function showToast(msg) {
-      const t = document.getElementById('toast');
-      t.textContent = msg;
-      t.classList.add('show');
-      setTimeout(() => t.classList.remove('show'), 2800);
-    }
-
-    // attach some demo interactions
-    document.querySelectorAll('.tbtn').forEach(btn => {
-      btn.addEventListener('click', function(e) {
-        e.stopPropagation();
-        showToast('✅ Task started (simulated)');
-        this.textContent = '✓ Done';
-        this.style.opacity = '0.6';
-        this.disabled = true;
-        const parent = this.closest('.titem');
-        if (parent) parent.classList.add('done');
-      });
-    });
-
-    document.querySelectorAll('.minicard-btn, .cbtn, .sbtn, .vph, .scard').forEach(el => {
-      el.addEventListener('click', function(e) {
-        if (this.classList.contains('minicard-btn') || this.classList.contains('cbtn') || this.classList.contains('sbtn')) {
-          // already handled by onclick, but we keep it
-        }
-      });
-    });
-  </script>
 </body>
 </html>
