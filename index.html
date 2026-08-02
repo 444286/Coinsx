@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zomato Dashboard - Pure CSS Elements</title>
+    <title>CoinsX Dashboard - Pure CSS Elements</title>
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
     <!-- FontAwesome -->
@@ -243,7 +243,7 @@
             border-bottom: 16px solid transparent;
             border-left: 28px solid #facc15;
             filter: drop-shadow(2px 4px 4px rgba(0,0,0,0.6));
-            margin-left: 8px; /* Optical center fix */
+            margin-left: 8px;
         }
 
         .css-play-triangle::after {
@@ -284,10 +284,39 @@
         .t-arrow { position: absolute; right: 10px; bottom: 10px; width: 22px; height: 22px; background: rgba(255,255,255,0.05); border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 9px; color: var(--text-muted); }
 
         /* --- Bottom Navigation --- */
-        .bottom-bar { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 420px; background: #090514; border-top: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; z-index: 100; }
-        .nav-link { display: flex; align-items: center; gap: 8px; color: var(--text-muted); text-decoration: none; font-size: 12px; font-weight: 500; padding: 8px 14px; border-radius: 30px; }
-        .nav-link.active { background: linear-gradient(90deg, rgba(88,28,135,1) 0%, rgba(59,7,100,1) 100%); color: white; border: 1px solid #7c3aed; }
-        .nav-link i { font-size: 16px; }
+        .bottom-bar { 
+            position: fixed; 
+            bottom: 0; 
+            left: 50%; 
+            transform: translateX(-50%); 
+            width: 100%; 
+            max-width: 420px; 
+            background: #090514; 
+            border-top: 1px solid rgba(255,255,255,0.05); 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding: 10px 10px; 
+            z-index: 100; 
+        }
+        .nav-link { 
+            display: flex; 
+            align-items: center; 
+            gap: 5px; 
+            color: var(--text-muted); 
+            text-decoration: none; 
+            font-size: 11px; 
+            font-weight: 500; 
+            padding: 8px 10px; 
+            border-radius: 30px; 
+            white-space: nowrap; 
+        }
+        .nav-link.active { 
+            background: linear-gradient(90deg, rgba(88,28,135,1) 0%, rgba(59,7,100,1) 100%); 
+            color: white; 
+            border: 1px solid #7c3aed; 
+        }
+        .nav-link i { font-size: 15px; }
         .nav-link.active i { color: #e9d5ff; }
 
     </style>
@@ -300,11 +329,11 @@
     <div class="header">
         <div class="profile-sec">
             <div class="avatar-wrap">
-                <img src="https://ui-avatars.com/api/?name=Zomato+User&background=0D8ABC&color=fff" alt="User">
+                <img src="https://ui-avatars.com/api/?name=CoinsX+User&background=0D8ABC&color=fff" alt="User">
             </div>
             <div class="user-info">
-                <h2>Hello, Zomato User 👋</h2>
-                <p>ID: ZOM789654</p>
+                <h2>Hello, CoinsX User 👋</h2>
+                <p>ID: CON789654</p>
             </div>
         </div>
         <div class="actions-sec">
@@ -338,7 +367,7 @@
             </div>
         </div>
         
-        <!-- PURE CSS 3D WALLET INSTEAD OF IMAGE -->
+        <!-- PURE CSS 3D WALLET -->
         <div class="css-3d-wallet-container">
             <div class="css-wallet-body">
                 <div class="css-wallet-flap">
@@ -418,7 +447,7 @@
             <i class="fa-solid fa-shield-halved"></i> পুরো বিজ্ঞাপন দেখুন এবং পুরস্কার পান
         </div>
         
-        <!-- PURE CSS 3D GOLDEN PLAY BUTTON INSTEAD OF IMAGE -->
+        <!-- PURE CSS 3D GOLDEN PLAY BUTTON -->
         <div class="css-3d-play-container">
             <div class="css-play-box">
                 <div class="css-play-triangle"></div>
