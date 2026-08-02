@@ -3,49 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zomato User Dashboard</title>
+    <title>Zomato User Dashboard - 100% Clone</title>
     <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- FontAwesome for Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
         :root {
-            --bg-color: #080512;
-            --card-bg: #110d21;
-            --text-primary: #ffffff;
-            --text-secondary: #9a94b8;
-            --purple-glow: #6a11cb;
-            --gold-gradient: linear-gradient(90deg, #ffe031, #ff9b05);
-            --border-color: #272042;
+            --bg-dark: #06030c;
+            --text-main: #ffffff;
+            --text-muted: #8e88a8;
+            --card-bg: #0c0817;
+            --primary-purple: #7a18f8;
+            --border-light: rgba(255, 255, 255, 0.08);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Poppins', 'Noto Sans Bengali', sans-serif;
+            font-family: 'Poppins', 'Hind Siliguri', sans-serif;
         }
 
         body {
-            background-color: var(--bg-color);
-            color: var(--text-primary);
+            background-color: var(--bg-dark);
+            color: var(--text-main);
             display: flex;
             justify-content: center;
         }
 
-        /* Mobile Container Wrapper */
-        .app-container {
+        .mobile-container {
             width: 100%;
-            max-width: 480px;
+            max-width: 420px;
             min-height: 100vh;
-            background-color: var(--bg-color);
+            background-color: var(--bg-dark);
             position: relative;
-            padding: 20px 15px 80px 15px;
+            padding: 20px 16px 90px 16px;
             overflow-x: hidden;
         }
 
-        /* Header Section */
+        /* --- Header --- */
         .header {
             display: flex;
             justify-content: space-between;
@@ -53,590 +51,634 @@
             margin-bottom: 25px;
         }
 
-        .user-info {
+        .profile-sec {
             display: flex;
             align-items: center;
             gap: 12px;
         }
 
-        .avatar {
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            border: 2px solid #8e2de2;
-            object-fit: cover;
+        .avatar-wrap {
+            position: relative;
         }
 
-        .user-details h2 {
+        .avatar-wrap img {
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            border: 2px solid #a855f7;
+            object-fit: cover;
+            padding: 2px;
+        }
+
+        .user-info h2 {
             font-size: 15px;
             font-weight: 600;
+            letter-spacing: 0.3px;
+        }
+
+        .user-info p {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        .actions-sec {
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 12px;
         }
 
-        .user-details p {
-            font-size: 12px;
-            color: var(--text-secondary);
-        }
-
-        .header-actions {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .badge {
-            background: linear-gradient(90deg, #4a148c, #311068);
-            border: 1px solid #7c43bd;
+        .active-badge {
+            background: linear-gradient(90deg, rgba(88,28,135,1) 0%, rgba(59,7,100,1) 100%);
+            border: 1px solid #7c3aed;
             padding: 6px 12px;
             border-radius: 20px;
-            font-size: 12px;
+            font-size: 11px;
+            font-weight: 500;
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 6px;
+            box-shadow: 0 0 10px rgba(124, 58, 237, 0.2);
         }
-        
-        .badge i { color: #ffb300; }
+        .active-badge i { color: #facc15; font-size: 13px;}
 
-        .bell-icon {
-            width: 35px;
-            height: 35px;
+        .notification {
+            width: 36px;
+            height: 36px;
             background: var(--card-bg);
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
-            color: var(--text-secondary);
-            border: 1px solid var(--border-color);
-        }
-
-        /* Balance Card */
-        .balance-card {
-            background: linear-gradient(135deg, #2d0b59 0%, #0d061c 100%);
-            border: 1px solid #501d94;
-            border-radius: 16px;
-            padding: 20px;
+            border: 1px solid var(--border-light);
             position: relative;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(106, 17, 203, 0.2);
-            margin-bottom: 20px;
+            color: #d1d5db;
+        }
+        .notification::after {
+            content: '';
+            position: absolute;
+            top: 8px;
+            right: 10px;
+            width: 6px;
+            height: 6px;
+            background: #ef4444;
+            border-radius: 50%;
         }
 
-        .balance-header {
-            font-size: 13px;
-            color: #d1c4e9;
+        /* --- Total Balance Card --- */
+        .balance-card {
+            background: linear-gradient(145deg, #250b4d 0%, #080312 100%);
+            border: 1px solid #5b21b6;
+            border-radius: 20px;
+            padding: 22px;
+            position: relative;
+            box-shadow: 0 0 25px rgba(109, 40, 217, 0.25), inset 0 0 20px rgba(139, 92, 246, 0.1);
+            margin-bottom: 16px;
+        }
+
+        .balance-title {
+            font-size: 12px;
+            color: #ddd6fe;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
+            font-weight: 500;
         }
 
         .balance-amount {
-            font-size: 40px;
+            font-size: 42px;
             font-weight: 700;
-            margin: 5px 0;
-            letter-spacing: -1px;
+            margin: 2px 0;
+            text-shadow: 0 2px 10px rgba(255,255,255,0.2);
         }
 
-        .balance-subtitle {
-            font-size: 12px;
-            color: var(--text-secondary);
-            margin-bottom: 15px;
+        .balance-sub {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-bottom: 18px;
         }
 
-        .balance-stats {
+        .stats-boxes {
             display: flex;
-            gap: 10px;
+            gap: 12px;
+            position: relative;
+            z-index: 2;
         }
 
         .stat-box {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            padding: 10px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .stat-icon {
-            width: 30px;
-            height: 30px;
-            border-radius: 8px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .icon-purple { background: linear-gradient(135deg, #7c43bd, #4a148c); }
-        .icon-green { background: linear-gradient(135deg, #2e7d32, #1b5e20); }
-
-        .stat-text h4 { font-size: 14px; font-weight: 600; }
-        .stat-text p { font-size: 10px; color: var(--text-secondary); }
-
-        .wallet-img {
-            position: absolute;
-            right: -20px;
-            top: 10px;
-            width: 140px;
-            opacity: 0.9;
-        }
-
-        /* Stats Row */
-        .stats-row {
-            display: flex;
-            justify-content: space-between;
-            background: var(--card-bg);
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 12px;
-            padding: 15px;
-            margin-bottom: 20px;
-            border: 1px solid var(--border-color);
-        }
-
-        .stat-item {
+            padding: 10px 14px;
             display: flex;
             align-items: center;
             gap: 10px;
-            flex: 1;
+            backdrop-filter: blur(5px);
         }
 
-        .stat-item:not(:last-child) {
-            border-right: 1px solid var(--border-color);
-        }
-
-        .stat-item:nth-child(2), .stat-item:nth-child(3) {
-            padding-left: 10px;
-        }
-
-        .circle-icon {
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
+        .sb-icon {
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 14px;
-        }
-        
-        .bg-purple { background: #4a148c; }
-        .bg-yellow { background: #f57f17; }
-        .bg-teal { background: #006064; }
-
-        .stat-info h3 { font-size: 15px; font-weight: 600; }
-        .stat-info p { font-size: 10px; color: var(--text-secondary); }
-        .text-green { color: #4caf50 !important; }
-
-        /* Ad Banner Section */
-        .ad-banner {
-            background: #110d19;
-            border: 1px solid #75591c;
-            border-radius: 16px;
-            padding: 20px;
-            position: relative;
-            margin-bottom: 25px;
-            box-shadow: 0 0 15px rgba(255, 179, 0, 0.1);
-        }
-
-        .ad-banner h2 {
-            font-size: 18px;
-            color: #ffca28;
-            margin-bottom: 5px;
-        }
-
-        .ad-banner > p {
             font-size: 12px;
-            color: var(--text-secondary);
-            margin-bottom: 15px;
-            width: 60%;
         }
+        .bg-purple-grad { background: linear-gradient(135deg, #8b5cf6, #5b21b6); }
+        .bg-green-grad { background: linear-gradient(135deg, #22c55e, #14532d); }
 
-        .ad-mini-stats {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 20px;
-            border-top: 1px solid #332714;
-            border-bottom: 1px solid #332714;
-            padding: 10px 0;
-            width: max-content;
-        }
+        .sb-text h4 { font-size: 13px; font-weight: 600; }
+        .sb-text p { font-size: 10px; color: #a78bfa; margin-top: 1px;}
+        .sb-text .text-white { color: #d1d5db; }
 
-        .ad-mini-stat {
-            text-align: center;
-            padding-right: 15px;
-        }
-        .ad-mini-stat:not(:last-child) {
-            border-right: 1px solid #332714;
-        }
-
-        .ad-mini-stat h4 { font-size: 13px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 5px;}
-        .ad-mini-stat h4 i { font-size: 12px; color: #b388ff;}
-        .ad-mini-stat p { font-size: 10px; color: var(--text-secondary); }
-
-        .watch-btn {
-            background: var(--gold-gradient);
-            border: none;
-            border-radius: 30px;
-            width: 100%;
-            padding: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-            color: #3e2700;
-            font-weight: 700;
-            font-size: 18px;
-            cursor: pointer;
-            box-shadow: 0 5px 15px rgba(255, 160, 0, 0.4);
-            position: relative;
-        }
-
-        .play-circle {
-            background: #ffffff;
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: #ff9800;
-        }
-
-        .arrow-circle {
-            background: #ffffff;
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: #ff9800;
-            position: absolute;
-            right: 15px;
-        }
-
-        .watch-btn-subtitle {
-            font-size: 11px;
-            color: #795500;
-            font-weight: 500;
-            display: block;
-        }
-        
-        .footer-note {
-            text-align: center;
-            font-size: 10px;
-            color: #ffca28;
-            margin-top: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 5px;
-        }
-
-        .ad-illustration {
+        .wallet-3d {
             position: absolute;
             right: -10px;
-            top: 20px;
-            width: 140px;
+            top: -10px;
+            width: 170px;
+            z-index: 1;
+            /* Replace the below src with your exact wallet image */
+        }
+
+        /* --- Middle Stats Row --- */
+        .mid-stats {
+            display: flex;
+            background: var(--card-bg);
+            border: 1px solid var(--border-light);
+            border-radius: 16px;
+            padding: 16px 0;
+            margin-bottom: 20px;
+        }
+
+        .m-stat {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 0 10px;
         }
         
-        .badge-floating {
-            position: absolute;
-            right: 15px;
-            top: 15px;
-            background: #ffc107;
-            color: #000;
-            font-size: 11px;
-            font-weight: 700;
-            padding: 3px 8px;
-            border-radius: 10px;
+        .m-stat:not(:last-child) {
+            border-right: 1px solid var(--border-light);
         }
 
-        /* Tasks Section */
-        .tasks-header {
+        .m-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
-            margin-bottom: 15px;
+            font-size: 15px;
+        }
+        .m-icon.purple { background: #4c1d95; color: #ddd6fe; }
+        .m-icon.orange { background: #9a3412; color: #fdba74; }
+        .m-icon.teal { background: #115e59; color: #5eead4; }
+
+        .m-info h3 { font-size: 16px; font-weight: 700; line-height: 1.2; }
+        .m-info p { font-size: 10px; color: var(--text-muted); }
+        .m-info .highlight-green { color: #22c55e; font-weight: 500; font-size: 9px; margin-top: 2px;}
+        .m-info .highlight-purple { color: #a78bfa; font-weight: 500; font-size: 9px; margin-top: 2px;}
+
+        /* --- Ad Banner Section --- */
+        .ad-section {
+            background: #120b05;
+            border: 1px solid #785a16;
+            border-radius: 20px;
+            padding: 22px;
+            position: relative;
+            box-shadow: 0 0 30px rgba(234, 179, 8, 0.1);
+            margin-bottom: 24px;
+            overflow: hidden;
         }
 
-        .tasks-header h3 {
-            font-size: 16px;
+        .ad-top-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #facc15;
+            color: #422006;
+            font-size: 12px;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 8px;
+            z-index: 2;
+        }
+
+        .ad-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #fde047;
+            margin-bottom: 6px;
             display: flex;
             align-items: center;
             gap: 8px;
         }
 
-        .tasks-header a {
-            color: var(--text-secondary);
+        .ad-desc {
+            font-size: 13px;
+            color: #d1d5db;
+            width: 65%;
+            line-height: 1.4;
+            margin-bottom: 18px;
+        }
+
+        .ad-stats-row {
+            display: flex;
+            border-top: 1px solid rgba(253, 224, 71, 0.15);
+            border-bottom: 1px solid rgba(253, 224, 71, 0.15);
+            padding: 12px 0;
+            margin-bottom: 20px;
+            width: 70%;
+        }
+
+        .ad-s-item {
+            flex: 1;
+            text-align: center;
+        }
+        .ad-s-item:not(:last-child) { border-right: 1px solid rgba(253, 224, 71, 0.15); }
+
+        .ad-s-item h4 {
+            font-size: 14px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            color: #fff;
+        }
+        .ad-s-item h4 i.purple { color: #c084fc; font-size: 12px;}
+        .ad-s-item h4 i.gold { color: #facc15; font-size: 12px;}
+        .ad-s-item p { font-size: 10px; color: var(--text-muted); margin-top: 2px;}
+
+        .watch-ad-btn {
+            background: linear-gradient(90deg, #fef08a 0%, #f59e0b 50%, #d97706 100%);
+            border: none;
+            width: 100%;
+            padding: 14px;
+            border-radius: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            box-shadow: 0 4px 20px rgba(245, 158, 11, 0.4), inset 0 -3px 5px rgba(0,0,0,0.2);
+            position: relative;
+            cursor: pointer;
+        }
+
+        .btn-play-icon {
+            width: 38px;
+            height: 38px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #ea580c;
+            font-size: 14px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .btn-text {
+            text-align: left;
+        }
+        .btn-text h3 {
+            color: #451a03;
+            font-size: 18px;
+            font-weight: 700;
+            line-height: 1.1;
+        }
+        .btn-text p {
+            color: #78350f;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .btn-arrow {
+            position: absolute;
+            right: 14px;
+            width: 38px;
+            height: 38px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #ea580c;
+            font-size: 16px;
+        }
+
+        .ad-footer {
+            text-align: center;
+            margin-top: 14px;
+            font-size: 10px;
+            color: #fde047;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .play-3d-img {
+            position: absolute;
+            right: -25px;
+            top: 20px;
+            width: 175px;
+            z-index: 1;
+            /* Replace the below src with your exact 3d gold play button image */
+        }
+
+        /* --- Tasks Section --- */
+        .task-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .task-header h3 {
+            font-size: 16px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .task-header a {
+            color: var(--text-muted);
             font-size: 12px;
             text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 4px;
         }
 
-        .tasks-scroll {
+        .task-slider {
             display: flex;
-            gap: 10px;
+            gap: 12px;
             overflow-x: auto;
             padding-bottom: 10px;
+            scrollbar-width: none;
         }
-        
-        .tasks-scroll::-webkit-scrollbar { display: none; }
+        .task-slider::-webkit-scrollbar { display: none; }
 
-        .task-card {
+        .task-box {
             background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 12px;
-            min-width: 180px;
+            border-radius: 14px;
+            padding: 14px;
+            min-width: 190px;
             display: flex;
             align-items: center;
             gap: 12px;
             position: relative;
         }
-        
-        .task-card:nth-child(1) { border-color: #1565c0; }
-        .task-card:nth-child(2) { border-color: #c62828; }
-        .task-card:nth-child(3) { border-color: #2e7d32; }
+        /* Border Colors for tasks */
+        .task-box:nth-child(1) { border: 1px solid rgba(56, 189, 248, 0.3); }
+        .task-box:nth-child(2) { border: 1px solid rgba(248, 113, 113, 0.3); }
+        .task-box:nth-child(3) { border: 1px solid rgba(74, 222, 128, 0.3); }
 
-        .task-icon {
-            width: 40px;
-            height: 40px;
+        .t-icon {
+            width: 42px;
+            height: 42px;
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 18px;
             color: white;
+            font-size: 20px;
         }
+        .t-tg { background: #0ea5e9; }
+        .t-yt { background: #ef4444; }
+        .t-msg { background: #22c55e; }
 
-        .tg-blue { background: #29b6f6; }
-        .yt-red { background: #ef5350; }
-        .tg-green { background: #66bb6a; }
+        .t-info h4 { font-size: 14px; font-weight: 600; }
+        .t-info p { font-size: 11px; color: var(--text-muted); margin-bottom: 4px;}
+        .t-info .t-reward { color: #22c55e; font-size: 12px; font-weight: 600; }
 
-        .task-info h4 { font-size: 13px; font-weight: 600; }
-        .task-info p { font-size: 10px; color: var(--text-secondary); }
-        .task-info .reward { color: #4caf50; font-size: 12px; font-weight: 600; margin-top: 3px;}
-
-        .task-arrow {
+        .t-arrow {
             position: absolute;
-            right: 10px;
-            bottom: 10px;
-            width: 20px;
-            height: 20px;
-            background: rgba(255,255,255,0.1);
+            right: 12px;
+            bottom: 12px;
+            width: 24px;
+            height: 24px;
+            background: rgba(255,255,255,0.05);
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
             font-size: 10px;
+            color: var(--text-muted);
         }
 
-        /* Bottom Navigation */
-        .bottom-nav {
+        /* --- Bottom Navigation --- */
+        .bottom-bar {
             position: fixed;
             bottom: 0;
             left: 50%;
             transform: translateX(-50%);
             width: 100%;
-            max-width: 480px;
-            background: #0d0918;
-            border-top: 1px solid var(--border-color);
+            max-width: 420px;
+            background: #090514;
+            border-top: 1px solid rgba(255,255,255,0.05);
             display: flex;
-            justify-content: space-around;
-            padding: 12px 10px;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 20px;
             z-index: 100;
         }
 
-        .nav-item {
+        .nav-link {
             display: flex;
             align-items: center;
             gap: 8px;
-            color: var(--text-secondary);
+            color: var(--text-muted);
             text-decoration: none;
             font-size: 13px;
-            padding: 8px 15px;
-            border-radius: 20px;
+            font-weight: 500;
+            padding: 10px 16px;
+            border-radius: 30px;
+            transition: 0.3s;
         }
 
-        .nav-item.active {
-            background: linear-gradient(90deg, #3a1c71, #24144e);
+        .nav-link.active {
+            background: linear-gradient(90deg, rgba(88,28,135,1) 0%, rgba(59,7,100,1) 100%);
             color: white;
-            border: 1px solid #501d94;
+            border: 1px solid #7c3aed;
         }
-        
-        .nav-item i {
-            font-size: 16px;
-        }
+        .nav-link i { font-size: 18px; }
+        .nav-link.active i { color: #e9d5ff; }
 
     </style>
 </head>
 <body>
 
-<div class="app-container">
+<div class="mobile-container">
     
-    <!-- Header -->
+    <!-- 1. Header -->
     <div class="header">
-        <div class="user-info">
-            <!-- Add User Avatar Image here -->
-            <img src="https://via.placeholder.com/45" alt="User" class="avatar">
-            <div class="user-details">
+        <div class="profile-sec">
+            <div class="avatar-wrap">
+                <!-- আপনার অরিজিনাল ইউজারের ছবিটি এখানে দিন -->
+                <img src="https://ui-avatars.com/api/?name=Zomato+User&background=0D8ABC&color=fff" alt="User">
+            </div>
+            <div class="user-info">
                 <h2>Hello, Zomato User 👋</h2>
                 <p>ID: ZOM789654</p>
             </div>
         </div>
-        <div class="header-actions">
-            <div class="badge">
+        <div class="actions-sec">
+            <div class="active-badge">
                 <i class="fa-solid fa-star"></i> Active Member
             </div>
-            <div class="bell-icon">
+            <div class="notification">
                 <i class="fa-regular fa-bell"></i>
             </div>
         </div>
     </div>
 
-    <!-- Balance Card -->
+    <!-- 2. Balance Card -->
     <div class="balance-card">
-        <div class="balance-header">
-            Total Balance <i class="fa-regular fa-eye"></i>
-        </div>
+        <div class="balance-title">Total Balance <i class="fa-regular fa-eye"></i></div>
         <div class="balance-amount">৳125.50</div>
-        <div class="balance-subtitle">Available Balance</div>
+        <div class="balance-sub">Available Balance</div>
         
-        <div class="balance-stats">
+        <div class="stats-boxes">
             <div class="stat-box">
-                <div class="stat-icon icon-purple"><i class="fa-solid fa-wallet"></i></div>
-                <div class="stat-text">
+                <div class="sb-icon bg-purple-grad"><i class="fa-solid fa-wallet text-white"></i></div>
+                <div class="sb-text">
                     <h4>৳50.00</h4>
-                    <p>Withdrawn</p>
+                    <p class="text-white">Withdrawn</p>
                 </div>
             </div>
             <div class="stat-box">
-                <div class="stat-icon icon-green"><i class="fa-solid fa-chart-line"></i></div>
-                <div class="stat-text">
+                <div class="sb-icon bg-green-grad"><i class="fa-solid fa-chart-simple text-white"></i></div>
+                <div class="sb-text">
                     <h4>৳175.50</h4>
-                    <p>Total Earned</p>
+                    <p class="text-white">Total Earned</p>
                 </div>
             </div>
         </div>
         
-        <!-- 3D Wallet Placeholder. Replace src with your transparent 3D wallet image -->
-        <img src="https://via.placeholder.com/150x150/2d0b59/ffffff?text=3D+Wallet" alt="Wallet" class="wallet-img" style="border-radius: 20px; opacity: 0.5;">
+        <!-- আপনার অরিজিনাল 3D Wallet+Coin এর ট্রান্সপারেন্ট ছবিটি এখানে দিন -->
+        <img src="https://i.imgur.com/vHq06wH.png" alt="Wallet 3D" class="wallet-3d" style="opacity: 0.1;">
     </div>
 
-    <!-- Stats Row -->
-    <div class="stats-row">
-        <div class="stat-item">
-            <div class="circle-icon bg-purple"><i class="fa-solid fa-user-group"></i></div>
-            <div class="stat-info">
+    <!-- 3. Mid Stats Row -->
+    <div class="mid-stats">
+        <div class="m-stat">
+            <div class="m-icon purple"><i class="fa-solid fa-user-group"></i></div>
+            <div class="m-info">
                 <h3>12</h3>
                 <p>Referrals</p>
-                <p class="text-green">+৳60.00 Earned</p>
+                <div class="highlight-green">+৳60.00 Earned</div>
             </div>
         </div>
-        <div class="stat-item">
-            <div class="circle-icon bg-yellow"><i class="fa-solid fa-play"></i></div>
-            <div class="stat-info">
+        <div class="m-stat">
+            <div class="m-icon orange"><i class="fa-solid fa-play"></i></div>
+            <div class="m-info">
                 <h3>3</h3>
                 <p>Ads Watched</p>
-                <p style="color:#b388ff">Today</p>
+                <div class="highlight-purple">Today</div>
             </div>
         </div>
-        <div class="stat-item">
-            <div class="circle-icon bg-teal"><i class="fa-solid fa-gift"></i></div>
-            <div class="stat-info">
+        <div class="m-stat">
+            <div class="m-icon teal"><i class="fa-solid fa-gift"></i></div>
+            <div class="m-info">
                 <h3>5/5</h3>
                 <p>Daily Limit</p>
-                <p class="text-green">Completed</p>
+                <div class="highlight-green">Completed</div>
             </div>
         </div>
     </div>
 
-    <!-- Ad Banner -->
-    <div class="ad-banner">
-        <div class="badge-floating">+৳0.50</div>
-        <h2>বিজ্ঞাপন দেখে আয় করুন ✨</h2>
-        <p>বিজ্ঞাপন দেখুন এবং সহজেই প্রতিদিন টাকা ইনকাম করুন 😉</p>
+    <!-- 4. Ad Banner -->
+    <div class="ad-section">
+        <div class="ad-top-badge">+৳0.50</div>
         
-        <div class="ad-mini-stats">
-            <div class="ad-mini-stat">
-                <h4><i class="fa-solid fa-eye"></i> 3</h4>
+        <div class="ad-title">বিজ্ঞাপন দেখে আয় করুন ✨</div>
+        <div class="ad-desc">বিজ্ঞাপন দেখুন এবং সহজেই প্রতিদিন টাকা ইনকাম করুন 😉</div>
+        
+        <div class="ad-stats-row">
+            <div class="ad-s-item">
+                <h4><i class="fa-solid fa-eye purple"></i> 3</h4>
                 <p>আজ দেখছেন</p>
             </div>
-            <div class="ad-mini-stat">
-                <h4><i class="fa-solid fa-crosshairs"></i> 5</h4>
+            <div class="ad-s-item">
+                <h4><i class="fa-solid fa-crosshairs purple"></i> 5</h4>
                 <p>আজকের লিমিট</p>
             </div>
-            <div class="ad-mini-stat">
-                <h4><i class="fa-solid fa-coins" style="color: #ffca28;"></i> ৳0.50</h4>
+            <div class="ad-s-item">
+                <h4><i class="fa-solid fa-coins gold"></i> ৳0.50</h4>
                 <p>প্রতি বিজ্ঞাপনে</p>
             </div>
         </div>
 
-        <button class="watch-btn">
-            <div class="play-circle"><i class="fa-solid fa-play"></i></div>
-            <div>
-                বিজ্ঞাপন দেখুন
-                <span class="watch-btn-subtitle">প্রতি বিজ্ঞাপনে ৳0.50 আয় করুন</span>
+        <button class="watch-ad-btn">
+            <div class="btn-play-icon"><i class="fa-solid fa-play"></i></div>
+            <div class="btn-text">
+                <h3>বিজ্ঞাপন দেখুন</h3>
+                <p>প্রতি বিজ্ঞাপনে ৳0.50 আয় করুন</p>
             </div>
-            <div class="arrow-circle"><i class="fa-solid fa-arrow-right"></i></div>
+            <div class="btn-arrow"><i class="fa-solid fa-arrow-right"></i></div>
         </button>
 
-        <div class="footer-note">
+        <div class="ad-footer">
             <i class="fa-solid fa-shield-halved"></i> পুরো বিজ্ঞাপন দেখুন এবং পুরস্কার পান
         </div>
         
-        <!-- 3D Play Button Placeholder. Replace src with your transparent 3D Play image -->
-        <img src="https://via.placeholder.com/120x120/110d19/ffca28?text=3D+Play" alt="Play 3D" class="ad-illustration" style="border-radius: 20px; opacity: 0.4;">
+        <!-- আপনার অরিজিনাল 3D Gold Play Button এর ট্রান্সপারেন্ট ছবিটি এখানে দিন -->
+        <img src="https://i.imgur.com/uC7e09j.png" alt="Play 3D" class="play-3d-img" style="opacity: 0.1;">
     </div>
 
-    <!-- Tasks -->
-    <div class="tasks-header">
-        <h3><i class="fa-solid fa-bolt" style="color: #b388ff;"></i> Tasks</h3>
-        <a href="#">সব দেখুন ></a>
+    <!-- 5. Tasks -->
+    <div class="task-header">
+        <h3><i class="fa-solid fa-bolt" style="color: #c084fc;"></i> Tasks</h3>
+        <a href="#">সব দেখুন <i class="fa-solid fa-angle-right"></i></a>
     </div>
 
-    <div class="tasks-scroll">
-        <div class="task-card">
-            <div class="task-icon tg-blue"><i class="fa-brands fa-telegram"></i></div>
-            <div class="task-info">
+    <div class="task-slider">
+        <div class="task-box">
+            <div class="t-icon t-tg"><i class="fa-brands fa-telegram"></i></div>
+            <div class="t-info">
                 <h4>টেলিগ্রাম চ্যানেল</h4>
                 <p>জয়েন করুন</p>
-                <div class="reward">+৳2.00</div>
+                <div class="t-reward">+৳2.00</div>
             </div>
-            <div class="task-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+            <div class="t-arrow"><i class="fa-solid fa-arrow-right"></i></div>
         </div>
-        <div class="task-card">
-            <div class="task-icon yt-red"><i class="fa-brands fa-youtube"></i></div>
-            <div class="task-info">
+        <div class="task-box">
+            <div class="t-icon t-yt"><i class="fa-brands fa-youtube"></i></div>
+            <div class="t-info">
                 <h4>ইউটিউব চ্যানেল</h4>
                 <p>সাবস্ক্রাইব করুন</p>
-                <div class="reward">+৳1.00</div>
+                <div class="t-reward">+৳1.00</div>
             </div>
-            <div class="task-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+            <div class="t-arrow"><i class="fa-solid fa-arrow-right"></i></div>
         </div>
-        <div class="task-card">
-            <div class="task-icon tg-green"><i class="fa-solid fa-comment-dots"></i></div>
-            <div class="task-info">
+        <div class="task-box">
+            <div class="t-icon t-msg"><i class="fa-solid fa-comment-dots"></i></div>
+            <div class="t-info">
                 <h4>টেলিগ্রাম গ্রুপ</h4>
                 <p>জয়েন করুন</p>
-                <div class="reward">+৳1.50</div>
+                <div class="t-reward">+৳1.50</div>
             </div>
-            <div class="task-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+            <div class="t-arrow"><i class="fa-solid fa-arrow-right"></i></div>
         </div>
     </div>
 
-    <!-- Bottom Navigation -->
-    <div class="bottom-nav">
-        <a href="#" class="nav-item active">
-            <i class="fa-solid fa-house"></i> Home
+    <!-- 6. Bottom Navigation -->
+    <div class="bottom-bar">
+        <a href="#" class="nav-link active">
+            <i class="fa-solid fa-house"></i> <span>Home</span>
         </a>
-        <a href="#" class="nav-item">
-            <i class="fa-solid fa-headset"></i> Support
+        <a href="#" class="nav-link">
+            <i class="fa-solid fa-headset"></i> <span>Support</span>
         </a>
-        <a href="#" class="nav-item">
-            <i class="fa-solid fa-users"></i> Referral
+        <a href="#" class="nav-link">
+            <i class="fa-solid fa-users"></i> <span>Referral</span>
         </a>
-        <a href="#" class="nav-item">
-            <i class="fa-solid fa-wallet"></i> Wallet
+        <a href="#" class="nav-link">
+            <i class="fa-solid fa-wallet"></i> <span>Wallet</span>
         </a>
     </div>
 
