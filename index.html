@@ -650,6 +650,14 @@ function openMiniLink(link){
   else window.open(link,'_blank');
 }
 
+// Hard fallback — loading screen MUST hide within 4s no matter what
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    const ls = document.getElementById('ls');
+    if(ls && ls.style.display !== 'none'){ ls.style.display='none'; ls.style.opacity='0'; }
+  }, 4000);
+});
+
 window.addEventListener('DOMContentLoaded',async()=>{
   // ── AUTO REJECT (background) ──
   setTimeout(async()=>{
@@ -724,14 +732,17 @@ window.addEventListener('DOMContentLoaded',async()=>{
       renderWdHist(items);
     });
 
-  }catch(e){console.error(e);showToast('⚠️ Connection error');}
+  }catch(e){console.error(e);showToast('⚠️ Connection error');const ls=document.getElementById('ls');if(ls){ls.style.display='none';ls.style.opacity='0';}}
 
   updateProfile();
   updateUI();
 
-  setTimeout(() => {
-    document.getElementById('ls').style.display = 'none';
-  }, 2500);
+  // Loading screen hide — guaranteed after 2.5s regardless of Firebase
+  const hideLS = () => {
+    const ls = document.getElementById('ls');
+    if(ls){ ls.style.display='none'; ls.style.opacity='0'; ls.style.pointerEvents='none'; }
+  };
+  setTimeout(hideLS, 2500);
 
 });
 
