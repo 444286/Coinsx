@@ -1,747 +1,646 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>Zomato Rewards</title>
-    <!-- Font Awesome 6 (Free) -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zomato User Dashboard</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
-        /* ----- RESET & BASE ----- */
+        :root {
+            --bg-color: #080512;
+            --card-bg: #110d21;
+            --text-primary: #ffffff;
+            --text-secondary: #9a94b8;
+            --purple-glow: #6a11cb;
+            --gold-gradient: linear-gradient(90deg, #ffe031, #ff9b05);
+            --border-color: #272042;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            font-family: 'Poppins', 'Noto Sans Bengali', sans-serif;
         }
 
         body {
-            background: #e8ecf1;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
             display: flex;
             justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 12px;
         }
 
-        /* ----- PHONE FRAME ----- */
-        .phone {
-            max-width: 390px;
+        /* Mobile Container Wrapper */
+        .app-container {
             width: 100%;
-            background: #f5f7fa;
-            border-radius: 36px;
-            overflow: hidden;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.20);
+            max-width: 480px;
+            min-height: 100vh;
+            background-color: var(--bg-color);
             position: relative;
-            padding-bottom: 8px;
+            padding: 20px 15px 80px 15px;
+            overflow-x: hidden;
         }
 
-        /* ----- STATUS BAR (fake) ----- */
-        .status-bar {
-            background: #0f1a2f;
-            padding: 10px 20px 6px;
-            display: flex;
-            justify-content: space-between;
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 11px;
-            font-weight: 500;
-            letter-spacing: 0.3px;
-        }
-        .status-bar .time {
-            color: #fff;
-            font-weight: 600;
-        }
-        .status-bar .icons i {
-            margin-left: 5px;
-            font-size: 12px;
-        }
-
-        /* ----- HEADER ----- */
+        /* Header Section */
         .header {
-            background: linear-gradient(145deg, #0f1a2f, #1a2a44);
-            padding: 16px 20px 20px;
-            color: #fff;
-            position: relative;
-        }
-
-        .header-top {
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 18px;
+            align-items: center;
+            margin-bottom: 25px;
         }
 
-        .greeting h2 {
-            font-size: 20px;
-            font-weight: 700;
-            letter-spacing: -0.3px;
-        }
-        .greeting h2 span {
-            font-weight: 300;
-            opacity: 0.9;
-        }
-        .greeting .user-id {
-            font-size: 12px;
-            opacity: 0.65;
-            margin-top: 2px;
-            font-weight: 400;
-            letter-spacing: 0.3px;
-        }
-
-        .header-icons {
-            display: flex;
-            gap: 14px;
-            font-size: 18px;
-            color: rgba(255, 255, 255, 0.8);
-            padding-top: 4px;
-        }
-        .header-icons i {
-            cursor: default;
-        }
-
-        /* ----- BALANCE CARDS ROW ----- */
-        .balance-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr 1fr;
-            gap: 6px;
-            margin-top: 4px;
-        }
-
-        .balance-item {
-            background: rgba(255, 255, 255, 0.07);
-            backdrop-filter: blur(2px);
-            border-radius: 14px;
-            padding: 10px 6px 8px;
-            text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.06);
-        }
-        .balance-item .label {
-            font-size: 9px;
-            text-transform: uppercase;
-            letter-spacing: 0.6px;
-            opacity: 0.6;
-            font-weight: 500;
-        }
-        .balance-item .value {
-            font-size: 16px;
-            font-weight: 700;
-            margin-top: 3px;
-            letter-spacing: -0.2px;
-        }
-        .balance-item .value.green {
-            color: #4cd9b2;
-        }
-        .balance-item .value.blue {
-            color: #7bb3ff;
-        }
-        .balance-item .value.orange {
-            color: #ffb347;
-        }
-        .balance-item .value.purple {
-            color: #c084fc;
-        }
-
-        /* ----- REFERRAL & ADS ROW ----- */
-        .stats-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            padding: 14px 18px 8px;
-            background: #f5f7fa;
-        }
-
-        .stat-card {
-            background: #fff;
-            border-radius: 18px;
-            padding: 14px 12px 12px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+        .user-info {
             display: flex;
             align-items: center;
             gap: 12px;
         }
-        .stat-card .icon-circle {
-            width: 40px;
-            height: 40px;
+
+        .avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            border: 2px solid #8e2de2;
+            object-fit: cover;
+        }
+
+        .user-details h2 {
+            font-size: 15px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .user-details p {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .badge {
+            background: linear-gradient(90deg, #4a148c, #311068);
+            border: 1px solid #7c43bd;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .badge i { color: #ffb300; }
+
+        .bell-icon {
+            width: 35px;
+            height: 35px;
+            background: var(--card-bg);
             border-radius: 50%;
             display: flex;
-            align-items: center;
             justify-content: center;
-            font-size: 18px;
-            color: #fff;
-            flex-shrink: 0;
-        }
-        .stat-card .icon-circle.gold {
-            background: linear-gradient(135deg, #f9b93b, #f5a623);
-        }
-        .stat-card .icon-circle.blue {
-            background: linear-gradient(135deg, #4a90d9, #357abd);
-        }
-        .stat-card .info .num {
-            font-size: 20px;
-            font-weight: 700;
-            color: #1a1a2e;
-            line-height: 1.2;
-        }
-        .stat-card .info .num small {
-            font-size: 13px;
-            font-weight: 500;
-            color: #4cd9b2;
-            margin-left: 4px;
-        }
-        .stat-card .info .desc {
-            font-size: 11px;
-            color: #888;
-            font-weight: 500;
-            letter-spacing: 0.2px;
-        }
-        .stat-card .info .desc span {
-            color: #4cd9b2;
-            font-weight: 600;
-        }
-
-        /* ----- ADS SECTION (Hindi) ----- */
-        .ads-section {
-            background: #fff;
-            margin: 0 14px 12px;
-            border-radius: 20px;
-            padding: 16px 16px 14px;
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
-        }
-
-        .ads-header {
-            display: flex;
-            justify-content: space-between;
             align-items: center;
-            margin-bottom: 6px;
+            color: var(--text-secondary);
+            border: 1px solid var(--border-color);
         }
-        .ads-header .ads-title {
+
+        /* Balance Card */
+        .balance-card {
+            background: linear-gradient(135deg, #2d0b59 0%, #0d061c 100%);
+            border: 1px solid #501d94;
+            border-radius: 16px;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(106, 17, 203, 0.2);
+            margin-bottom: 20px;
+        }
+
+        .balance-header {
             font-size: 13px;
+            color: #d1c4e9;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .balance-amount {
+            font-size: 40px;
             font-weight: 700;
-            color: #1a1a2e;
-            letter-spacing: 0.2px;
+            margin: 5px 0;
+            letter-spacing: -1px;
         }
-        .ads-header .ads-title i {
-            color: #f5a623;
-            margin-right: 4px;
+
+        .balance-subtitle {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-bottom: 15px;
         }
-        .ads-header .badge-group {
+
+        .balance-stats {
             display: flex;
             gap: 10px;
-            font-size: 11px;
-            font-weight: 600;
-            color: #555;
-        }
-        .ads-header .badge-group span {
-            background: #f0f2f5;
-            padding: 2px 10px;
-            border-radius: 30px;
-        }
-        .ads-header .badge-group span i {
-            margin-right: 4px;
-            font-size: 10px;
-        }
-        .ads-header .badge-group .green-badge {
-            background: #e6f9f2;
-            color: #1aa37a;
         }
 
-        .ads-hindi {
-            background: #f8faff;
-            border-radius: 14px;
-            padding: 12px 14px;
-            margin: 10px 0 8px;
-            border: 1px solid #eef2f7;
-        }
-        .ads-hindi .line1 {
-            font-size: 13px;
-            font-weight: 600;
-            color: #1a1a2e;
-        }
-        .ads-hindi .line1 i {
-            color: #f5a623;
-            margin-right: 4px;
-        }
-        .ads-hindi .line2 {
-            font-size: 12px;
-            color: #666;
-            margin-top: 2px;
-        }
-        .ads-hindi .line2 i {
-            color: #4cd9b2;
-            margin-right: 4px;
-        }
-        .ads-hindi .line3 {
-            font-size: 12px;
-            color: #888;
-            margin-top: 1px;
+        .stat-box {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
-        .ads-stats {
+        .stat-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .icon-purple { background: linear-gradient(135deg, #7c43bd, #4a148c); }
+        .icon-green { background: linear-gradient(135deg, #2e7d32, #1b5e20); }
+
+        .stat-text h4 { font-size: 14px; font-weight: 600; }
+        .stat-text p { font-size: 10px; color: var(--text-secondary); }
+
+        .wallet-img {
+            position: absolute;
+            right: -20px;
+            top: 10px;
+            width: 140px;
+            opacity: 0.9;
+        }
+
+        /* Stats Row */
+        .stats-row {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            margin-top: 6px;
-            padding: 0 2px;
-        }
-        .ads-stats .left {
-            display: flex;
-            gap: 14px;
-            font-size: 12px;
-            font-weight: 600;
-            color: #444;
-        }
-        .ads-stats .left span i {
-            margin-right: 4px;
-            font-size: 11px;
-            color: #4cd9b2;
-        }
-        .ads-stats .right {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            background: #e6f9f2;
-            padding: 4px 14px 4px 12px;
-            border-radius: 40px;
-            font-size: 12px;
-            font-weight: 700;
-            color: #1aa37a;
-        }
-        .ads-stats .right i {
-            font-size: 13px;
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid var(--border-color);
         }
 
-        .ads-action {
+        .stat-item {
             display: flex;
             align-items: center;
-            gap: 12px;
-            margin-top: 10px;
-            background: #f0f7ff;
-            border-radius: 14px;
-            padding: 10px 14px;
-            border: 1px dashed #c5d9f0;
-        }
-        .ads-action .btn-watch {
-            background: linear-gradient(135deg, #4cd9b2, #2bbd94);
-            border: none;
-            color: #fff;
-            font-weight: 700;
-            font-size: 12px;
-            padding: 8px 18px;
-            border-radius: 40px;
-            cursor: default;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            white-space: nowrap;
-            letter-spacing: 0.3px;
-        }
-        .ads-action .btn-watch i {
-            font-size: 13px;
-        }
-        .ads-action .ads-earn {
-            font-size: 13px;
-            font-weight: 600;
-            color: #1a1a2e;
-        }
-        .ads-action .ads-earn small {
-            font-weight: 400;
-            color: #777;
-            font-size: 11px;
-        }
-        .ads-action .ads-earn i {
-            color: #f5a623;
-            margin-right: 2px;
+            gap: 10px;
+            flex: 1;
         }
 
-        .ads-footer {
-            font-size: 10px;
-            color: #aaa;
-            margin-top: 8px;
+        .stat-item:not(:last-child) {
+            border-right: 1px solid var(--border-color);
+        }
+
+        .stat-item:nth-child(2), .stat-item:nth-child(3) {
+            padding-left: 10px;
+        }
+
+        .circle-icon {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 14px;
+        }
+        
+        .bg-purple { background: #4a148c; }
+        .bg-yellow { background: #f57f17; }
+        .bg-teal { background: #006064; }
+
+        .stat-info h3 { font-size: 15px; font-weight: 600; }
+        .stat-info p { font-size: 10px; color: var(--text-secondary); }
+        .text-green { color: #4caf50 !important; }
+
+        /* Ad Banner Section */
+        .ad-banner {
+            background: #110d19;
+            border: 1px solid #75591c;
+            border-radius: 16px;
+            padding: 20px;
+            position: relative;
+            margin-bottom: 25px;
+            box-shadow: 0 0 15px rgba(255, 179, 0, 0.1);
+        }
+
+        .ad-banner h2 {
+            font-size: 18px;
+            color: #ffca28;
+            margin-bottom: 5px;
+        }
+
+        .ad-banner > p {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-bottom: 15px;
+            width: 60%;
+        }
+
+        .ad-mini-stats {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            border-top: 1px solid #332714;
+            border-bottom: 1px solid #332714;
+            padding: 10px 0;
+            width: max-content;
+        }
+
+        .ad-mini-stat {
             text-align: center;
-            letter-spacing: 0.2px;
+            padding-right: 15px;
         }
-        .ads-footer i {
-            color: #f5a623;
-            margin-right: 3px;
-        }
-
-        /* ----- TASKS SECTION ----- */
-        .tasks-section {
-            background: #fff;
-            margin: 0 14px 14px;
-            border-radius: 20px;
-            padding: 14px 16px 12px;
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+        .ad-mini-stat:not(:last-child) {
+            border-right: 1px solid #332714;
         }
 
+        .ad-mini-stat h4 { font-size: 13px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 5px;}
+        .ad-mini-stat h4 i { font-size: 12px; color: #b388ff;}
+        .ad-mini-stat p { font-size: 10px; color: var(--text-secondary); }
+
+        .watch-btn {
+            background: var(--gold-gradient);
+            border: none;
+            border-radius: 30px;
+            width: 100%;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            color: #3e2700;
+            font-weight: 700;
+            font-size: 18px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(255, 160, 0, 0.4);
+            position: relative;
+        }
+
+        .play-circle {
+            background: #ffffff;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #ff9800;
+        }
+
+        .arrow-circle {
+            background: #ffffff;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #ff9800;
+            position: absolute;
+            right: 15px;
+        }
+
+        .watch-btn-subtitle {
+            font-size: 11px;
+            color: #795500;
+            font-weight: 500;
+            display: block;
+        }
+        
+        .footer-note {
+            text-align: center;
+            font-size: 10px;
+            color: #ffca28;
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .ad-illustration {
+            position: absolute;
+            right: -10px;
+            top: 20px;
+            width: 140px;
+        }
+        
+        .badge-floating {
+            position: absolute;
+            right: 15px;
+            top: 15px;
+            background: #ffc107;
+            color: #000;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 10px;
+        }
+
+        /* Tasks Section */
         .tasks-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
         }
-        .tasks-header h4 {
-            font-size: 15px;
-            font-weight: 700;
-            color: #1a1a2e;
-            letter-spacing: -0.2px;
+
+        .tasks-header h3 {
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
+
         .tasks-header a {
+            color: var(--text-secondary);
             font-size: 12px;
-            color: #4cd9b2;
-            font-weight: 600;
             text-decoration: none;
         }
 
-        .task-item {
+        .tasks-scroll {
             display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 1px solid #f0f2f5;
+            gap: 10px;
+            overflow-x: auto;
+            padding-bottom: 10px;
         }
-        .task-item:last-child {
-            border-bottom: none;
-        }
+        
+        .tasks-scroll::-webkit-scrollbar { display: none; }
 
-        .task-left {
+        .task-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 12px;
+            min-width: 180px;
             display: flex;
             align-items: center;
             gap: 12px;
+            position: relative;
         }
-        .task-left .task-icon {
-            width: 34px;
-            height: 34px;
+        
+        .task-card:nth-child(1) { border-color: #1565c0; }
+        .task-card:nth-child(2) { border-color: #c62828; }
+        .task-card:nth-child(3) { border-color: #2e7d32; }
+
+        .task-icon {
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
-            background: #f0f7ff;
             display: flex;
-            align-items: center;
             justify-content: center;
-            font-size: 14px;
-            color: #4a90d9;
+            align-items: center;
+            font-size: 18px;
+            color: white;
         }
-        .task-left .task-icon.orange {
-            background: #fff4e6;
-            color: #f5a623;
-        }
-        .task-left .task-icon.green {
-            background: #e6f9f2;
-            color: #2bbd94;
-        }
-        .task-left .task-info .task-name {
-            font-size: 13px;
-            font-weight: 600;
-            color: #1a1a2e;
-        }
-        .task-left .task-info .task-sub {
+
+        .tg-blue { background: #29b6f6; }
+        .yt-red { background: #ef5350; }
+        .tg-green { background: #66bb6a; }
+
+        .task-info h4 { font-size: 13px; font-weight: 600; }
+        .task-info p { font-size: 10px; color: var(--text-secondary); }
+        .task-info .reward { color: #4caf50; font-size: 12px; font-weight: 600; margin-top: 3px;}
+
+        .task-arrow {
+            position: absolute;
+            right: 10px;
+            bottom: 10px;
+            width: 20px;
+            height: 20px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             font-size: 10px;
-            color: #999;
-            margin-top: 1px;
-            font-weight: 400;
         }
 
-        .task-amount {
-            font-size: 15px;
-            font-weight: 700;
-            color: #1a1a2e;
-            background: #f5f7fa;
-            padding: 2px 14px;
-            border-radius: 30px;
-            letter-spacing: -0.2px;
-        }
-        .task-amount i {
-            font-size: 11px;
-            color: #4cd9b2;
-            margin-right: 2px;
-        }
-
-        /* ----- BOTTOM NAV ----- */
+        /* Bottom Navigation */
         .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 480px;
+            background: #0d0918;
+            border-top: 1px solid var(--border-color);
             display: flex;
             justify-content: space-around;
-            align-items: center;
-            background: #fff;
-            padding: 8px 10px 6px;
-            margin: 0 12px 6px;
-            border-radius: 30px;
-            box-shadow: 0 -2px 16px rgba(0, 0, 0, 0.06);
-            border: 1px solid rgba(0, 0, 0, 0.03);
+            padding: 12px 10px;
+            z-index: 100;
         }
 
         .nav-item {
             display: flex;
-            flex-direction: column;
             align-items: center;
-            gap: 2px;
-            color: #999;
-            font-size: 10px;
-            font-weight: 500;
-            transition: 0.2s;
-            padding: 4px 12px;
+            gap: 8px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 13px;
+            padding: 8px 15px;
             border-radius: 20px;
-            cursor: default;
         }
-        .nav-item i {
-            font-size: 20px;
-            margin-bottom: 1px;
-        }
+
         .nav-item.active {
-            color: #1a1a2e;
-            font-weight: 600;
+            background: linear-gradient(90deg, #3a1c71, #24144e);
+            color: white;
+            border: 1px solid #501d94;
         }
-        .nav-item.active i {
-            color: #4cd9b2;
-        }
-        .nav-item .badge-dot {
-            width: 6px;
-            height: 6px;
-            background: #f5a623;
-            border-radius: 50%;
-            margin-top: -2px;
+        
+        .nav-item i {
+            font-size: 16px;
         }
 
-        /* ----- UTILITY ----- */
-        .mt-1 {
-            margin-top: 4px;
-        }
-        .text-muted {
-            color: #888;
-        }
-
-        /* ----- RESPONSIVE TWEAKS ----- */
-        @media (max-width: 400px) {
-            .balance-item .value {
-                font-size: 14px;
-            }
-            .balance-item .label {
-                font-size: 8px;
-            }
-            .stat-card .info .num {
-                font-size: 17px;
-            }
-            .ads-action {
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-            .ads-stats {
-                flex-wrap: wrap;
-                gap: 6px;
-            }
-            .task-item {
-                flex-wrap: wrap;
-                gap: 6px;
-            }
-            .task-amount {
-                font-size: 13px;
-                padding: 2px 10px;
-            }
-        }
-
-        @media (max-width: 350px) {
-            .balance-row {
-                grid-template-columns: 1fr 1fr;
-                gap: 4px;
-            }
-            .stats-row {
-                grid-template-columns: 1fr;
-            }
-            .header-top {
-                flex-wrap: wrap;
-                gap: 8px;
-            }
-        }
     </style>
 </head>
 <body>
 
-    <div class="phone">
-
-        <!-- Fake Status Bar -->
-        <div class="status-bar">
-            <span class="time">9:41</span>
-            <span class="icons">
-                <i class="fas fa-signal"></i>
-                <i class="fas fa-wifi"></i>
-                <i class="fas fa-battery-three-quarters"></i>
-            </span>
-        </div>
-
-        <!-- HEADER -->
-        <div class="header">
-
-            <div class="header-top">
-                <div class="greeting">
-                    <h2>Hello, Zomato User</h2>
-                    <div class="user-id">ID: ZOM789654</div>
-                </div>
-                <div class="header-icons">
-                    <i class="far fa-bell"></i>
-                    <i class="far fa-user-circle"></i>
-                </div>
-            </div>
-
-            <!-- Balance Row -->
-            <div class="balance-row">
-                <div class="balance-item">
-                    <div class="label">Total Balance</div>
-                    <div class="value green">₹125.50</div>
-                </div>
-                <div class="balance-item">
-                    <div class="label">Available</div>
-                    <div class="value blue">₹50.00</div>
-                </div>
-                <div class="balance-item">
-                    <div class="label">Withdrawn</div>
-                    <div class="value orange">₹175.50</div>
-                </div>
-                <div class="balance-item">
-                    <div class="label">Total Earned</div>
-                    <div class="value purple">₹60.00</div>
-                </div>
-            </div>
-
-        </div>
-
-        <!-- STATS ROW: Referrals + Ads Watched -->
-        <div class="stats-row">
-            <!-- Referrals -->
-            <div class="stat-card">
-                <div class="icon-circle gold">
-                    <i class="fas fa-user-friends"></i>
-                </div>
-                <div class="info">
-                    <div class="num">12 <small>₹60.00</small></div>
-                    <div class="desc">Referrals <span>Earned</span></div>
-                </div>
-            </div>
-            <!-- Ads Watched Today + Daily Limit -->
-            <div class="stat-card">
-                <div class="icon-circle blue">
-                    <i class="fas fa-play-circle"></i>
-                </div>
-                <div class="info">
-                    <div class="num">3 <small style="color:#f5a623;font-size:12px;">/ 5</small></div>
-                    <div class="desc">Ads Watched Today <span>Completed</span></div>
-                </div>
+<div class="app-container">
+    
+    <!-- Header -->
+    <div class="header">
+        <div class="user-info">
+            <!-- Add User Avatar Image here -->
+            <img src="https://via.placeholder.com/45" alt="User" class="avatar">
+            <div class="user-details">
+                <h2>Hello, Zomato User 👋</h2>
+                <p>ID: ZOM789654</p>
             </div>
         </div>
-
-        <!-- ADS SECTION (Hindi) -->
-        <div class="ads-section">
-
-            <div class="ads-header">
-                <div class="ads-title">
-                    <i class="fas fa-ad"></i> विज्ञापन
-                </div>
-                <div class="badge-group">
-                    <span><i class="far fa-eye"></i> 3 आज देखें</span>
-                    <span class="green-badge"><i class="fas fa-check-circle"></i> 5 आज देखें</span>
-                </div>
+        <div class="header-actions">
+            <div class="badge">
+                <i class="fa-solid fa-star"></i> Active Member
             </div>
-
-            <div class="ads-hindi">
-                <div class="line1"><i class="fas fa-bolt"></i> विज्ञापन देखें आये क्रक्रन</div>
-                <div class="line2"><i class="fas fa-circle" style="font-size:6px;vertical-align:middle;"></i> विज्ञापन देखने पर बंद रहेगा</div>
-                <div class="line3"><i class="fas fa-circle" style="font-size:6px;vertical-align:middle;"></i> स्विभेदित होगा और क्रक्रन क्रक्रन</div>
-            </div>
-
-            <div class="ads-stats">
-                <div class="left">
-                    <span><i class="fas fa-play"></i> 3 आज देखें</span>
-                    <span><i class="fas fa-clock"></i> 5 आज देखें</span>
-                </div>
-                <div class="right">
-                    <i class="fas fa-coins"></i> ₹0.50 स्विभेदित करें
-                </div>
-            </div>
-
-            <div class="ads-action">
-                <button class="btn-watch"><i class="fas fa-play"></i> विज्ञापन देखें</button>
-                <div class="ads-earn">
-                    <i class="fas fa-coins"></i> स्विभेदित करें ₹0.50 <small>आये क्रक्रन</small>
-                </div>
-            </div>
-
-            <div class="ads-footer">
-                <i class="fas fa-arrow-left"></i> पूर्वी विज्ञापन देखें पर पूर्वक्रक्रार पान
+            <div class="bell-icon">
+                <i class="fa-regular fa-bell"></i>
             </div>
         </div>
-
-        <!-- TASKS SECTION -->
-        <div class="tasks-section">
-
-            <div class="tasks-header">
-                <h4><i class="fas fa-tasks" style="color:#4cd9b2;margin-right:6px;"></i>Tasks</h4>
-                <a href="#">सब देखें</a>
-            </div>
-
-            <!-- Task 1 -->
-            <div class="task-item">
-                <div class="task-left">
-                    <div class="task-icon orange">
-                        <i class="fas fa-video"></i>
-                    </div>
-                    <div class="task-info">
-                        <div class="task-name">देखेंगे आये जाने जाने क्रक्रन</div>
-                        <div class="task-sub">जाने क्रक्रन</div>
-                    </div>
-                </div>
-                <div class="task-amount"><i class="fas fa-coins"></i> ₹2.00</div>
-            </div>
-
-            <!-- Task 2 -->
-            <div class="task-item">
-                <div class="task-left">
-                    <div class="task-icon">
-                        <i class="fas fa-hand-holding-heart"></i>
-                    </div>
-                    <div class="task-info">
-                        <div class="task-name">हैंडिटेड जाने जाने क्रक्रन</div>
-                        <div class="task-sub">जाने क्रक्रन</div>
-                    </div>
-                </div>
-                <div class="task-amount"><i class="fas fa-coins"></i> ₹1.00</div>
-            </div>
-
-            <!-- Task 3 -->
-            <div class="task-item">
-                <div class="task-left">
-                    <div class="task-icon green">
-                        <i class="fas fa-check-circle"></i>
-                    </div>
-                    <div class="task-info">
-                        <div class="task-name">देखेंगे सफल जाने क्रक्रन</div>
-                        <div class="task-sub">जाने क्रक्रन</div>
-                    </div>
-                </div>
-                <div class="task-amount"><i class="fas fa-coins"></i> ₹1.50</div>
-            </div>
-
-        </div>
-
-        <!-- BOTTOM NAV -->
-        <div class="bottom-nav">
-            <div class="nav-item active">
-                <i class="fas fa-home"></i>
-                <span>Home</span>
-            </div>
-            <div class="nav-item">
-                <i class="fas fa-headset"></i>
-                <span>Support</span>
-            </div>
-            <div class="nav-item">
-                <i class="fas fa-user-friends"></i>
-                <span>Referral</span>
-                <span class="badge-dot"></span>
-            </div>
-            <div class="nav-item">
-                <i class="fas fa-wallet"></i>
-                <span>Wallet</span>
-            </div>
-        </div>
-
     </div>
-    <!-- end .phone -->
+
+    <!-- Balance Card -->
+    <div class="balance-card">
+        <div class="balance-header">
+            Total Balance <i class="fa-regular fa-eye"></i>
+        </div>
+        <div class="balance-amount">৳125.50</div>
+        <div class="balance-subtitle">Available Balance</div>
+        
+        <div class="balance-stats">
+            <div class="stat-box">
+                <div class="stat-icon icon-purple"><i class="fa-solid fa-wallet"></i></div>
+                <div class="stat-text">
+                    <h4>৳50.00</h4>
+                    <p>Withdrawn</p>
+                </div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-icon icon-green"><i class="fa-solid fa-chart-line"></i></div>
+                <div class="stat-text">
+                    <h4>৳175.50</h4>
+                    <p>Total Earned</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 3D Wallet Placeholder. Replace src with your transparent 3D wallet image -->
+        <img src="https://via.placeholder.com/150x150/2d0b59/ffffff?text=3D+Wallet" alt="Wallet" class="wallet-img" style="border-radius: 20px; opacity: 0.5;">
+    </div>
+
+    <!-- Stats Row -->
+    <div class="stats-row">
+        <div class="stat-item">
+            <div class="circle-icon bg-purple"><i class="fa-solid fa-user-group"></i></div>
+            <div class="stat-info">
+                <h3>12</h3>
+                <p>Referrals</p>
+                <p class="text-green">+৳60.00 Earned</p>
+            </div>
+        </div>
+        <div class="stat-item">
+            <div class="circle-icon bg-yellow"><i class="fa-solid fa-play"></i></div>
+            <div class="stat-info">
+                <h3>3</h3>
+                <p>Ads Watched</p>
+                <p style="color:#b388ff">Today</p>
+            </div>
+        </div>
+        <div class="stat-item">
+            <div class="circle-icon bg-teal"><i class="fa-solid fa-gift"></i></div>
+            <div class="stat-info">
+                <h3>5/5</h3>
+                <p>Daily Limit</p>
+                <p class="text-green">Completed</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ad Banner -->
+    <div class="ad-banner">
+        <div class="badge-floating">+৳0.50</div>
+        <h2>বিজ্ঞাপন দেখে আয় করুন ✨</h2>
+        <p>বিজ্ঞাপন দেখুন এবং সহজেই প্রতিদিন টাকা ইনকাম করুন 😉</p>
+        
+        <div class="ad-mini-stats">
+            <div class="ad-mini-stat">
+                <h4><i class="fa-solid fa-eye"></i> 3</h4>
+                <p>আজ দেখছেন</p>
+            </div>
+            <div class="ad-mini-stat">
+                <h4><i class="fa-solid fa-crosshairs"></i> 5</h4>
+                <p>আজকের লিমিট</p>
+            </div>
+            <div class="ad-mini-stat">
+                <h4><i class="fa-solid fa-coins" style="color: #ffca28;"></i> ৳0.50</h4>
+                <p>প্রতি বিজ্ঞাপনে</p>
+            </div>
+        </div>
+
+        <button class="watch-btn">
+            <div class="play-circle"><i class="fa-solid fa-play"></i></div>
+            <div>
+                বিজ্ঞাপন দেখুন
+                <span class="watch-btn-subtitle">প্রতি বিজ্ঞাপনে ৳0.50 আয় করুন</span>
+            </div>
+            <div class="arrow-circle"><i class="fa-solid fa-arrow-right"></i></div>
+        </button>
+
+        <div class="footer-note">
+            <i class="fa-solid fa-shield-halved"></i> পুরো বিজ্ঞাপন দেখুন এবং পুরস্কার পান
+        </div>
+        
+        <!-- 3D Play Button Placeholder. Replace src with your transparent 3D Play image -->
+        <img src="https://via.placeholder.com/120x120/110d19/ffca28?text=3D+Play" alt="Play 3D" class="ad-illustration" style="border-radius: 20px; opacity: 0.4;">
+    </div>
+
+    <!-- Tasks -->
+    <div class="tasks-header">
+        <h3><i class="fa-solid fa-bolt" style="color: #b388ff;"></i> Tasks</h3>
+        <a href="#">সব দেখুন ></a>
+    </div>
+
+    <div class="tasks-scroll">
+        <div class="task-card">
+            <div class="task-icon tg-blue"><i class="fa-brands fa-telegram"></i></div>
+            <div class="task-info">
+                <h4>টেলিগ্রাম চ্যানেল</h4>
+                <p>জয়েন করুন</p>
+                <div class="reward">+৳2.00</div>
+            </div>
+            <div class="task-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+        </div>
+        <div class="task-card">
+            <div class="task-icon yt-red"><i class="fa-brands fa-youtube"></i></div>
+            <div class="task-info">
+                <h4>ইউটিউব চ্যানেল</h4>
+                <p>সাবস্ক্রাইব করুন</p>
+                <div class="reward">+৳1.00</div>
+            </div>
+            <div class="task-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+        </div>
+        <div class="task-card">
+            <div class="task-icon tg-green"><i class="fa-solid fa-comment-dots"></i></div>
+            <div class="task-info">
+                <h4>টেলিগ্রাম গ্রুপ</h4>
+                <p>জয়েন করুন</p>
+                <div class="reward">+৳1.50</div>
+            </div>
+            <div class="task-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <div class="bottom-nav">
+        <a href="#" class="nav-item active">
+            <i class="fa-solid fa-house"></i> Home
+        </a>
+        <a href="#" class="nav-item">
+            <i class="fa-solid fa-headset"></i> Support
+        </a>
+        <a href="#" class="nav-item">
+            <i class="fa-solid fa-users"></i> Referral
+        </a>
+        <a href="#" class="nav-item">
+            <i class="fa-solid fa-wallet"></i> Wallet
+        </a>
+    </div>
+
+</div>
 
 </body>
 </html>
