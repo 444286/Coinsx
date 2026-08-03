@@ -241,41 +241,135 @@ body { background:var(--bg-dark); color:var(--text-main); min-height:100vh; over
 .tbig.cancel { background:rgba(255,255,255,.06); color:var(--muted); border:1px solid var(--border); }
 .task-verify-status { font-size:12px; margin-top:8px; min-height:18px; font-family:'Poppins',sans-serif; }
 
-/* ===================== AD OVERLAY ===================== */
-.adov { position:fixed; inset:0; background:rgba(0,0,0,.94); z-index:500; display:none; flex-direction:column; align-items:center; justify-content:center; gap:10px; padding:28px; }
+/* ===================== AD OVERLAY — Screenshot-style purple card ===================== */
+
+/* Full-screen dark backdrop */
+.adov {
+  position:fixed; inset:0;
+  background:rgba(0,0,0,.72);
+  z-index:500; display:none;
+  flex-direction:column;
+  align-items:center; justify-content:center;
+  gap:0; padding:28px;
+}
 .adov.open { display:flex; }
-.adov-type { display:none; }
-.adov-type.watch { background:var(--ys); color:var(--yellow); border:1px solid rgba(255,200,74,.3); }
-.adov-type.wd { background:var(--gs); color:var(--green); border:1px solid rgba(0,224,150,.3); }
-.adov-title { font-family:'Poppins',sans-serif; font-size:20px; font-weight:800; color:#fff; text-align:center; }
+
+/* Hide unused type badge & title */
+.adov-type  { display:none!important; }
+.adov-title { display:none!important; }
 .adov-step-lbl,.adov-net-name,.adov-status { display:none; }
-.adov-steps { display:flex; gap:7px; margin:12px 0; flex-wrap:wrap; justify-content:center; max-width:320px; }
-.adov-s { height:8px; border-radius:8px; background:rgba(255,255,255,.1); transition:all .35s; flex:1; min-width:20px; max-width:50px; }
-.adov-s.done { background:var(--green); }
-.adov-s.active { background:var(--yellow); animation:puls .8s infinite; }
-.adov-s.skip { background:rgba(255,255,255,.25); }
-@keyframes puls { 0%,100%{opacity:1} 50%{opacity:.35} }
-.adov-reward-wrap { display:flex; align-items:baseline; gap:6px; justify-content:center; margin:4px 0; }
-.adov-reward { font-family:'Poppins',sans-serif; font-size:38px; font-weight:800; color:var(--yellow); }
-.adov-taka { font-family:'Hind Siliguri',sans-serif; font-size:18px; font-weight:700; color:var(--taka); }
-.adov-rsub { font-size:11px; color:var(--muted); text-align:center; font-family:'Poppins',sans-serif; }
-.adov-msg { display:none!important; }
-.adov-wd-loading { display:none; flex-direction:column; align-items:center; gap:16px; margin-top:8px; }
-.adov-wd-loading.show { display:flex; }
-.adov-wd-spinner { width:48px; height:48px; border:4px solid rgba(255,255,255,.1); border-top-color:var(--green); border-radius:50%; animation:lsloading 0s,sp .7s linear infinite; }
-@keyframes sp { to{transform:rotate(360deg)} }
-.adov-wd-txt { font-size:14px; color:var(--muted); font-family:'Poppins',sans-serif; }
-.adov-complete { text-align:center; padding:16px; display:none; flex-direction:column; align-items:center; gap:8px; }
-.adov-complete.show { display:flex; }
-.adov-complete-ic { font-size:48px; animation:popIn .4s cubic-bezier(.34,1.56,.64,1); }
-.adov-complete-txt { font-family:'Poppins',sans-serif; font-size:18px; font-weight:800; color:#fff; }
-.adov-complete-sub { font-size:13px; color:var(--muted); font-family:'Poppins',sans-serif; }
-@keyframes popIn { from{transform:scale(0)} to{transform:scale(1)} }
-.adov-continue { margin-top:8px; background:linear-gradient(135deg,var(--accent),#b06bff); color:#fff; border:none; border-radius:14px; padding:15px 36px; font-size:15px; font-weight:700; cursor:pointer; font-family:'Poppins',sans-serif; display:none; letter-spacing:.3px; animation:popIn .3s cubic-bezier(.34,1.56,.64,1); }
-.adov-continue.show { display:block; }
-.adov-continue:active { transform:scale(.96); }
-.adov-waiting { font-size:12px; color:var(--muted); font-family:'Poppins',sans-serif; display:none; text-align:center; line-height:1.7; }
+
+/* ── Purple card shell ── */
+.adov-card {
+  background:linear-gradient(155deg,#6e65f5 0%,#5548d9 100%);
+  border-radius:28px;
+  padding:38px 28px 28px;
+  width:100%;
+  max-width:340px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:0;
+  box-shadow:0 24px 64px rgba(0,0,0,.55);
+}
+
+/* ── Spinner — thin ring like screenshot ── */
+.adov-spinner-wrap {
+  width:86px; height:86px;
+  display:flex; align-items:center; justify-content:center;
+  margin:0 0 22px;
+}
+.adov-spinner-ring {
+  width:80px; height:80px;
+  border:4px solid rgba(255,255,255,.22);
+  border-top-color:rgba(255,255,255,.88);
+  border-right-color:rgba(255,255,255,.55);
+  border-radius:50%;
+  animation:adovSpin .95s linear infinite;
+}
+@keyframes adovSpin { to{transform:rotate(360deg)} }
+
+/* ── Steps bar: thin white pills ── */
+.adov-steps {
+  display:flex; gap:6px;
+  width:100%;
+  margin:0 0 20px;
+}
+.adov-s {
+  height:4px; border-radius:4px;
+  background:rgba(255,255,255,.22);
+  transition:background .35s; flex:1;
+}
+.adov-s.done   { background:rgba(255,255,255,.9); }
+.adov-s.active { background:#fff; animation:adovPuls .85s infinite; }
+.adov-s.skip   { background:rgba(255,255,255,.12); }
+@keyframes adovPuls { 0%,100%{opacity:1} 50%{opacity:.4} }
+
+/* ── Bengali instruction text ── */
+.adov-waiting {
+  font-family:'Hind Siliguri','Poppins',sans-serif;
+  font-size:17px; font-weight:600;
+  color:#fff;
+  display:none; text-align:center; line-height:1.65;
+  margin-bottom:18px;
+  width:100%;
+}
 .adov-waiting.show { display:block; }
+
+/* ── Thin white divider (shown when waiting text shows) ── */
+.adov-divider {
+  width:100%; height:2px;
+  background:rgba(255,255,255,.38);
+  border-radius:2px;
+  margin-bottom:20px;
+  display:none;
+}
+
+/* ── Next / Continue button — white pill ── */
+.adov-continue {
+  background:#fff;
+  color:#4840c8;
+  border:none;
+  border-radius:50px;
+  padding:16px 0;
+  width:100%;
+  font-size:16px; font-weight:700;
+  cursor:pointer;
+  font-family:'Poppins',sans-serif;
+  display:none;
+  letter-spacing:.2px;
+  box-shadow:0 4px 18px rgba(0,0,0,.18);
+  transition:transform .14s, box-shadow .14s;
+}
+.adov-continue.show { display:block; }
+.adov-continue:active { transform:scale(.97); box-shadow:0 2px 8px rgba(0,0,0,.18); }
+
+/* ── Hidden elements kept for JS refs ── */
+.adov-reward-wrap { display:none!important; }
+.adov-reward      { display:none!important; }
+.adov-taka        { display:none!important; }
+.adov-rsub        { display:none!important; }
+.adov-msg         { display:none!important; }
+
+/* ── Withdrawal loading ── */
+.adov-wd-loading { display:none; flex-direction:column; align-items:center; gap:16px; }
+.adov-wd-loading.show { display:flex; }
+.adov-wd-spinner {
+  width:52px; height:52px;
+  border:4px solid rgba(255,255,255,.2);
+  border-top-color:#fff;
+  border-radius:50%;
+  animation:adovSpin .8s linear infinite;
+}
+.adov-wd-txt { font-size:14px; color:rgba(255,255,255,.75); font-family:'Poppins',sans-serif; }
+
+/* ── Completion state ── */
+@keyframes popIn { from{transform:scale(0)} to{transform:scale(1)} }
+.adov-complete { text-align:center; padding:8px 0; display:none; flex-direction:column; align-items:center; gap:10px; }
+.adov-complete.show { display:flex; }
+.adov-complete-ic  { font-size:54px; animation:popIn .4s cubic-bezier(.34,1.56,.64,1); }
+.adov-complete-txt { font-family:'Poppins',sans-serif; font-size:20px; font-weight:800; color:#fff; }
+.adov-complete-sub { font-size:13px; color:rgba(255,255,255,.7); font-family:'Poppins',sans-serif; }
 
 /* ===================== OTHER PAGES ===================== */
 /* Support */
@@ -443,7 +537,6 @@ select.fi option { background:#1a1d26; }
       <div class="bc-content">
         <div class="balance-title">Total Balance <i class="fa-regular fa-eye"></i></div>
 
-        <!-- ===== FIX 2: ৳ sign added before balance number ===== -->
         <div style="display:flex;align-items:baseline;gap:6px;margin:4px 0 2px">
   <div class="balance-amount" style="font-size:28px;white-space:nowrap;">৳ <span id="hbal">0.00</span></div>
 </div>
@@ -675,10 +768,7 @@ select.fi option { background:#1a1d26; }
 
 </div><!-- /mobile-container -->
 
-<!-- ===================== NEW BOTTOM NAV ===================== -->
-
-
-
+<!-- ===================== BOTTOM NAV ===================== -->
 <div class="bottom-bar">
 <div class="nav-link" id="nav-referral" onclick="showPage('referral',this)">
     <i class="fa-solid fa-users"></i> <span>Referral</span>
@@ -691,9 +781,6 @@ select.fi option { background:#1a1d26; }
     <i class="fa-solid fa-house"></i> <span>Home</span>
   </div>
 
-  
-
-  
   <div class="nav-link" id="nav-wallet" onclick="showPage('wallet',this)">
     <i class="fa-solid fa-wallet"></i> <span>Wallet</span>
   </div>
@@ -714,36 +801,60 @@ select.fi option { background:#1a1d26; }
   </div>
 </div>
 
-<!-- Ad Overlay -->
+<!-- ===================== AD OVERLAY — Purple card style ===================== -->
 <div class="adov" id="adOverlay">
-  <div class="adov-type" id="adovType">📺 WATCH & EARN</div>
-  <div class="adov-title" id="adovTitle">Watching Ads...</div>
-  <div class="adov-step-lbl" id="adovStepLbl"></div>
-  <div class="adov-steps" id="adovSteps"></div>
-  <div class="adov-net-name" id="adovNetName"></div>
-  <div class="adov-reward-wrap">
-    <div class="adov-reward" id="adovReward">0.50</div>
-    <div class="adov-taka">টাকা</div>
-  </div>
-  <div class="adov-rsub" id="adovRSub">reward</div>
-  <div class="adov-msg" id="adovMsg"></div>
-  <div class="adov-status" id="adovStatus"></div>
-  <div class="adov-waiting" id="adovWaiting">বিজ্ঞাপনটি দেখা শেষ হলে<br>নিচের বাটনে ট্যাপ করুন</div>
-  <button class="adov-continue" id="adovContinue" onclick="onAdsterraBack()">✅ বিজ্ঞাপন দেখা হয়েছে</button>
-  <div class="adov-wd-loading" id="adovWdLoading">
-    <div class="adov-wd-spinner"></div>
-    <div class="adov-wd-txt">Processing your withdrawal...</div>
-  </div>
-  <div class="adov-complete" id="adovComplete">
-    <div class="adov-complete-ic">🎉</div>
-    <div class="adov-complete-txt" id="adovCompleteTxt">+৳ 0.50 Added!</div>
-    <div class="adov-complete-sub" id="adovCompleteSub">Balance updated automatically</div>
-  </div>
+  <!-- Purple card shell -->
+  <div class="adov-card">
+
+    <!-- Thin segment-steps bar -->
+    <div class="adov-steps" id="adovSteps"></div>
+
+    <!-- Spinning ring -->
+    <div class="adov-spinner-wrap">
+      <div class="adov-spinner-ring"></div>
+    </div>
+
+    <!-- Instruction text (shown when ad opens externally) -->
+    <div class="adov-waiting" id="adovWaiting">বিজ্ঞাপন দেখুন, তারপর পরবর্তী চাপুন</div>
+
+    <!-- Divider line (shown together with waiting text) -->
+    <div class="adov-divider" id="adovDivider"></div>
+
+    <!-- Next / Continue white pill button -->
+    <button class="adov-continue" id="adovContinue" onclick="onAdsterraBack()">▶ পরবর্তী</button>
+
+    <!-- Withdrawal loading -->
+    <div class="adov-wd-loading" id="adovWdLoading">
+      <div class="adov-wd-spinner"></div>
+      <div class="adov-wd-txt">Processing your withdrawal...</div>
+    </div>
+
+    <!-- Completion state -->
+    <div class="adov-complete" id="adovComplete">
+      <div class="adov-complete-ic">🎉</div>
+      <div class="adov-complete-txt" id="adovCompleteTxt">+৳ 0.50 Added!</div>
+      <div class="adov-complete-sub" id="adovCompleteSub">Balance updated automatically</div>
+    </div>
+
+    <!-- Hidden JS-ref elements (kept for compatibility, invisible) -->
+    <div class="adov-type" id="adovType"></div>
+    <div class="adov-title" id="adovTitle"></div>
+    <div class="adov-reward-wrap">
+      <div class="adov-reward" id="adovReward">0.50</div>
+      <div class="adov-taka">টাকা</div>
+    </div>
+    <div class="adov-rsub" id="adovRSub"></div>
+    <div class="adov-msg" id="adovMsg"></div>
+    <div class="adov-status" id="adovStatus"></div>
+    <div class="adov-step-lbl" id="adovStepLbl"></div>
+    <div class="adov-net-name" id="adovNetName"></div>
+
+  </div><!-- /adov-card -->
 </div>
 
 <div class="toast" id="toast"></div>
 
-<!-- ===================== JAVASCRIPT ===================== -->
+<!-- ===================== JAVASCRIPT (unchanged) ===================== -->
 <script>
 const MINI_LINKS = {
   group: 'https://t.me/zomato_app_payment_proof',
@@ -959,36 +1070,33 @@ function startChain(type,wdData=null){
   if(!queue.length){if(type==='watch'){showToast('⚠️ No ads configured');return;}else{submitWithdrawDirect(wdData);return;}}
   CS={active:true,type,queue,idx:0,total:queue.length,reward:chainData.reward||0.5,done:false,wdData};
   _slotAdvanced=false;
-  const typeEl=document.getElementById('adovType');const msg=document.getElementById('adovMsg');
   document.getElementById('adovComplete').classList.remove('show');
   document.getElementById('adovWdLoading').classList.remove('show');
   _hideContinueBtn();
-  document.querySelector('.adov-reward-wrap').style.display='';
-  document.getElementById('adovSteps').style.display='';
-  document.getElementById('adovRSub').style.display='';
   if(type==='watch'){
-    typeEl.textContent='📺 WATCH & EARN';typeEl.className='adov-type watch';
     document.getElementById('adovReward').textContent=CS.reward.toFixed(2);
-    document.getElementById('adovRSub').textContent='reward';
     document.getElementById('adovSteps').style.display='flex';
-    msg.style.display='none';
   }else{
     document.getElementById('adovTitle').textContent='Processing...';
-    document.querySelector('.adov-reward-wrap').style.display='none';
     document.getElementById('adovSteps').style.display='none';
-    document.getElementById('adovRSub').style.display='none';
-    msg.style.display='none';
     document.getElementById('adovWdLoading').classList.add('show');
   }
   document.getElementById('adovSteps').innerHTML=queue.map((_,i)=>`<div class="adov-s" id="as_${i}"></div>`).join('');
-  document.getElementById('adovTitle').textContent=type==='watch'?'Watching Ads...':'Processing...';
   document.getElementById('adOverlay').classList.add('open');
   playSlot();
 }
 
 let _slotAdvanced=false;
-function _showContinueBtn(){document.getElementById('adovWaiting').classList.add('show');document.getElementById('adovContinue').classList.add('show');}
-function _hideContinueBtn(){document.getElementById('adovWaiting').classList.remove('show');document.getElementById('adovContinue').classList.remove('show');}
+function _showContinueBtn(){
+  document.getElementById('adovWaiting').classList.add('show');
+  document.getElementById('adovDivider').style.display='block';
+  document.getElementById('adovContinue').classList.add('show');
+}
+function _hideContinueBtn(){
+  document.getElementById('adovWaiting').classList.remove('show');
+  document.getElementById('adovDivider').style.display='none';
+  document.getElementById('adovContinue').classList.remove('show');
+}
 function onAdsterraBack(){_hideContinueBtn();_next();}
 
 function _next(){
@@ -1051,7 +1159,6 @@ async function chainAllDone(){
       const nw=[...existingWatched,{date:new Date().toISOString(),reward,type:'watch_chain'}];
       await db.ref('users/'+APP.userId).update({balance:(d.balance||0)+reward,totalEarned:(d.totalEarned||0)+reward,watchedAds:nw,cooldownEndTime:newCooldownEnd});
       cooldownEndTime=newCooldownEnd;
-      document.getElementById('adovTitle').textContent='Balance Updated!';
       document.getElementById('adovCompleteTxt').textContent=`+৳ ${reward.toFixed(2)} টাকা Added!`;
       document.getElementById('adovCompleteSub').textContent='Your balance has been updated';
       document.getElementById('adovComplete').classList.add('show');
@@ -1059,7 +1166,6 @@ async function chainAllDone(){
     }catch(e){setTimeout(()=>document.getElementById('adOverlay').classList.remove('open'),2000);}
   }else{
     const savedWdData={...CS.wdData};
-    document.getElementById('adovTitle').textContent='Processing...';
     document.getElementById('adovComplete').classList.remove('show');
     document.getElementById('adovWdLoading').classList.add('show');
     CS={active:false,type:null,queue:[],idx:0,total:0,reward:0,done:false,wdData:null};
