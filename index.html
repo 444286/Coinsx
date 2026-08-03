@@ -1,1252 +1,1177 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
-<script data-cfasync="false" async type="text/javascript" src="//cskscenery.com/gDatBXkavuiD6y6s/147317"></script>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Z টাকা আয়</title>
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
-<script src="https://sad.adsgram.ai/js/sad.min.js"></script>
-<script src="https://oatstuckalfred.com/04/3e/bf/043ebfb41acb718993046dd9841036fe.js"></script>
-<script src='//libtl.com/sdk.js' data-zone='10900318' data-sdk='show_10900318'></script>
+<script data-cfasync="false" async type="text/javascript" src="//nicercurator.com/gg7weUy0Jkbe/147513"></script>
 
-<!-- FontAwesome -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Syne:wght@700;800&family=Hind+Siliguri:wght@600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>CoinsX</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<script src="https://pl30214472.effectivecpmnetwork.com/f6/0f/69/f60f69975c69892bfd20c0727e6963e9.js"></script>
+
+<meta name="profiton-domain-verification" content="15b736d008b1f6493259fe3472f6eb7240d9519b643cac91b9c6ffda2c17ad6d" />
+
+<!-- Adsgram SDK -->
+<script src="https://sad.adsgram.ai/js/sad.min.js"></script>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getDatabase, ref, get, set, update, push, onValue }
+    from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+  const firebaseConfig = {
+    apiKey: "AIzaSyCmP_6ZPNGdN-yfYZI6wS4RND060GvU5X8",
+    authDomain: "coinsx-37627.firebaseapp.com",
+    databaseURL: "https://coinsx-37627-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "coinsx-37627",
+    storageBucket: "coinsx-37627.firebasestorage.app",
+    messagingSenderId: "350724225963",
+    appId: "1:350724225963:web:06c0af919258dbd82c70ee"
+  };
+  const app = initializeApp(firebaseConfig);
+  const db  = getDatabase(app);
+  window._db        = db;
+  window._dbRef     = ref;
+  window._dbGet     = get;
+  window._dbSet     = set;
+  window._dbUpdate  = update;
+  window._dbPush    = push;
+  window._dbOnValue = onValue;
+  window._firebaseReady = true;
+  setTimeout(() => document.dispatchEvent(new Event("firebaseReady")), 0);
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Exo+2:wght@400;600;700;800;900&family=Noto+Sans+Bengali:wght@400;600;700&display=swap" rel="stylesheet">
 
 <style>
-/* ===================== ROOT VARS ===================== */
 :root {
-  --bg:#07080d; --bg2:#0f111a; --bg3:#171a26; --card:#111420;
-  --bg-dark:#06030c; --card-bg:#0c0817;
-  --border:rgba(255,255,255,0.07); --border-light:rgba(255,255,255,0.08);
-  --accent:#7c6ffd;
-  --as:rgba(124,111,253,0.12); --green:#00e096; --gs:rgba(0,224,150,0.12);
-  --yellow:#ffc84a; --ys:rgba(255,200,74,0.12); --red:#ff5f5f;
-  --rs:rgba(255,95,95,0.12); --text:#e2e4ef; --muted:#5a6280; --taka:#ffc84a;
-  --text-main:#ffffff; --text-muted:#8e88a8;
+  --gold:#f5c842;--gold2:#ffde7d;--gold-dark:#c49a00;
+  --bg:#0a0c14;--bg2:#111624;--bg3:#1a2035;
+  --card:#151b2e;--card2:#1e2740;
+  --accent:#3d6bff;--accent2:#6b44ff;
+  --green:#22d87a;--red:#ff4d6d;
+  --text:#e8eaf6;--text2:#8892b0;
+  --border:rgba(255,255,255,0.07);
+  --radius:16px;--radius-sm:10px;
+  --shadow:0 8px 32px rgba(0,0,0,0.5);
+  --font-bn:'Noto Sans Bengali',sans-serif;
+  --font-en:'Exo 2',sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:var(--font-bn);}
+body{display:flex;flex-direction:column;}
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:var(--bg3);border-radius:4px;}
+.bg-mesh{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;}
+.bg-mesh::before,.bg-mesh::after{content:'';position:absolute;border-radius:50%;filter:blur(80px);opacity:.15;animation:meshFloat 12s ease-in-out infinite alternate;}
+.bg-mesh::before{width:400px;height:400px;background:radial-gradient(circle,var(--accent),transparent);top:-100px;right:-100px;}
+.bg-mesh::after{width:350px;height:350px;background:radial-gradient(circle,var(--gold-dark),transparent);bottom:-80px;left:-80px;animation-delay:-6s;}
+@keyframes meshFloat{from{transform:translate(0,0) scale(1);}to{transform:translate(30px,30px) scale(1.1);}}
+#app{position:relative;z-index:1;display:flex;flex-direction:column;height:100%;}
+.pages{flex:1;overflow:hidden;position:relative;}
+.page{position:absolute;inset:0;overflow-y:auto;padding:16px 14px 80px;opacity:0;transform:translateY(20px);pointer-events:none;transition:opacity .28s ease,transform .28s ease;}
+.page.active{opacity:1;transform:translateY(0);pointer-events:all;}
+.bottom-nav{position:relative;z-index:10;display:grid;grid-template-columns:repeat(4,1fr);background:var(--bg2);border-top:1px solid var(--border);padding:8px 0 max(8px,env(safe-area-inset-bottom));}
+.nav-btn{display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:none;color:var(--text2);cursor:pointer;padding:6px 4px;transition:color .2s;font-family:var(--font-bn);font-size:10px;}
+.nav-btn .icon{font-size:22px;transition:transform .25s cubic-bezier(.34,1.56,.64,1);}
+.nav-btn.active{color:var(--gold);}
+.nav-btn.active .icon{transform:scale(1.2);}
+.section-title{font-family:var(--font-en);font-weight:800;font-size:13px;color:var(--text2);text-transform:uppercase;letter-spacing:1.5px;margin:20px 0 10px;}
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow);}
+.profile-bar{display:flex;align-items:center;gap:12px;background:linear-gradient(135deg,var(--card2),var(--bg3));border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;margin-bottom:14px;}
+.avatar{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-family:var(--font-en);font-weight:900;font-size:18px;color:#fff;flex-shrink:0;box-shadow:0 0 0 3px rgba(61,107,255,.25);}
+.profile-info{flex:1;min-width:0;}
+.profile-name{font-family:var(--font-en);font-weight:700;font-size:15px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.profile-uid{font-size:11px;color:var(--text2);margin-top:2px;}
+.balance-card{background:linear-gradient(135deg,#1a2a6c,#b21f1f,#fdbb2d);border-radius:var(--radius);padding:22px 20px;margin-bottom:14px;position:relative;overflow:hidden;box-shadow:0 12px 40px rgba(0,0,0,.6);}
+.balance-card::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");}
+.balance-label{font-size:12px;color:rgba(255,255,255,.7);font-weight:600;letter-spacing:.5px;margin-bottom:6px;}
+.balance-amount{font-family:var(--font-en);font-weight:900;font-size:36px;color:#fff;text-shadow:0 2px 12px rgba(0,0,0,.4);letter-spacing:-1px;}
+.balance-amount span{font-size:16px;font-weight:600;margin-left:2px;}
+.balance-sub{font-size:11px;color:rgba(255,255,255,.6);margin-top:4px;}
+.quick-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
+.quick-btn{display:flex;align-items:center;gap:10px;background:var(--card2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px;cursor:pointer;transition:transform .2s,background .2s;color:var(--text);font-family:var(--font-bn);font-size:13px;font-weight:600;}
+.quick-btn:active{transform:scale(.97);}
+.quick-btn .qb-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.quick-btn.earn .qb-icon{background:rgba(34,216,122,.15);color:var(--green);}
+.quick-btn.withdraw .qb-icon{background:rgba(245,200,66,.15);color:var(--gold);}
+.refer-card{background:linear-gradient(135deg,var(--card2),var(--bg3));border:1px solid var(--border);border-radius:var(--radius);padding:18px;}
+.refer-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;}
+.refer-title{font-family:var(--font-en);font-weight:700;font-size:15px;}
+.refer-count-badge{background:linear-gradient(90deg,var(--accent),var(--accent2));color:#fff;border-radius:20px;padding:3px 12px;font-family:var(--font-en);font-weight:700;font-size:13px;}
+.refer-link-box{background:var(--bg);border:1px dashed var(--border);border-radius:8px;padding:10px 12px;display:flex;align-items:center;gap:8px;}
+.refer-link-text{flex:1;font-size:12px;color:var(--text2);overflow:hidden;white-space:nowrap;text-overflow:ellipsis;font-family:var(--font-en);}
+.copy-btn{background:var(--gold);color:#000;border:none;border-radius:6px;padding:5px 10px;font-size:11px;font-weight:700;cursor:pointer;flex-shrink:0;font-family:var(--font-en);transition:transform .15s;}
+.copy-btn:active{transform:scale(.95);}
+.ad-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;}
+.ad-card{background:linear-gradient(145deg,var(--card2),var(--bg3));border:1px solid var(--border);border-radius:var(--radius);padding:14px 12px;display:flex;flex-direction:column;align-items:center;gap:10px;cursor:pointer;position:relative;overflow:hidden;transition:transform .2s,border-color .2s;}
+.ad-card:active{transform:scale(.97);}
+.ad-card-wide{background:linear-gradient(145deg,var(--card2),var(--bg3));border:1px solid var(--border);border-radius:var(--radius);padding:16px 18px;display:flex;align-items:center;gap:16px;position:relative;overflow:hidden;transition:transform .2s;}
+.ad-card-wide:active{transform:scale(.99);}
+.ad-card-wide .ad-card-glow{position:absolute;inset:0;border-radius:inherit;background:radial-gradient(ellipse at 30% 50%,rgba(107,68,255,.18),transparent 70%);pointer-events:none;}
+.ad-card-wide .ad-left{display:flex;flex-direction:column;align-items:center;gap:6px;flex-shrink:0;}
+.ad-card-wide .ad-icon{font-size:32px;}
+.ad-card-wide .ad-earn{background:rgba(34,216,122,.15);color:var(--green);border-radius:20px;padding:3px 10px;font-family:var(--font-en);font-weight:700;font-size:12px;}
+.ad-card-wide .ad-right{flex:1;min-width:0;}
+.ad-card-wide .ad-name{font-size:13px;font-weight:700;color:var(--text);font-family:var(--font-en);margin-bottom:4px;}
+.ad-card-wide .ad-desc{font-size:11px;color:var(--text2);margin-bottom:10px;line-height:1.4;}
+.ad-card-wide .ad-btn{width:100%;background:linear-gradient(90deg,var(--accent2),var(--accent));color:#fff;border:none;border-radius:8px;padding:9px;font-size:12px;font-weight:700;cursor:pointer;font-family:var(--font-bn);transition:filter .2s;}
+.ad-card-wide .ad-btn:hover{filter:brightness(1.1);}
+.ad-card-wide .ad-meta{display:flex;justify-content:space-between;align-items:center;margin-top:6px;}
+.ad-card-wide .ad-cooldown{font-size:10px;color:var(--text2);font-family:var(--font-en);}
+.ad-card-glow{position:absolute;inset:0;border-radius:inherit;background:radial-gradient(ellipse at 50% 0%,var(--glow-color,rgba(61,107,255,.15)),transparent 70%);pointer-events:none;}
+.ad-card:nth-child(1){--glow-color:rgba(61,107,255,.2);}
+.ad-card:nth-child(2){--glow-color:rgba(245,200,66,.15);}
+.ad-icon{font-size:30px;}
+.ad-name{font-size:12px;font-weight:700;text-align:center;color:var(--text);font-family:var(--font-en);line-height:1.3;}
+.ad-earn{background:rgba(34,216,122,.15);color:var(--green);border-radius:20px;padding:3px 10px;font-family:var(--font-en);font-weight:700;font-size:12px;}
+.ad-btn{width:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));color:#fff;border:none;border-radius:8px;padding:9px;font-size:12px;font-weight:700;cursor:pointer;font-family:var(--font-bn);transition:filter .2s;}
+.ad-btn:hover{filter:brightness(1.1);}
+.ad-btn:disabled{opacity:.5;cursor:not-allowed;}
+.ad-cooldown{font-size:10px;color:var(--text2);text-align:center;font-family:var(--font-en);}
+.ad-limit-badge{font-size:10px;color:var(--text2);font-family:var(--font-en);text-align:center;}
+.ad-limit-badge.done{color:var(--red);}
+.task-item{display:flex;align-items:center;gap:12px;background:var(--card2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px;margin-bottom:8px;cursor:pointer;transition:transform .15s,border-color .15s;}
+.task-item:active{transform:scale(.99);}
+.task-item.done{opacity:.55;}
+.task-item .task-icon{font-size:22px;flex-shrink:0;}
+.task-info{flex:1;min-width:0;}
+.task-name{font-size:13px;font-weight:600;color:var(--text);line-height:1.3;}
+.task-desc{font-size:11px;color:var(--text2);margin-top:2px;}
+.task-reward{background:rgba(245,200,66,.15);color:var(--gold);border-radius:6px;padding:4px 10px;font-family:var(--font-en);font-weight:700;font-size:12px;flex-shrink:0;}
+.task-done-badge{font-size:18px;color:var(--green);flex-shrink:0;}
+.withdraw-balance{background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);border-radius:var(--radius);padding:20px;margin-bottom:16px;text-align:center;}
+.wb-label{font-size:12px;color:rgba(255,255,255,.6);margin-bottom:4px;}
+.wb-amount{font-family:var(--font-en);font-weight:900;font-size:32px;color:var(--gold);}
+.wb-min{font-size:11px;color:rgba(255,255,255,.5);margin-top:4px;}
+.method-label{font-size:13px;font-weight:600;color:var(--text2);margin-bottom:8px;}
+.method-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px;}
+.method-btn{background:var(--card2);border:2px solid var(--border);border-radius:10px;padding:12px 6px;display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;transition:border-color .2s;font-size:11px;color:var(--text2);font-family:var(--font-bn);font-weight:600;}
+.method-btn.selected{border-color:var(--gold);color:var(--gold);}
+.method-btn .m-icon{font-size:22px;}
+.input-wrap{margin-bottom:12px;}
+.input-label{font-size:12px;color:var(--text2);margin-bottom:6px;display:block;}
+.inp{width:100%;background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:13px 14px;color:var(--text);font-size:14px;outline:none;font-family:var(--font-bn);transition:border-color .2s;}
+.inp:focus{border-color:var(--accent);}
+.inp::placeholder{color:var(--text2);font-size:13px;}
+.withdraw-btn{width:100%;background:linear-gradient(90deg,var(--gold-dark),var(--gold));color:#000;border:none;border-radius:12px;padding:15px;font-size:15px;font-weight:800;cursor:pointer;font-family:var(--font-bn);margin-top:4px;transition:filter .2s,transform .15s;box-shadow:0 4px 20px rgba(245,200,66,.3);}
+.withdraw-btn:active{transform:scale(.98);filter:brightness(.95);}
+.withdraw-chain-notice{background:rgba(245,200,66,.1);border:1px solid rgba(245,200,66,.3);border-radius:10px;padding:12px 14px;margin-bottom:14px;font-size:12px;color:var(--gold);font-weight:600;}
+.hist-item{display:flex;align-items:center;gap:12px;background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:12px 14px;margin-bottom:8px;}
+.hist-icon{font-size:20px;flex-shrink:0;}
+.hist-info{flex:1;}
+.hist-method{font-size:13px;font-weight:600;}
+.hist-number{font-size:11px;color:var(--text2);}
+.hist-date{font-size:10px;color:var(--text2);}
+.hist-amount{font-family:var(--font-en);font-weight:700;font-size:14px;text-align:right;}
+.hist-status{font-size:10px;text-align:right;margin-top:2px;}
+.hist-status.pending{color:var(--gold);}
+.hist-status.approved{color:var(--green);}
+.hist-status.rejected{color:var(--red);}
+.support-item{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:15px;margin-bottom:8px;cursor:pointer;transition:border-color .2s;}
+.support-item.open{border-color:var(--accent);}
+.support-q{display:flex;justify-content:space-between;align-items:center;font-size:13px;font-weight:600;}
+.support-a{font-size:12px;color:var(--text2);margin-top:10px;line-height:1.6;display:none;border-top:1px solid var(--border);padding-top:10px;}
+.support-item.open .support-a{display:block;}
+.support-telegram{background:linear-gradient(135deg,#0088cc22,#0088cc11);border:1px solid #0088cc44;border-radius:var(--radius);padding:18px;text-align:center;margin-top:14px;}
+.support-tg-btn{display:inline-flex;align-items:center;gap:8px;background:#0088cc;color:#fff;border:none;border-radius:10px;padding:12px 24px;font-size:14px;font-weight:700;cursor:pointer;margin-top:10px;font-family:var(--font-bn);}
+
+/* ══ AD CHAIN OVERLAY ══ */
+#adChainOverlay{
+  position:fixed;inset:0;z-index:5000;
+  background:rgba(5,7,18,0.92);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+  display:none;align-items:center;justify-content:center;
+  flex-direction:column;gap:0;
+}
+#adChainOverlay.active{display:flex;}
+.chain-box{
+  width:90%;max-width:340px;
+  background:linear-gradient(145deg,var(--card2),var(--bg3));
+  border:1px solid rgba(255,255,255,0.1);
+  border-radius:24px;
+  padding:32px 24px 28px;
+  box-shadow:0 24px 64px rgba(0,0,0,0.7);
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+}
+.chain-box::before{
+  content:'';position:absolute;top:-60px;right:-60px;
+  width:200px;height:200px;border-radius:50%;
+  background:radial-gradient(circle,rgba(61,107,255,.18),transparent 70%);
+  pointer-events:none;
 }
 
-* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; font-family:'Poppins','Inter',sans-serif; }
-body { background:var(--bg-dark); color:var(--text-main); min-height:100vh; overflow-x:hidden; padding-bottom:90px; font-size:14px; display:flex; justify-content:center; }
-::-webkit-scrollbar { display:none; }
-
-.mobile-container { width:100%; max-width:420px; min-height:100vh; position:relative; padding:20px 16px 90px 16px; overflow-x:hidden; }
-
-/* ===================== LOADING SCREEN ===================== */
-#ls {
-  position:fixed; inset:0; z-index:99999; display:flex; flex-direction:column;
-  justify-content:center; align-items:center; overflow:hidden;
-  background:linear-gradient(180deg,#050505,#14040c,#220012);
+/* ── Gorgeous loading ring ── */
+.chain-loader-wrap{
+  position:relative;width:104px;height:104px;margin:0 auto 22px;
 }
-.splash-bg { position:absolute; width:400px; height:400px; border-radius:50%; background:radial-gradient(circle,rgba(255,0,80,.25),transparent 70%); filter:blur(40px); }
-.logo-circle { width:130px; height:130px; border-radius:50%; background:linear-gradient(135deg,#ff004f,#ff3d71); display:flex; justify-content:center; align-items:center; font-size:64px; font-weight:900; color:white; box-shadow:0 0 25px rgba(255,0,80,.8),0 0 60px rgba(255,0,80,.4); z-index:2; animation:lspulse 2s infinite; }
-.brand-name { font-size:48px; font-weight:800; color:#fff; margin-top:18px; letter-spacing:1px; text-transform:lowercase; z-index:2; font-family:'Poppins',sans-serif; }
-.tagline { margin-top:8px; font-size:16px; color:#ddd; font-family:'Hind Siliguri',sans-serif; z-index:2; }
-.earning-icons { display:flex; gap:20px; font-size:30px; margin-top:20px; z-index:2; }
-.loader { width:260px; height:10px; background:#1e1e1e; border-radius:50px; overflow:hidden; margin-top:30px; z-index:2; }
-.loader-fill { height:100%; width:0%; background:linear-gradient(90deg,#ff004f,#ff8a65); animation:lsloading 2.5s linear infinite; }
-.loading-text { margin-top:14px; font-size:13px; color:#999; z-index:2; font-family:'Hind Siliguri',sans-serif; }
-.coin-ls { position:absolute; font-size:38px; animation:lsfloat 4s infinite ease-in-out; }
-.c1{top:18%;left:18%;} .c2{top:25%;right:18%;} .c3{bottom:22%;left:25%;}
-.play-icon { position:absolute; bottom:25%; right:20%; font-size:45px; opacity:.8; animation:lsfloat 3s infinite; }
-@keyframes lsloading { 0%{width:0%} 100%{width:100%} }
-@keyframes lspulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.08)} }
-@keyframes lsfloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-15px)} }
-
-/* ===================== WELCOME SCREEN ===================== */
-#welcomeScreen { position:fixed; inset:0; background:rgba(0,0,0,.85); z-index:99998; display:none; align-items:center; justify-content:center; padding:24px; backdrop-filter:blur(12px); }
-#welcomeScreen.open { display:flex; }
-.welcome-box { background:linear-gradient(145deg,#0f111a,#171a2e); border:1px solid rgba(124,111,253,.3); border-radius:24px; padding:32px 24px; width:100%; max-width:380px; text-align:center; animation:popIn .4s cubic-bezier(.34,1.56,.64,1); position:relative; overflow:hidden; }
-.welcome-box::before { content:''; position:absolute; top:-60px; left:50%; transform:translateX(-50%); width:260px; height:260px; border-radius:50%; background:radial-gradient(circle,rgba(124,111,253,.15),transparent 70%); }
-.welcome-emoji { font-size:56px; margin-bottom:12px; position:relative; z-index:1; }
-.welcome-title { font-family:'Poppins',sans-serif; font-size:22px; font-weight:800; color:#fff; margin-bottom:10px; position:relative; z-index:1; }
-.welcome-msg { font-size:14px; color:rgba(255,255,255,.7); line-height:1.7; margin-bottom:24px; position:relative; z-index:1; }
-.welcome-btn { width:100%; background:linear-gradient(135deg,var(--accent),#b06bff); color:#fff; border:none; border-radius:14px; padding:16px; font-size:16px; font-weight:700; cursor:pointer; font-family:'Poppins',sans-serif; transition:all .2s; position:relative; z-index:1; }
-.welcome-btn:active { transform:scale(.97); }
-
-/* ===================== BLOCKED SCREEN ===================== */
-#blockedScreen { position:fixed; inset:0; background:var(--bg); z-index:99999; display:none; flex-direction:column; align-items:center; justify-content:center; gap:14px; padding:32px; }
-.blocked-ic { font-size:64px; }
-.blocked-title { font-family:'Poppins',sans-serif; font-size:22px; font-weight:800; color:var(--red); text-align:center; }
-.blocked-sub { font-size:14px; color:var(--muted); text-align:center; line-height:1.7; }
-
-/* ===================== PAGES ===================== */
-.page { display:none; animation:fi .28s ease; }
-.page.active { display:block; }
-@keyframes fi { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
-.pgt { padding:20px 0 10px; display:flex; align-items:center; justify-content:space-between; }
-.pgtitle { font-family:'Poppins',sans-serif; font-size:22px; font-weight:800; background:linear-gradient(120deg,#fff 30%,var(--accent)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
-
-/* ===================== NEW HOME — HEADER ===================== */
-.header { display:flex; justify-content:space-between; align-items:center; margin-bottom:25px; }
-.profile-sec { display:flex; align-items:center; gap:12px; }
-.avatar-wrap { width:46px; height:46px; border-radius:50%; border:2px solid #a855f7; overflow:hidden; padding:2px; flex-shrink:0; }
-.avatar-wrap img { width:100%; height:100%; border-radius:50%; object-fit:cover; }
-.avatar-wrap-text { width:46px; height:46px; border-radius:50%; border:2px solid #a855f7; display:flex; align-items:center; justify-content:center; font-size:18px; font-weight:700; background:linear-gradient(135deg,var(--accent),#b06bff); color:#fff; flex-shrink:0; }
-.user-info h2 { font-size:15px; font-weight:600; letter-spacing:0.3px; color:#fff; }
-.user-info p { font-size:11px; color:var(--text-muted); margin-top:2px; font-family:monospace; }
-.actions-sec { display:flex; align-items:center; gap:12px; }
-.active-badge { background:linear-gradient(90deg,rgba(88,28,135,1) 0%,rgba(59,7,100,1) 100%); border:1px solid #7c3aed; padding:6px 12px; border-radius:20px; font-size:11px; font-weight:500; display:flex; align-items:center; gap:6px; color:#fff; white-space:nowrap; }
-.active-badge i { color:#facc15; font-size:13px; }
-
-/* ===================== NEW HOME — BALANCE CARD ===================== */
-.balance-card {
-  background:linear-gradient(145deg,#1e093f 0%,#080312 100%);
-  border:1px solid #4a159e; border-radius:20px; padding:20px;
-  position:relative; box-shadow:0 0 30px rgba(109,40,217,0.3);
-  margin-bottom:16px; display:flex; flex-direction:column; overflow:visible;
+.chain-loader-ring{
+  position:absolute;inset:0;border-radius:50%;
+  background:conic-gradient(from 0deg,var(--accent),var(--accent2),var(--gold),var(--accent));
+  animation:chainSpin 1.4s linear infinite;
+  -webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 6px),#000 calc(100% - 6px));
+  mask:radial-gradient(farthest-side,transparent calc(100% - 6px),#000 calc(100% - 6px));
+  filter:drop-shadow(0 0 14px rgba(107,68,255,.55));
 }
-.bc-content { position:relative; z-index:2; width:55%; }
-.balance-title { font-size:12px; color:#ddd6fe; display:flex; align-items:center; gap:6px; font-weight:500; }
-.balance-amount { font-size:40px; font-weight:700; margin:4px 0; text-shadow:0 2px 10px rgba(255,255,255,0.2); line-height:1.2; font-family:'Poppins',sans-serif; }
-.balance-taka-label { font-family:'Hind Siliguri',sans-serif; font-size:18px; font-weight:700; color:var(--taka); }
-.balance-sub { font-size:11px; color:var(--text-muted); margin-bottom:12px; }
-
-/* ===== FIX 1: stats-boxes side by side (row) ===== */
-.stats-boxes { display:inline-flex; gap:6px; flex-wrap:nowrap; flex-direction:row; }
-
-.stat-box { background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:10px; padding:6px 10px; display:flex; align-items:center; gap:8px; backdrop-filter:blur(5px); }
-.stat-box.withdrawn { background:rgba(30,10,70,0.6); border-color:#5b21b6; }
-.stat-box.earned { background:rgba(10,40,20,0.6); border-color:#166534; }
-.sb-icon { width:22px; height:22px; border-radius:5px; display:flex; justify-content:center; align-items:center; font-size:10px; color:#fff; }
-.bg-purple-grad { background:linear-gradient(135deg,#8b5cf6,#5b21b6); }
-.bg-green-grad { background:linear-gradient(135deg,#22c55e,#14532d); }
-.sb-text h4 { font-size:12px; font-weight:600; line-height:1.1; color:#fff; font-family:'Poppins',sans-serif; }
-.sb-text p { font-size:9px; color:#d1d5db; }
-
-/* Pure CSS 3D Wallet */
-.css-3d-wallet-container { position:absolute; right:0px; top:20px; width:140px; height:120px; z-index:1; transform:perspective(300px) rotateY(-15deg) rotateX(10deg); }
-.css-wallet-body { position:absolute; bottom:10px; right:15px; width:110px; height:85px; background:linear-gradient(135deg,#9333ea 0%,#4c1d95 100%); border-radius:12px; box-shadow:-10px 15px 20px rgba(0,0,0,0.6),inset 2px 2px 5px rgba(255,255,255,0.3),inset -5px -5px 15px rgba(0,0,0,0.5); border:1px solid #a855f7; }
-.css-wallet-flap { position:absolute; top:0; right:0; width:80px; height:100%; background:linear-gradient(135deg,#a855f7 0%,#6d28d9 100%); border-radius:0 12px 12px 0; box-shadow:-5px 0 15px rgba(0,0,0,0.4),inset 2px 2px 4px rgba(255,255,255,0.3); border-left:2px solid #5b21b6; }
-.css-wallet-button { position:absolute; left:-10px; top:50%; transform:translateY(-50%); width:20px; height:20px; background:radial-gradient(circle at 30% 30%,#fef08a,#ca8a04); border-radius:50%; box-shadow:2px 4px 8px rgba(0,0,0,0.5),inset -2px -2px 4px rgba(0,0,0,0.4); }
-.css-wallet-button::after { content:''; position:absolute; top:3px; left:3px; right:3px; bottom:3px; border-radius:50%; border:1px solid rgba(0,0,0,0.2); }
-.css-coin { position:absolute; width:32px; height:32px; background:radial-gradient(circle at 30% 30%,#fef08a,#eab308,#854d0e); border-radius:50%; display:flex; justify-content:center; align-items:center; color:#713f12; font-weight:700; font-size:14px; box-shadow:2px 5px 10px rgba(0,0,0,0.4),inset -2px -2px 5px rgba(0,0,0,0.5); border:2px solid #facc15; text-shadow:1px 1px 1px rgba(255,255,255,0.5); font-family:'Hind Siliguri',sans-serif; }
-.css-coin::before { content:''; position:absolute; width:80%; height:80%; border:1px dashed rgba(113,63,18,0.4); border-radius:50%; }
-.coin-1 { top:-15px; left:30px; z-index:-1; transform:rotate(15deg); }
-.coin-2 { top:0px; right:0px; z-index:-1; transform:rotate(-25deg); }
-.coin-3 { bottom:-5px; left:-15px; z-index:5; width:26px; height:26px; font-size:12px; transform:rotate(10deg); }
-
-/* ===================== MID STATS ROW ===================== */
-.mid-stats { display:flex; background:var(--card-bg); border:1px solid var(--border-light); border-radius:16px; padding:14px 0; margin-bottom:20px; }
-.m-stat { flex:1; display:flex; align-items:center; justify-content:center; gap:8px; padding:0 5px; }
-.m-stat:not(:last-child) { border-right:1px solid var(--border-light); }
-.m-icon { width:34px; height:34px; border-radius:50%; display:flex; justify-content:center; align-items:center; font-size:14px; }
-.m-icon.purple { background:#4c1d95; color:#ddd6fe; }
-.m-icon.orange { background:#9a3412; color:#fdba74; }
-.m-icon.teal { background:#115e59; color:#5eead4; }
-.m-info h3 { font-size:15px; font-weight:700; line-height:1.1; font-family:'Poppins',sans-serif; }
-.m-info p { font-size:9px; color:var(--text-muted); }
-.m-info .highlight-green { color:#22c55e; font-weight:500; font-size:9px; }
-.m-info .highlight-purple { color:#a78bfa; font-weight:500; font-size:9px; }
-
-/* ===================== MARQUEE BANNER ===================== */
-.marquee-wrap { background:linear-gradient(90deg,#1c1060,#2e1285); border:1px solid rgba(124,111,253,.3); border-radius:10px; padding:8px 0; margin-bottom:16px; overflow:hidden; }
-.marquee-wrap marquee { color:#ffd54f; font-weight:700; font-size:13px; }
-
-/* ===================== AD SECTION (Watch Card) ===================== */
-.ad-section {
-  background:#150d05; border:1px solid #785a16; border-radius:20px;
-  padding:20px; position:relative; box-shadow:0 0 30px rgba(234,179,8,0.15);
-  margin-bottom:24px; overflow:visible;
+@keyframes chainSpin{to{transform:rotate(360deg);}}
+.chain-loader-core{
+  position:absolute;inset:8px;border-radius:50%;
+  background:linear-gradient(145deg,var(--card2),var(--bg3));
+  display:flex;align-items:center;justify-content:center;
+  font-size:34px;
+  box-shadow:inset 0 0 20px rgba(0,0,0,.4);
+  animation:chainCorePulse 1.8s ease-in-out infinite;
 }
-.ad-content { position:relative; z-index:2; width:60%; }
-.ad-top-badge { position:absolute; top:15px; right:15px; background:#facc15; color:#422006; font-size:11px; font-weight:700; padding:4px 10px; border-radius:8px; z-index:2; font-family:'Poppins',sans-serif; }
-.ad-title { font-size:18px; font-weight:700; color:#fde047; margin-bottom:4px; display:flex; align-items:center; gap:6px; font-family:'Hind Siliguri',sans-serif; }
-.ad-desc { font-size:12px; color:#d1d5db; line-height:1.3; margin-bottom:12px; font-family:'Hind Siliguri',sans-serif; }
-.ad-stats-row { display:inline-flex; border-top:1px solid rgba(253,224,71,0.15); border-bottom:1px solid rgba(253,224,71,0.15); padding:8px 0; margin-bottom:15px; gap:12px; }
-.ad-s-item { text-align:left; padding-right:12px; }
-.ad-s-item:not(:last-child) { border-right:1px solid rgba(253,224,71,0.15); }
-.ad-s-item h4 { font-size:12px; font-weight:600; display:flex; align-items:center; gap:4px; color:#fff; margin-bottom:2px; font-family:'Poppins',sans-serif; }
-.ad-s-item h4 i.purple { color:#c084fc; font-size:11px; }
-.ad-s-item h4 i.gold { color:#facc15; font-size:11px; }
-.ad-s-item p { font-size:9px; color:var(--text-muted); font-family:'Hind Siliguri',sans-serif; }
-
-/* Watch Button */
-.watch-ad-btn { background:linear-gradient(90deg,#fef08a 0%,#f59e0b 50%,#d97706 100%); border:none; width:100%; padding:12px 14px; border-radius:40px; display:flex; align-items:center; justify-content:space-between; box-shadow:0 4px 20px rgba(245,158,11,0.4),inset 0 -3px 5px rgba(0,0,0,0.2); cursor:pointer; position:relative; z-index:2; transition:all .2s; }
-.watch-ad-btn:active { transform:scale(.97); }
-.watch-ad-btn:disabled { opacity:.65; pointer-events:none; cursor:not-allowed; }
-.watch-ad-btn.cooldown { background:linear-gradient(90deg,#2a2a3a,#1a1a2a); box-shadow:none; border:1px solid var(--border); }
-.watch-ad-btn.cooldown .btn-text h3 { color:var(--muted); }
-.watch-ad-btn.cooldown .btn-text p { color:var(--muted); }
-.watch-ad-btn.cooldown .btn-play-icon { color:var(--muted); }
-.watch-ad-btn.cooldown .btn-arrow { color:var(--muted); }
-.watch-ad-btn.limit-done { background:linear-gradient(90deg,#1a2a1a,#0d1a0d); box-shadow:none; border:1px solid rgba(0,100,0,.3); }
-.watch-ad-btn.limit-done .btn-text h3 { color:#4a7a4a; }
-.watch-ad-btn.limit-done .btn-text p { color:#4a7a4a; }
-.btn-left { display:flex; align-items:center; gap:12px; }
-.btn-play-icon { width:34px; height:34px; background:white; border-radius:50%; display:flex; justify-content:center; align-items:center; color:#ea580c; font-size:14px; flex-shrink:0; }
-.btn-text { text-align:left; }
-.btn-text h3 { color:#451a03; font-size:16px; font-weight:700; line-height:1.1; font-family:'Hind Siliguri',sans-serif; }
-.btn-text p { color:#78350f; font-size:10px; font-weight:600; font-family:'Hind Siliguri',sans-serif; }
-.btn-arrow { width:34px; height:34px; background:white; border-radius:50%; display:flex; justify-content:center; align-items:center; color:#ea580c; font-size:14px; flex-shrink:0; }
-.ad-footer { text-align:center; margin-top:12px; font-size:10px; color:#fde047; display:flex; align-items:center; justify-content:center; gap:6px; font-family:'Hind Siliguri',sans-serif; }
-
-/* Cooldown Bar */
-.cooldown-bar-wrap { width:100%; height:4px; background:rgba(255,255,255,.1); border-radius:4px; margin-top:10px; overflow:hidden; display:none; }
-.cooldown-bar { height:100%; background:var(--yellow); border-radius:4px; transition:width 1s linear; }
-
-/* Pure CSS 3D Play */
-.css-3d-play-container { position:absolute; right:0px; top:25px; width:140px; height:120px; z-index:1; transform:perspective(300px) rotateY(-10deg) rotateX(5deg); }
-.css-play-box { position:absolute; top:10px; right:15px; width:90px; height:90px; background:linear-gradient(135deg,#422006,#000); border-radius:24px; border:6px solid #facc15; box-shadow:0 0 25px rgba(250,204,21,0.5),-8px 12px 15px rgba(0,0,0,0.8),inset 2px 2px 10px rgba(255,255,255,0.3),inset -5px -5px 15px rgba(0,0,0,0.8); display:flex; justify-content:center; align-items:center; }
-.css-play-triangle { width:0; height:0; border-top:16px solid transparent; border-bottom:16px solid transparent; border-left:28px solid #facc15; filter:drop-shadow(2px 4px 4px rgba(0,0,0,0.6)); margin-left:8px; }
-.css-play-triangle::after { content:''; position:absolute; top:-12px; left:-26px; border-top:12px solid transparent; border-bottom:12px solid transparent; border-left:22px solid #fef08a; z-index:2; }
-.play-coin-1 { top:-5px; right:8px; z-index:-1; transform:rotate(15deg); width:28px; height:28px; font-size:12px; }
-.play-coin-2 { bottom:10px; left:0px; z-index:5; transform:rotate(-20deg); width:26px; height:26px; font-size:12px; }
-
-/* Mini Cards */
-.minicard { display:flex; align-items:center; gap:12px; background:var(--card); border:1px solid var(--border); border-radius:14px; padding:12px 14px; margin-bottom:10px; }
-.minicard-ic { width:38px; height:38px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:18px; flex-shrink:0; }
-.minicard-inf { flex:1; min-width:0; }
-.minicard-t { font-size:13px; font-weight:600; color:#fff; font-family:'Hind Siliguri',sans-serif; }
-.minicard-d { font-size:11px; color:var(--muted); margin-top:2px; font-family:'Hind Siliguri',sans-serif; }
-.minicard-btn { background:var(--as); color:var(--accent); border:1px solid rgba(124,111,253,.3); border-radius:8px; padding:8px 14px; font-size:11px; font-weight:700; cursor:pointer; font-family:'Poppins',sans-serif; white-space:nowrap; }
-.minicard-btn:active { transform:scale(.95); }
-
-/* ===================== TASKS ===================== */
-.task-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; margin-top:8px; }
-.task-header h3 { font-size:15px; font-weight:600; display:flex; align-items:center; gap:8px; }
-.task-header a { color:var(--text-muted); font-size:11px; text-decoration:none; display:flex; align-items:center; gap:4px; }
-
-/* Horizontal task slider */
-.task-slider { display:flex; gap:10px; overflow-x:auto; padding-bottom:10px; scrollbar-width:none; }
-.task-slider::-webkit-scrollbar { display:none; }
-.task-slide-item { background:var(--card-bg); border-radius:12px; padding:12px; min-width:175px; display:flex; align-items:center; gap:10px; position:relative; border:1px solid var(--border); transition:all .18s; }
-.task-slide-item.done { opacity:.55; }
-.t-icon { width:38px; height:38px; border-radius:50%; display:flex; justify-content:center; align-items:center; color:white; font-size:18px; flex-shrink:0; }
-.t-tg { background:#0ea5e9; }
-.t-yt { background:#ef4444; }
-.t-msg { background:#22c55e; }
-.t-gen { background:linear-gradient(135deg,var(--accent),#b06bff); }
-.t-info h4 { font-size:13px; font-weight:600; color:#fff; }
-.t-info p { font-size:10px; color:var(--text-muted); margin-bottom:2px; }
-.t-reward-txt { color:#22c55e; font-size:11px; font-weight:600; }
-.t-arrow { position:absolute; right:10px; bottom:10px; width:22px; height:22px; background:rgba(255,255,255,0.05); border-radius:50%; display:flex; justify-content:center; align-items:center; font-size:9px; color:var(--text-muted); cursor:pointer; }
-.t-done-check { position:absolute; right:10px; bottom:10px; width:22px; height:22px; background:var(--gs); border-radius:50%; display:flex; justify-content:center; align-items:center; font-size:11px; color:var(--green); }
-
-/* ===================== TASK OVERLAY ===================== */
-.task-ov { position:fixed; inset:0; background:rgba(0,0,0,.88); z-index:600; display:none; align-items:center; justify-content:center; padding:24px; backdrop-filter:blur(8px); }
-.task-ov.open { display:flex; }
-.task-box { background:linear-gradient(145deg,#0f111a,#171a2e); border:1px solid rgba(124,111,253,.25); border-radius:22px; padding:28px 22px; width:100%; max-width:360px; text-align:center; animation:popIn .35s cubic-bezier(.34,1.56,.64,1); }
-.task-box-ic { font-size:46px; margin-bottom:10px; }
-.task-box-title { font-family:'Poppins',sans-serif; font-size:18px; font-weight:800; color:#fff; margin-bottom:8px; }
-.task-box-sub { font-size:13px; color:var(--muted); line-height:1.6; margin-bottom:20px; }
-.task-box-btns { display:flex; flex-direction:column; gap:10px; }
-.tbig { width:100%; border:none; border-radius:12px; padding:14px; font-size:15px; font-weight:700; cursor:pointer; font-family:'Poppins',sans-serif; transition:all .2s; }
-.tbig:active { transform:scale(.97); }
-.tbig.join { background:linear-gradient(135deg,#229ed9,#1a7fbf); color:#fff; }
-.tbig.check { background:linear-gradient(135deg,var(--green),#00b377); color:#fff; }
-.tbig.cancel { background:rgba(255,255,255,.06); color:var(--muted); border:1px solid var(--border); }
-.task-verify-status { font-size:12px; margin-top:8px; min-height:18px; font-family:'Poppins',sans-serif; }
-
-/* ===================== AD OVERLAY — Screenshot-style purple card ===================== */
-
-/* Full-screen dark backdrop */
-.adov {
-  position:fixed; inset:0;
-  background:rgba(0,0,0,.72);
-  z-index:500; display:none;
-  flex-direction:column;
-  align-items:center; justify-content:center;
-  gap:0; padding:28px;
+@keyframes chainCorePulse{0%,100%{transform:scale(1);}50%{transform:scale(1.06);}}
+.chain-title{font-family:var(--font-en);font-weight:800;font-size:17px;color:var(--text);margin-bottom:6px;}
+.chain-sub{font-size:12px;color:var(--text2);margin-bottom:20px;line-height:1.5;min-height:34px;}
+/* soft glowing dots — no numbers, just an ambient "still working" indicator */
+.chain-dots{display:flex;align-items:center;justify-content:center;gap:7px;margin-bottom:22px;}
+.chain-dots span{width:7px;height:7px;border-radius:50%;background:var(--accent);opacity:.35;animation:dotPulse 1.2s ease-in-out infinite;}
+.chain-dots span:nth-child(2){animation-delay:.15s;}
+.chain-dots span:nth-child(3){animation-delay:.3s;}
+.chain-dots span:nth-child(4){animation-delay:.45s;}
+@keyframes dotPulse{0%,100%{opacity:.25;transform:scale(1);}50%{opacity:1;transform:scale(1.35);}}
+/* earn badge */
+.chain-earn-badge{
+  background:rgba(245,200,66,.12);border:1px solid rgba(245,200,66,.25);
+  border-radius:12px;padding:10px 16px;margin-bottom:20px;
+  display:inline-flex;align-items:center;gap:8px;
 }
-.adov.open { display:flex; }
-
-/* Hide unused type badge & title */
-.adov-type  { display:none!important; }
-.adov-title { display:none!important; }
-.adov-step-lbl,.adov-net-name,.adov-status { display:none; }
-
-/* ── Purple card shell ── */
-.adov-card {
-  background:linear-gradient(155deg,#6e65f5 0%,#5548d9 100%);
-  border-radius:28px;
-  padding:38px 28px 28px;
-  width:100%;
-  max-width:340px;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:0;
-  box-shadow:0 24px 64px rgba(0,0,0,.55);
+.chain-earn-badge .earn-amt{font-family:var(--font-en);font-weight:900;font-size:22px;color:var(--gold);}
+.chain-earn-badge .earn-lbl{font-size:11px;color:var(--text2);text-align:left;line-height:1.4;}
+/* slow ambient progress bar (not tied to a literal step count) */
+.chain-progress-wrap{background:var(--bg);border-radius:6px;height:6px;margin-bottom:4px;overflow:hidden;}
+.chain-progress-bar{height:100%;border-radius:6px;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .15s linear;}
+.chain-hint{font-size:11px;color:var(--text2);margin-top:10px;opacity:.8;}
+.chain-continue-btn{
+  display:none;width:100%;margin-top:16px;
+  background:linear-gradient(90deg,var(--gold-dark),var(--gold));color:#000;border:none;
+  border-radius:12px;padding:13px;font-size:14px;font-weight:800;cursor:pointer;
+  font-family:var(--font-bn);
 }
-
-/* ── Spinner — thin ring like screenshot ── */
-.adov-spinner-wrap {
-  width:86px; height:86px;
-  display:flex; align-items:center; justify-content:center;
-  margin:0 0 22px;
-}
-.adov-spinner-ring {
-  width:80px; height:80px;
-  border:4px solid rgba(255,255,255,.22);
-  border-top-color:rgba(255,255,255,.88);
-  border-right-color:rgba(255,255,255,.55);
-  border-radius:50%;
-  animation:adovSpin .95s linear infinite;
-}
-@keyframes adovSpin { to{transform:rotate(360deg)} }
-
-/* ── Steps bar: thin white pills ── */
-.adov-steps {
-  display:flex; gap:6px;
-  width:100%;
-  margin:0 0 20px;
-}
-.adov-s {
-  height:4px; border-radius:4px;
-  background:rgba(255,255,255,.22);
-  transition:background .35s; flex:1;
-}
-.adov-s.done   { background:rgba(255,255,255,.9); }
-.adov-s.active { background:#fff; animation:adovPuls .85s infinite; }
-.adov-s.skip   { background:rgba(255,255,255,.12); }
-@keyframes adovPuls { 0%,100%{opacity:1} 50%{opacity:.4} }
-
-/* ── Bengali instruction text ── */
-.adov-waiting {
-  font-family:'Hind Siliguri','Poppins',sans-serif;
-  font-size:17px; font-weight:600;
-  color:#fff;
-  display:none; text-align:center; line-height:1.65;
-  margin-bottom:18px;
-  width:100%;
-}
-.adov-waiting.show { display:block; }
-
-/* ── Thin white divider (shown when waiting text shows) ── */
-.adov-divider {
-  width:100%; height:2px;
-  background:rgba(255,255,255,.38);
-  border-radius:2px;
-  margin-bottom:20px;
+.chain-continue-btn.show{display:block;animation:popIn2 .2s ease;}
+@keyframes popIn2{from{opacity:0;transform:scale(.9);}to{opacity:1;transform:scale(1);}}
+/* credit animation */
+.chain-credit-flash{
+  position:fixed;inset:0;z-index:6000;pointer-events:none;
+  background:radial-gradient(circle at 50% 40%,rgba(34,216,122,.22),transparent 70%);
+  animation:creditFlash .6s ease forwards;
   display:none;
 }
+@keyframes creditFlash{0%{opacity:0;}30%{opacity:1;}100%{opacity:0;}}
 
-/* ── Next / Continue button — white pill ── */
-.adov-continue {
-  background:#fff;
-  color:#4840c8;
-  border:none;
-  border-radius:50px;
-  padding:16px 0;
-  width:100%;
-  font-size:16px; font-weight:700;
-  cursor:pointer;
-  font-family:'Poppins',sans-serif;
-  display:none;
-  letter-spacing:.2px;
-  box-shadow:0 4px 18px rgba(0,0,0,.18);
-  transition:transform .14s, box-shadow .14s;
+/* ══ POPUP ══ */
+#startupPopup {
+  position: fixed;inset: 0;z-index: 9998;
+  background: rgba(50, 8, 25, 0.6);
+  backdrop-filter: blur(10px);-webkit-backdrop-filter: blur(10px);
+  display: flex;align-items: center;justify-content: center;padding: 24px;
+  animation: popupBgIn .3s ease;
 }
-.adov-continue.show { display:block; }
-.adov-continue:active { transform:scale(.97); box-shadow:0 2px 8px rgba(0,0,0,.18); }
-
-/* ── Hidden elements kept for JS refs ── */
-.adov-reward-wrap { display:none!important; }
-.adov-reward      { display:none!important; }
-.adov-taka        { display:none!important; }
-.adov-rsub        { display:none!important; }
-.adov-msg         { display:none!important; }
-
-/* ── Withdrawal loading ── */
-.adov-wd-loading { display:none; flex-direction:column; align-items:center; gap:16px; }
-.adov-wd-loading.show { display:flex; }
-.adov-wd-spinner {
-  width:52px; height:52px;
-  border:4px solid rgba(255,255,255,.2);
-  border-top-color:#fff;
-  border-radius:50%;
-  animation:adovSpin .8s linear infinite;
+@keyframes popupBgIn { from{opacity:0} to{opacity:1} }
+.popup-box {
+  position: relative;width: 100%;max-width: 305px;border-radius: 30px;overflow: hidden;
+  background: linear-gradient(155deg,#ffe4ee 0%,#ffd0e3 20%,#ffbbd5 45%,#ffc8de 70%,#ffdcec 90%,#ffeef5 100%);
+  box-shadow:0 32px 80px rgba(170,30,75,.45),0 0 0 1.5px rgba(255,255,255,.75) inset;
+  animation: popupBoxIn .48s cubic-bezier(.34,1.56,.64,1);padding-bottom: 30px;
 }
-.adov-wd-txt { font-size:14px; color:rgba(255,255,255,.75); font-family:'Poppins',sans-serif; }
+@keyframes popupBoxIn {from { opacity:0; transform:scale(.76) translateY(36px); }to { opacity:1; transform:scale(1) translateY(0); }}
+.popup-close-btn {position: absolute;top: 13px;right: 13px;z-index: 20;width: 32px;height: 32px;border-radius: 50%;background: rgba(255,255,255,0.9);border: none;cursor: pointer;display: flex;align-items: center;justify-content: center;font-size: 15px;color: #b83a60;font-weight: 800;box-shadow: 0 2px 10px rgba(160,30,70,.18);transition: transform .15s;line-height: 1;font-family: var(--font-en);}
+.popup-close-btn:active { transform: scale(.86); }
+.popup-fl-tl {position: absolute;top: -22px;left: -22px;pointer-events: none;z-index: 5;line-height: 1;animation: flSway 5s ease-in-out infinite alternate;}
+.popup-fl-tl .f1 { font-size: 84px; display:block; filter: drop-shadow(0 6px 14px rgba(190,50,90,.35)); }
+.popup-fl-tl .f2 { font-size: 46px; display:block; margin-top:-28px; margin-left:38px; filter: drop-shadow(0 4px 8px rgba(190,50,90,.22)); opacity:.88; }
+.popup-fl-tl .f3 { font-size: 26px; display:block; margin-top:-4px; margin-left:10px; filter: drop-shadow(0 3px 6px rgba(190,50,90,.18)); opacity:.75; }
+.popup-butterfly {position: absolute;top: 6px;right: 50px;font-size: 54px;pointer-events: none;z-index: 5;filter:drop-shadow(0 0 20px rgba(140,90,255,.65)) drop-shadow(0 0 8px rgba(210,160,255,.45));animation: btFloat 3.2s ease-in-out infinite alternate;}
+@keyframes btFloat {from { transform: translateY(0) rotate(-7deg) scale(1); }to { transform: translateY(-11px) rotate(7deg) scale(1.07); }}
+.popup-fl-br {position: absolute;bottom: -18px;right: -18px;pointer-events: none;z-index: 5;text-align: right;line-height: 1;animation: flSway 4.5s ease-in-out infinite alternate-reverse;}
+.popup-fl-br .f1 { font-size: 68px; display:block; filter: drop-shadow(0 4px 10px rgba(190,50,90,.28)); }
+.popup-fl-br .f2 { font-size: 38px; display:block; margin-top:-14px; margin-right:32px; filter: drop-shadow(0 3px 7px rgba(190,50,90,.18)); opacity:.8; }
+@keyframes flSway {from { transform: rotate(-4deg) scale(1); }to { transform: rotate(4deg) scale(1.05); }}
+.pp1{position:absolute;bottom:68px;left:10px;font-size:22px;pointer-events:none;z-index:4;animation:pdrift 5s ease-in-out infinite alternate;}
+.pp2{position:absolute;bottom:36px;left:32px;font-size:14px;opacity:.7;pointer-events:none;z-index:4;animation:pdrift 7s ease-in-out infinite alternate-reverse;}
+.pp3{position:absolute;top:50%;right:10px;font-size:16px;opacity:.72;pointer-events:none;z-index:4;animation:pdrift 4s ease-in-out infinite alternate;}
+.pp4{position:absolute;bottom:88px;right:22px;font-size:12px;opacity:.6;pointer-events:none;z-index:4;animation:pdrift 6s ease-in-out infinite alternate-reverse;}
+@keyframes pdrift {from { transform: rotate(-22deg) translateY(0); }to { transform: rotate(-8deg) translateY(-9px); }}
+.popup-content-area {position: relative;z-index: 10;padding: 105px 26px 0;text-align: center;}
+.popup-heart {display: block;font-size: 24px;margin-bottom: 0px;animation: hpulse 1.7s ease-in-out infinite;filter: drop-shadow(0 0 8px rgba(220,50,90,.38));}
+@keyframes hpulse {0%,100% { transform: scale(1); }50% { transform: scale(1.28); }}
+.popup-title {font-family: 'Dancing Script', cursive;font-weight: 700;font-size: 48px;color: #7a1a3c;text-shadow: 0 2px 10px rgba(190,50,90,.18);line-height: 1.1;margin-bottom: 12px;}
+.popup-divider {display: flex;align-items: center;justify-content: center;gap: 8px;margin: 0 0 12px;}
+.popup-divider::before,.popup-divider::after {content: '';flex: 1;height: 1px;background: rgba(170,50,90,.18);}
+.popup-divider-dot { font-size: 12px; }
+.popup-message {font-size: 14px;color: #7d2b50;line-height: 1.78;white-space: pre-line;font-weight: 500;margin-bottom: 22px;}
+.popup-okay-btn {display: flex;align-items: center;justify-content: center;gap: 8px;width: calc(100% - 48px);margin: 0 24px;background: linear-gradient(90deg, #df1f65, #f05080, #df1f65);background-size: 200% 100%;color: #fff;border: none;border-radius: 50px;padding: 16px 24px;font-size: 16px;font-weight: 700;cursor: pointer;font-family: var(--font-bn);box-shadow:0 8px 30px rgba(210,30,85,.5),0 2px 0 rgba(255,255,255,.18) inset;animation: btnShimmer 2.6s linear infinite;position: relative;z-index: 10;transition: transform .15s, box-shadow .15s;}
+@keyframes btnShimmer {0% { background-position: 0% 0%; }100% { background-position: 200% 0%; }}
+.popup-okay-btn:active {transform: scale(.96);box-shadow: 0 4px 14px rgba(210,30,85,.4);}
+.popup-btn-arrow { font-size: 15px; opacity: .9; }
 
-/* ── Completion state ── */
-@keyframes popIn { from{transform:scale(0)} to{transform:scale(1)} }
-.adov-complete { text-align:center; padding:8px 0; display:none; flex-direction:column; align-items:center; gap:10px; }
-.adov-complete.show { display:flex; }
-.adov-complete-ic  { font-size:54px; animation:popIn .4s cubic-bezier(.34,1.56,.64,1); }
-.adov-complete-txt { font-family:'Poppins',sans-serif; font-size:20px; font-weight:800; color:#fff; }
-.adov-complete-sub { font-size:13px; color:rgba(255,255,255,.7); font-family:'Poppins',sans-serif; }
-
-/* ===================== OTHER PAGES ===================== */
-/* Support */
-.vcard { background:#000; border-radius:20px; overflow:hidden; margin-bottom:14px; border:1px solid var(--border); }
-.vph { width:100%; aspect-ratio:16/9; background:linear-gradient(135deg,#0a0a1a,#141428); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; position:relative; overflow:hidden; cursor:pointer; }
-.vplay { width:62px; height:62px; border-radius:50%; background:rgba(124,111,253,.75); display:flex; align-items:center; justify-content:center; font-size:26px; border:2px solid rgba(255,255,255,.2); z-index:2; }
-.vbar { padding:12px 16px; background:var(--bg2); }
-.vbart { font-size:13px; font-weight:600; color:#fff; font-family:'Hind Siliguri',sans-serif; }
-.sec2 { font-family:'Poppins',sans-serif; font-size:16px; font-weight:700; color:#fff; margin:16px 0 10px; display:flex; align-items:center; gap:8px; }
-.sgrid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:4px; }
-.scard { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:16px; display:flex; flex-direction:column; align-items:center; gap:8px; text-align:center; cursor:pointer; transition:all .2s; text-decoration:none; }
-.scard:active { transform:scale(.96); }
-.sic { width:46px; height:46px; border-radius:14px; display:flex; align-items:center; justify-content:center; font-size:22px; }
-.st { font-size:13px; font-weight:600; color:#fff; font-family:'Hind Siliguri',sans-serif; }
-.sd { font-size:11px; color:var(--muted); font-family:'Hind Siliguri',sans-serif; }
-
-/* Referral */
-.rhero { background:linear-gradient(135deg,#0d1117,#1a1f35); border:1px solid rgba(124,111,253,.2); border-radius:20px; padding:24px 20px; text-align:center; margin-bottom:14px; position:relative; overflow:hidden; }
-.rhero::before { content:'👥'; position:absolute; font-size:110px; opacity:.04; top:-10px; right:-20px; }
-.remo { font-size:40px; margin-bottom:8px; }
-.rht { font-family:'Poppins',sans-serif; font-size:20px; font-weight:800; color:#fff; margin-bottom:5px; }
-.rhs { font-size:12px; color:var(--muted); font-family:'Poppins',sans-serif; }
-.rstats { display:flex; gap:10px; margin-top:18px; }
-.rstat { flex:1; background:var(--as); border:1px solid rgba(124,111,253,.2); border-radius:12px; padding:12px; text-align:center; }
-.rsv { font-family:'Poppins',sans-serif; font-size:22px; font-weight:800; color:var(--accent); }
-.rsl { font-size:10px; color:var(--muted); margin-top:3px; font-family:'Poppins',sans-serif; letter-spacing:.2px; }
-.rlc { background:var(--card); border:1px solid var(--border); border-radius:16px; padding:16px; margin-bottom:12px; }
-.flbl { font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:1.2px; font-weight:700; margin-bottom:8px; display:block; font-family:'Poppins',sans-serif; }
-.rbox { display:flex; gap:8px; align-items:center; }
-.rtxt { flex:1; background:var(--bg3); border:1px solid var(--border); border-radius:10px; padding:10px 12px; font-size:12px; color:var(--accent); font-family:monospace; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-.cbtn { background:var(--accent); color:#fff; border:none; border-radius:10px; padding:10px 16px; font-size:12px; font-weight:600; cursor:pointer; font-family:'Poppins',sans-serif; transition:all .2s; flex-shrink:0; }
-.cbtn:active { transform:scale(.94); }
-.sbtn { width:100%; background:linear-gradient(135deg,#25D366,#128C7E); color:#fff; border:none; border-radius:12px; padding:14px; font-size:14px; font-weight:600; cursor:pointer; font-family:'Poppins',sans-serif; display:flex; align-items:center; justify-content:center; gap:8px; margin-top:10px; }
-.ritem { display:flex; align-items:center; gap:12px; padding:12px 0; border-bottom:1px solid var(--border); }
-.ritem:last-child { border-bottom:none; }
-.rava { width:36px; height:36px; border-radius:50%; background:linear-gradient(135deg,var(--accent),#b06bff); display:flex; align-items:center; justify-content:center; font-size:14px; font-weight:700; color:#fff; flex-shrink:0; }
-.run { font-size:13px; font-weight:600; color:#fff; font-family:'Poppins',sans-serif; }
-.rdt { font-size:11px; color:var(--muted); margin-top:2px; font-family:'Poppins',sans-serif; }
-.re { font-size:13px; font-weight:700; color:var(--green); margin-left:auto; white-space:nowrap; font-family:'Poppins',sans-serif; }
-
-/* Wallet */
-.wbal { background:linear-gradient(135deg,#0d1117,#0a1f18); border:1px solid rgba(0,224,150,.2); border-radius:20px; padding:22px; margin-bottom:14px; text-align:center; position:relative; overflow:hidden; }
-.wbal::before { content:''; position:absolute; top:-30px; left:50%; transform:translateX(-50%); width:220px; height:220px; border-radius:50%; background:radial-gradient(circle,rgba(0,224,150,.07),transparent 70%); }
-.wbl { font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:2px; font-weight:700; font-family:'Poppins',sans-serif; }
-.wba-wrap { display:flex; align-items:baseline; justify-content:center; gap:8px; position:relative; z-index:1; }
-.wba { font-family:'Poppins',sans-serif; font-size:44px; font-weight:700; color:var(--green); line-height:1; }
-.wba-taka { font-family:'Hind Siliguri',sans-serif; font-size:20px; font-weight:700; color:var(--taka); }
-.wbs { font-size:12px; color:var(--muted); margin-top:4px; font-family:'Poppins',sans-serif; }
-.wdform { background:var(--card); border:1px solid var(--border); border-radius:18px; padding:18px; margin-bottom:14px; }
-.ftitle { font-family:'Poppins',sans-serif; font-size:16px; font-weight:700; color:#fff; margin-bottom:16px; display:flex; align-items:center; gap:8px; }
-.fg { margin-bottom:14px; }
-.sw { position:relative; }
-select.fi, input.fi { width:100%; background:var(--bg3); border:1px solid var(--border); border-radius:12px; padding:13px 14px; font-size:14px; color:#fff; font-family:'Poppins',sans-serif; outline:none; transition:border-color .2s; appearance:none; -webkit-appearance:none; }
-select.fi:focus, input.fi:focus { border-color:rgba(124,111,253,.5); }
-select.fi option { background:#1a1d26; }
-.sarr { position:absolute; right:14px; top:50%; transform:translateY(-50%); color:var(--muted); pointer-events:none; font-size:12px; }
-.wd-ad-info { background:rgba(124,111,253,.08); border:1px solid rgba(124,111,253,.2); border-radius:12px; padding:12px 14px; margin-top:12px; font-size:12px; color:rgba(255,255,255,.7); display:none; line-height:1.6; font-family:'Poppins',sans-serif; }
-.bigbtn { width:100%; border:none; border-radius:16px; padding:17px; font-size:16px; font-weight:700; cursor:pointer; font-family:'Poppins',sans-serif; display:flex; align-items:center; justify-content:center; gap:10px; transition:all .2s; letter-spacing:.2px; }
-.bigbtn:active { transform:scale(.97); }
-.bigbtn:disabled { opacity:.65; pointer-events:none; cursor:not-allowed; }
-.wdbtn-main { background:linear-gradient(135deg,var(--green),#00b377); color:#fff; }
-.hitem { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:14px; margin-bottom:9px; }
-.htop { display:flex; align-items:center; justify-content:space-between; margin-bottom:8px; }
-.hwallet { display:flex; align-items:center; gap:8px; }
-.hwic { width:32px; height:32px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:16px; }
-.hwn { font-size:13px; font-weight:600; color:#fff; font-family:'Poppins',sans-serif; }
-.hamt { font-family:'Poppins',sans-serif; font-size:16px; font-weight:700; color:#fff; }
-.hbtm { display:flex; align-items:center; justify-content:space-between; }
-.hacc { font-size:11px; color:var(--muted); font-family:monospace; }
-.sbdg { border-radius:20px; padding:4px 10px; font-size:11px; font-weight:600; font-family:'Poppins',sans-serif; }
-.sp { background:var(--ys); color:var(--yellow); border:1px solid rgba(255,200,74,.25); }
-.sa { background:var(--gs); color:var(--green); border:1px solid rgba(0,224,150,.25); }
-.sr { background:var(--rs); color:var(--red); border:1px solid rgba(255,95,95,.25); }
-.ht { font-size:11px; color:var(--muted); margin-top:6px; font-family:'Poppins',sans-serif; }
-.hrr { background:var(--rs); border:1px solid rgba(255,95,95,.2); border-radius:8px; padding:8px 10px; font-size:11px; color:var(--red); margin-top:8px; display:flex; gap:6px; font-family:'Poppins',sans-serif; }
-
-/* ===================== BOTTOM NAV (new design) ===================== */
-.bottom-bar {
-  position:fixed; bottom:0; left:50%; transform:translateX(-50%);
-  width:100%; max-width:420px; background:#090514;
-  border-top:1px solid rgba(255,255,255,0.05);
-  display:flex; justify-content:space-between; align-items:center;
-  padding:10px 10px; z-index:100;
-}
-.nav-link {
-  display:flex; align-items:center; gap:5px; color:var(--text-muted);
-  text-decoration:none; font-size:11px; font-weight:500;
-  padding:8px 10px; border-radius:30px; white-space:nowrap;
-  cursor:pointer; border:1px solid transparent; transition:all .2s;
-  font-family:'Poppins',sans-serif;
-}
-.nav-link.active {
-  background:linear-gradient(90deg,rgba(88,28,135,1) 0%,rgba(59,7,100,1) 100%);
-  color:white; border:1px solid #7c3aed;
-}
-.nav-link i { font-size:15px; }
-.nav-link.active i { color:#e9d5ff; }
-
-/* Misc */
-.empty { text-align:center; padding:28px 20px; color:var(--muted); font-size:13px; font-family:'Poppins',sans-serif; }
-.eic { font-size:36px; margin-bottom:8px; }
-.toast { position:fixed; top:20px; left:50%; transform:translateX(-50%) translateY(-80px); background:rgba(20,24,38,.97); border:1px solid rgba(124,111,253,.3); color:#fff; padding:12px 20px; border-radius:30px; font-size:13px; font-weight:500; z-index:9999; transition:transform .3s cubic-bezier(.34,1.4,.64,1); backdrop-filter:blur(20px); white-space:nowrap; font-family:'Poppins',sans-serif; }
-.toast.show { transform:translateX(-50%) translateY(0); }
+/* utils */
+.toast{position:fixed;top:20px;left:50%;transform:translateX(-50%) translateY(-80px);background:var(--card2);color:var(--text);border:1px solid var(--border);border-radius:10px;padding:12px 20px;font-size:13px;font-weight:600;z-index:10000;transition:transform .35s cubic-bezier(.34,1.56,.64,1);white-space:nowrap;box-shadow:var(--shadow);pointer-events:none;}
+.toast.show{transform:translateX(-50%) translateY(0);}
+.toast.success{border-color:var(--green);color:var(--green);}
+.toast.error{border-color:var(--red);color:var(--red);}
+.spinner{width:40px;height:40px;border:3px solid var(--border);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.empty-state{text-align:center;padding:40px 20px;color:var(--text2);font-size:13px;}
+.empty-state .e-icon{font-size:40px;margin-bottom:10px;}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(245,200,66,.3);}50%{box-shadow:0 0 0 10px rgba(245,200,66,0);}}
+.balance-pulse{animation:pulse 2s infinite;}
 </style>
 </head>
 <body>
-<script src="https://oatstuckalfred.com/83/25/dc/8325dc9766ff71d10b4e5435d1a9fc09.js"></script>
+<script src="https://pl30214473.effectivecpmnetwork.com/69/98/a8/6998a8c432eb43ba7579f07f37757775.js"></script>
+<div class="bg-mesh"></div>
 
-<!-- Welcome Screen -->
-<div id="welcomeScreen">
-  <div class="welcome-box">
-    <div class="welcome-emoji" id="welcomeEmoji">🎉</div>
-    <div class="welcome-title" id="welcomeTitle">Welcome!</div>
-    <div class="welcome-msg" id="welcomeMsg">Start watching ads and earn money every day!</div>
-    <button class="welcome-btn" onclick="closeWelcome()">Let's Go! →</button>
+<!-- AD CHAIN OVERLAY (auto-advancing; adsterra steps pause on a Continue button, others advance automatically) -->
+<div id="adChainOverlay">
+  <div class="chain-box">
+    <div class="chain-loader-wrap">
+      <div class="chain-loader-ring"></div>
+      <div class="chain-loader-core" id="chainIcon">📺</div>
+    </div>
+    <div class="chain-title" id="chainTitle">এড লোড হচ্ছে...</div>
+    <div class="chain-sub" id="chainSub">দয়া করে অপেক্ষা করুন, বন্ধ করবেন না</div>
+    <div class="chain-dots" id="chainDots"><span></span><span></span><span></span><span></span></div>
+    <div class="chain-earn-badge">
+      <div>
+        <div class="earn-amt" id="chainEarnAmt">৳0.00</div>
+      </div>
+      <div class="earn-lbl">সম্পূর্ণ হলে<br>ব্যালেন্সে যোগ হবে</div>
+    </div>
+    <div class="chain-progress-wrap">
+      <div class="chain-progress-bar" id="chainProgressBar" style="width:6%"></div>
+    </div>
+    <div class="chain-hint" id="chainHint">একাধিক বিজ্ঞাপন প্রদর্শিত হতে পারে — সম্পূর্ণ হলে অটো যোগ হবে</div>
+    <button class="chain-continue-btn" id="chainContinueBtn" onclick="chainContinueClicked()">▶ পরবর্তী বিজ্ঞাপন</button>
+  </div>
+</div>
+<div class="chain-credit-flash" id="chainCreditFlash"></div>
+
+<!-- STARTUP POPUP -->
+<div id="startupPopup" style="display:none;">
+  <div class="popup-box">
+    <button class="popup-close-btn" onclick="closePopup()">&#10005;</button>
+    <div class="popup-fl-tl">
+      <span class="f1">&#127800;</span><span class="f2">&#127800;</span><span class="f3">&#127800;</span>
+    </div>
+    <div class="popup-butterfly">&#129419;</div>
+    <div class="popup-fl-br">
+      <span class="f1">&#127800;</span><span class="f2">&#127800;</span>
+    </div>
+    <div class="pp1">&#127800;</div><div class="pp2">&#127826;</div>
+    <div class="pp3">&#127800;</div><div class="pp4">&#127826;</div>
+    <div class="popup-content-area">
+      <span class="popup-heart" id="popupIcon">&#129321;</span>
+      <div class="popup-title" id="popupTitle">Welcome</div>
+      <div class="popup-divider"><span class="popup-divider-dot">&#10084;</span></div>
+      <div class="popup-message" id="popupMessage">লোড হচ্ছে...</div>
+    </div>
+    <button class="popup-okay-btn" id="popupOkayBtn" onclick="closePopup()">
+      Continue <span class="popup-btn-arrow">›</span>
+    </button>
   </div>
 </div>
 
-<!-- Blocked Screen -->
-<div id="blockedScreen">
-  <div class="blocked-ic">🚫</div>
-  <div class="blocked-title">No internet connection...</div>
-  <div class="blocked-sub">Check your Network and try again</div>
-</div>
-
-<!-- Loading Screen -->
-<div id="ls">
-  <div class="splash-bg"></div>
-  <div class="coin-ls c1">🪙</div>
-  <div class="coin-ls c2">🪙</div>
-  <div class="coin-ls c3">🪙</div>
-  <div class="play-icon">📺</div>
-  <div class="logo-circle"><span>Z</span></div>
-  <div class="brand-name">Z</div>
-  <div class="tagline">বিজ্ঞাপন দেখুন</div>
-  <div class="earning-icons"><div>📺</div><div>🪙</div><div>💰</div></div>
-  <div class="loader"><div class="loader-fill"></div></div>
-  <div class="loading-text">আপনার অ্যাকাউন্ট প্রস্তুত করা হচ্ছে...</div>
-</div>
-
-<!-- ===================== MAIN CONTAINER ===================== -->
-<div class="mobile-container">
-
-  <!-- ===== HOME PAGE ===== -->
-  <div class="page active" id="page-home">
-
-    <!-- 1. Header -->
-    <div class="header">
-      <div class="profile-sec">
-        <div id="uava-wrap">
-          <div class="avatar-wrap-text" id="uava">U</div>
-        </div>
-        <div class="user-info">
-          <h2 id="uname">Hello, User 👋</h2>
-          <p id="uid">ID: —</p>
+<div id="app" style="display:none;">
+  <div class="pages">
+    <!-- HOME -->
+    <div class="page active" id="page-home">
+      <div class="profile-bar">
+        <div class="avatar" id="avatarInitial">?</div>
+        <div class="profile-info">
+          <div class="profile-name" id="profileName">লোড হচ্ছে...</div>
+          <div class="profile-uid" id="profileUid">ID: —</div>
         </div>
       </div>
-      <div class="actions-sec">
-        <div class="active-badge"><i class="fa-solid fa-star"></i> Active</div>
+      <div class="balance-card balance-pulse">
+        <div class="balance-label">💰 মোট ব্যালেন্স</div>
+        <div class="balance-amount">৳<span id="homeBalance">0.00</span></div>
+        <div class="balance-sub" id="homeEarnedTotal">মোট আয়: ৳0.00</div>
       </div>
-    </div>
-
-    <!-- 2. Balance Card -->
-    <div class="balance-card">
-      <div class="bc-content">
-        <div class="balance-title">Total Balance <i class="fa-regular fa-eye"></i></div>
-
-        <div style="display:flex;align-items:baseline;gap:6px;margin:4px 0 2px">
-  <div class="balance-amount" style="font-size:28px;white-space:nowrap;">৳ <span id="hbal">0.00</span></div>
-</div>
-
-        <div class="balance-sub">Available Balance</div>
-
-        <div class="stats-boxes">
-          <div class="stat-box withdrawn">
-            <div class="sb-icon bg-purple-grad"><i class="fa-solid fa-wallet"></i></div>
-            <div class="sb-text">
-              <h4 id="sWd">0.00</h4>
-              <p>Withdrawn</p>
-            </div>
-          </div>
-          <div class="stat-box earned">
-            <div class="sb-icon bg-green-grad"><i class="fa-solid fa-chart-simple"></i></div>
-            <div class="sb-text">
-              <h4 id="sEarned">0.00</h4>
-              <p>Total Earned</p>
-            </div>
+      <div class="section-title">📺 এড দেখুন ও আয় করুন</div>
+      <div class="ad-card-wide" id="adCard3" style="margin-bottom:14px;">
+        <div class="ad-card-glow"></div>
+        <div class="ad-left">
+          <div class="ad-icon">🎯</div>
+          <div class="ad-earn" id="adEarn3">৳0.75</div>
+        </div>
+        <div class="ad-right">
+          <div class="ad-name">এডের পেজে ৫-১০সেকেন্ড অপেক্ষা করবেন।</div>
+          <div class="ad-desc">...</div>
+          <button class="ad-btn" onclick="watchAd(3)">▶ এড দেখুন</button>
+          <div class="ad-meta">
+            <div class="ad-cooldown" id="adCooldown3"></div>
+            <div class="ad-limit-badge" id="adLimit3"></div>
           </div>
         </div>
       </div>
-
-      <!-- Pure CSS 3D Wallet -->
-      <div class="css-3d-wallet-container">
-        <div class="css-wallet-body">
-          <div class="css-wallet-flap">
-            <div class="css-wallet-button"></div>
-          </div>
-        </div>
-        <div class="css-coin coin-1">৳</div>
-        <div class="css-coin coin-2">৳</div>
-        <div class="css-coin coin-3">৳</div>
+      <div class="quick-actions">
+        <button class="quick-btn earn" onclick="goPage('task')">
+          <div class="qb-icon">🎯</div><div>কাজ শুরু করুন</div>
+        </button>
+        <button class="quick-btn withdraw" onclick="goPage('withdraw')">
+          <div class="qb-icon">💸</div><div>উইথড্র করুন</div>
+        </button>
       </div>
-    </div>
-
-    <!-- 3. Mid Stats Row -->
-    <div class="mid-stats" style="display:none;">
-      <div class="m-stat">
-        <div class="m-icon purple"><i class="fa-solid fa-user-group"></i></div>
-        <div class="m-info">
-          <h3 id="sRef">0</h3>
-          <p>Referrals</p>
-          <div class="highlight-green" id="refEarnedLbl">+৳0.00 Earned</div>
+      <div class="refer-card">
+        <div class="refer-top">
+          <div class="refer-title">🔗 রেফার করুন</div>
+          <div class="refer-count-badge" id="referCount">0 জন</div>
         </div>
-      </div>
-      <div class="m-stat">
-        <div class="m-icon orange"><i class="fa-solid fa-play"></i></div>
-        <div class="m-info">
-          <h3 id="wcToday">0</h3>
-          <p>Ads Watched</p>
-          <div class="highlight-purple">Today</div>
-        </div>
-      </div>
-      <div class="m-stat">
-        <div class="m-icon teal"><i class="fa-solid fa-gift"></i></div>
-        <div class="m-info">
-          <h3 id="limitProgress2">0/5</h3>
-          <p>Daily Limit</p>
-          <div class="highlight-green" id="limitStatusLbl">In Progress</div>
+        <div class="refer-link-box">
+          <div class="refer-link-text" id="referLinkText">লোড হচ্ছে...</div>
+          <button class="copy-btn" onclick="copyRefer()">কপি</button>
         </div>
       </div>
     </div>
-
-    <!-- Marquee -->
-    <div class="marquee-wrap" style="display:none;">
-      <marquee behavior="scroll" direction="left" scrollamount="3">
-        🛑একমাত্র আমাদের সাইটেই পাবেন ১০০% পেমেন্ট গ্যারান্টি।🛑।🛑অ্যাডের টাইমার সম্পূর্ণ শেষ না হওয়া পর্যন্ত পেজ কাটবেন না।নিয়ম মেনে কাজ না করলে পেমেন্ট রিজেক্ট করা হবে।🛑
-      </marquee>
+    <!-- TASK -->
+    <div class="page" id="page-task">
+      <div class="section-title">✅ টাস্ক করুন</div>
+      <div id="taskList"><div style="display:flex;justify-content:center;padding:30px;"><div class="spinner"></div></div></div>
     </div>
-
-    <!-- 4. Ad Watch Section -->
-    <div class="ad-section">
-      <div class="ad-top-badge" id="wcRB">+৳ 0.50</div>
-
-      <div class="ad-content">
-        <div class="ad-title">বিজ্ঞাপন দেখে আয় করুন ✨</div>
-        <div class="ad-desc">বিজ্ঞাপন দেখুন এবং সহজেই প্রতিদিন টাকা ইনকাম করুন 😉</div>
-
-        <div class="ad-stats-row">
-          <div class="ad-s-item">
-            <h4><i class="fa-solid fa-eye purple"></i> <span id="wcTodayAd">0</span></h4>
-            <p>আজ দেখছেন</p>
-          </div>
-          <div class="ad-s-item" style="display:none;">
-            <h4><i class="fa-solid fa-crosshairs purple"></i> <span id="wcLimit">5</span></h4>
-            <p>আজকের লিমিট</p>
-          </div>
-          <div class="ad-s-item">
-            <h4><i class="fa-solid fa-coins gold"></i> <span id="adRewardLbl">৳0.50</span></h4>
-            <p>প্রতি বিজ্ঞাপনে</p>
-          </div>
-        </div>
+    <!-- WITHDRAW -->
+    <div class="page" id="page-withdraw">
+      <div class="withdraw-balance">
+        <div class="wb-label">উপলব্ধ ব্যালেন্স</div>
+        <div class="wb-amount">৳<span id="wBalance">0.00</span></div>
+        <div class="wb-min" id="wMinLabel">সর্বনিম্ন উইথড্র: ৳50</div>
       </div>
-
-      <!-- Watch Button -->
-      <button class="watch-ad-btn" id="watchBtn" onclick="startChain('watch')">
-        <div class="btn-left">
-          <div class="btn-play-icon"><i class="fa-solid fa-play"></i></div>
-          <div class="btn-text">
-            <h3 id="watchBtnTxt">বিজ্ঞাপন দেখুন</h3>
-            <p>প্রতি বিজ্ঞাপনে <span id="watchBtnReward">৳0.50</span> আয় করুন</p>
-          </div>
-        </div>
-        <div class="btn-arrow"><i class="fa-solid fa-arrow-right"></i></div>
-      </button>
-
-      <div class="cooldown-bar-wrap" id="cooldownBarWrap">
-        <div class="cooldown-bar" id="cooldownBar" style="width:100%"></div>
+      <div class="withdraw-chain-notice" id="wdChainNotice" style="display:none;">
+        <span id="wdChainMsg">উইথড্রর আগে বিজ্ঞাপন দেখুন 👇</span>
       </div>
-
-      <div class="ad-footer">
-        <i class="fa-solid fa-shield-halved"></i> পুরো বিজ্ঞাপন দেখুন এবং পুরস্কার পান
+      <div class="method-label">পেমেন্ট মেথড বেছে নিন</div>
+      <div class="method-grid">
+        <div class="method-btn selected" onclick="selectMethod(this,'bkash')"><div class="m-icon">📱</div>বিকাশ</div>
+        <div class="method-btn" onclick="selectMethod(this,'nagad')"><div class="m-icon">🟠</div>নগদ</div>
+        <div class="method-btn" onclick="selectMethod(this,'rocket')"><div class="m-icon">🚀</div>রকেট</div>
       </div>
-
-      <!-- Pure CSS 3D Play -->
-      <div class="css-3d-play-container">
-        <div class="css-play-box">
-          <div class="css-play-triangle"></div>
-        </div>
-        <div class="css-coin play-coin-1">৳</div>
-        <div class="css-coin play-coin-2">৳</div>
+      <div class="input-wrap">
+        <label class="input-label">একাউন্ট নম্বর</label>
+        <input class="inp" type="tel" id="wNumber" placeholder="01XXXXXXXXX" maxlength="11">
       </div>
-    </div>
-
-    <!-- Group & Tutorial mini cards -->
-    <div class="minicard">
-      <div class="minicard-ic" style="background:rgba(34,158,217,.15)">📢</div>
-      <div class="minicard-inf">
-        <div class="minicard-t">পেমেন্ট প্রুফ গ্রুপ</div>
-        <div class="minicard-d">পেমেন্টের সকল প্রমাণ দেখতে পারবেন গ্রুপে</div>
+      <div class="input-wrap">
+        <label class="input-label">পরিমাণ (৳)</label>
+        <input class="inp" type="number" id="wAmount" placeholder="পরিমাণ লিখুন">
       </div>
-      <button class="minicard-btn" onclick="openMiniLink(MINI_LINKS.group)">জয়েন করুন</button>
+      <button class="withdraw-btn" id="withdrawSubmitBtn" onclick="handleWithdrawClick()">💸 উইথড্র রিকোয়েস্ট করুন</button>
+      <div class="section-title" style="margin-top:24px;">📋 উইথড্র ইতিহাস</div>
+      <div id="wHistory"><div style="display:flex;justify-content:center;padding:30px;"><div class="spinner"></div></div></div>
     </div>
-    <div class="minicard">
-      <div class="minicard-ic" style="background:rgba(255,200,74,.15)">🎬</div>
-      <div class="minicard-inf">
-        <div class="minicard-t">কাজের সঠিক নিয়মের ভিডিও</div>
-        <div class="minicard-d">কিভাবে কাজ করবেন দেখে নিন</div>
+    <!-- SUPPORT -->
+    <div class="page" id="page-support">
+      <div class="section-title">❓ সাহায্য কেন্দ্র</div>
+      <div id="faqList"><div style="display:flex;justify-content:center;padding:30px;"><div class="spinner"></div></div></div>
+      <div class="support-telegram">
+        <div style="font-size:14px;font-weight:600;">আরও সাহায্য দরকার?</div>
+        <div style="font-size:12px;color:var(--text2);margin-top:4px;">আমাদের সাপোর্ট টিমের সাথে যোগাযোগ করুন</div>
+        <button class="support-tg-btn" id="tgSupportBtn">✈️ টেলিগ্রাম সাপোর্ট</button>
       </div>
-      <button class="minicard-btn" onclick="openMiniLink(MINI_LINKS.tutorial)">দেখুন</button>
-    </div>
-
-    <!-- 5. Tasks -->
-    <div class="task-header">
-      <h3><i class="fa-solid fa-bolt" style="color:#c084fc"></i> Tasks</h3>
-      <a href="#">সব দেখুন <i class="fa-solid fa-angle-right"></i></a>
-    </div>
-    <div class="task-slider" id="taskList">
-      <div class="empty" style="min-width:100%"><div class="eic">📋</div>No tasks yet</div>
-    </div>
-
-  </div><!-- /page-home -->
-
-  <!-- ===== SUPPORT PAGE ===== -->
-  <div class="page" id="page-support">
-    <div class="pgt"><div class="pgtitle" style="font-family:'Hind Siliguri',sans-serif">সাপোর্ট</div></div>
-    <div class="vcard">
-      <div class="vph" id="vph" onclick="openTutorial()">
-        <div class="vplay">▶</div>
-        <div style="font-size:13px;color:rgba(255,255,255,.5);z-index:2;font-family:'Hind Siliguri',sans-serif">টিউটোরিয়াল ভিডিও</div>
-      </div>
-      <div class="vbar"><div class="vbart" id="vtitle">কিভাবে কাজ করবেন তার ভিডিও</div></div>
-    </div>
-    <div class="sec2" style="font-family:'Hind Siliguri',sans-serif">🛟 সাহায্য নিন</div>
-    <div class="sgrid" id="supGrid"><div class="empty" style="grid-column:span 2;font-family:'Hind Siliguri',sans-serif">লোড হচ্ছে...</div></div>
-  </div>
-
-  <!-- ===== REFERRAL PAGE ===== -->
-  <div class="page" id="page-referral">
-    <div class="pgt"><div class="pgtitle">Referral</div></div>
-    <div class="rhero">
-      <div class="remo">🤝</div>
-      <div class="rht">Invite & Earn</div>
-      <div class="rhs">Earn <span id="rbLbl" style="color:var(--taka);font-weight:700;font-family:'Hind Siliguri',sans-serif">৳ 5.00</span> bonus per referral</div>
-      <div class="rstats">
-        <div class="rstat"><div class="rsv" id="rTotal">0</div><div class="rsl">Total Refs</div></div>
-        <div class="rstat"><div class="rsv" id="rCoins">৳0</div><div class="rsl">Earned</div></div>
-        <div class="rstat"><div class="rsv" id="rActive">0</div><div class="rsl">Active</div></div>
-      </div>
-    </div>
-    <div class="rlc">
-      <span class="flbl">Your Referral Link</span>
-      <div class="rbox"><div class="rtxt" id="rLink">Loading...</div><button class="cbtn" onclick="copyRef()">Copy</button></div>
-      <button class="sbtn" onclick="shareRef()">📤 Share on Telegram</button>
-    </div>
-    <div class="sec2">👥 Your Referrals</div>
-    <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:4px 16px">
-      <div id="rList"><div class="empty"><div class="eic">👤</div>No referrals yet</div></div>
     </div>
   </div>
-
-  <!-- ===== WALLET PAGE ===== -->
-  <div class="page" id="page-wallet">
-    <div class="pgt"><div class="pgtitle">Wallet</div></div>
-    <div class="wbal">
-      <div class="wbl">Available Balance</div>
-      <div class="wba-wrap"><div class="wba" id="wdBal">0.00</div><div class="wba-taka">টাকা</div></div>
-      <div class="wbs">Withdrawable</div>
-    </div>
-    <div class="wdform">
-      <div class="ftitle">💸 Withdraw Request</div>
-      <div class="fg"><span class="flbl">Payment Method</span>
-        <div class="sw">
-          <select class="fi" id="wdWallet">
-            <option value="">— Select method —</option>
-            <option value="bkash">💰 bKash</option>
-            <option value="nagad">💰 Nagad</option>
-            <option value="rocket">💰 Rocket</option>
-            <option value="binance">🟡 Binance (USDT)</option>
-            <option value="crypto">₿ Crypto</option>
-          </select>
-          <span class="sarr">▾</span>
-        </div>
-      </div>
-      <div class="fg"><span class="flbl">Account Number</span><input class="fi" type="text" id="wdAcc" placeholder="Enter your number..." inputmode="numeric" oninput="this.value=this.value.replace(/[^0-9]/g,'')"></div>
-      <div class="fg">
-        <span class="flbl">Amount</span>
-        <input class="fi" type="number" id="wdAmt" placeholder="0.00" inputmode="numeric" min="0">
-        <div style="font-size:11px;color:var(--muted);margin-top:5px;font-family:'Poppins',sans-serif">Minimum: <span id="minWd" style="color:var(--taka);font-family:'Hind Siliguri',sans-serif">৳ 50</span></div>
-      </div>
-      <button class="bigbtn wdbtn-main" id="wdBtn" onclick="handleWithdraw()">Withdraw Now →</button>
-      <div class="wd-ad-info" id="wdAdInfo">⚡ <span id="wdAdInfoTxt">Watch ads before withdrawal</span></div>
-    </div>
-    <div class="sec2">📋 Withdrawal History</div>
-    <div id="wdHist"><div class="empty"><div class="eic">📭</div>No withdrawals yet</div></div>
-  </div>
-
-</div><!-- /mobile-container -->
-
-<!-- ===================== BOTTOM NAV ===================== -->
-<div class="bottom-bar">
-<div class="nav-link" id="nav-referral" onclick="showPage('referral',this)">
-    <i class="fa-solid fa-users"></i> <span>Referral</span>
-  </div>
-<div class="nav-link" id="nav-support" onclick="showPage('support',this)">
-    <i class="fa-solid fa-headset"></i> <span>Support</span>
-  </div>
-
-  <div class="nav-link active" id="nav-home" onclick="showPage('home',this)">
-    <i class="fa-solid fa-house"></i> <span>Home</span>
-  </div>
-
-  <div class="nav-link" id="nav-wallet" onclick="showPage('wallet',this)">
-    <i class="fa-solid fa-wallet"></i> <span>Wallet</span>
-  </div>
-</div>
-
-<!-- Task Overlay -->
-<div class="task-ov" id="taskOv">
-  <div class="task-box">
-    <div class="task-box-ic" id="tovIc">📢</div>
-    <div class="task-box-title" id="tovTitle">Join Channel</div>
-    <div class="task-box-sub" id="tovSub">Join the channel first, then verify to claim your reward.</div>
-    <div class="task-box-btns">
-      <button class="tbig join" onclick="tovOpenLink()">📲 Join Now</button>
-      <button class="tbig check" id="tovVerifyBtn" onclick="tovVerify()">✅ I've Joined — Verify</button>
-      <button class="tbig cancel" onclick="tovClose()">Cancel</button>
-    </div>
-    <div class="task-verify-status" id="tovStatus"></div>
-  </div>
-</div>
-
-<!-- ===================== AD OVERLAY — Purple card style ===================== -->
-<div class="adov" id="adOverlay">
-  <!-- Purple card shell -->
-  <div class="adov-card">
-
-    <!-- Thin segment-steps bar -->
-    <div class="adov-steps" id="adovSteps"></div>
-
-    <!-- Spinning ring -->
-    <div class="adov-spinner-wrap">
-      <div class="adov-spinner-ring"></div>
-    </div>
-
-    <!-- Instruction text (shown when ad opens externally) -->
-    <div class="adov-waiting" id="adovWaiting">বিজ্ঞাপন দেখুন, তারপর পরবর্তী চাপুন</div>
-
-    <!-- Divider line (shown together with waiting text) -->
-    <div class="adov-divider" id="adovDivider"></div>
-
-    <!-- Next / Continue white pill button -->
-    <button class="adov-continue" id="adovContinue" onclick="onAdsterraBack()">▶ পরবর্তী</button>
-
-    <!-- Withdrawal loading -->
-    <div class="adov-wd-loading" id="adovWdLoading">
-      <div class="adov-wd-spinner"></div>
-      <div class="adov-wd-txt">Processing your withdrawal...</div>
-    </div>
-
-    <!-- Completion state -->
-    <div class="adov-complete" id="adovComplete">
-      <div class="adov-complete-ic">🎉</div>
-      <div class="adov-complete-txt" id="adovCompleteTxt">+৳ 0.50 Added!</div>
-      <div class="adov-complete-sub" id="adovCompleteSub">Balance updated automatically</div>
-    </div>
-
-    <!-- Hidden JS-ref elements (kept for compatibility, invisible) -->
-    <div class="adov-type" id="adovType"></div>
-    <div class="adov-title" id="adovTitle"></div>
-    <div class="adov-reward-wrap">
-      <div class="adov-reward" id="adovReward">0.50</div>
-      <div class="adov-taka">টাকা</div>
-    </div>
-    <div class="adov-rsub" id="adovRSub"></div>
-    <div class="adov-msg" id="adovMsg"></div>
-    <div class="adov-status" id="adovStatus"></div>
-    <div class="adov-step-lbl" id="adovStepLbl"></div>
-    <div class="adov-net-name" id="adovNetName"></div>
-
-  </div><!-- /adov-card -->
+  <nav class="bottom-nav">
+    <button class="nav-btn" onclick="goPage('support')"><span class="icon">🎧</span><span>সাপোর্ট</span></button>
+    <button class="nav-btn active" onclick="goPage('home')"><span class="icon">🏠</span><span>হোম</span></button>
+    <button class="nav-btn" onclick="goPage('task')"><span class="icon">🎯</span><span>টাস্ক</span></button>
+    <button class="nav-btn" onclick="goPage('withdraw')"><span class="icon">💸</span><span>উইথড্র</span></button>
+  </nav>
 </div>
 
 <div class="toast" id="toast"></div>
 
-<!-- ===================== JAVASCRIPT (unchanged) ===================== -->
+<div id="loadScreen" style="position:fixed;inset:0;z-index:9999;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;">
+  <div style="font-size:56px;animation:spin 2s linear infinite">🪙</div>
+  <div style="font-family:var(--font-en);font-weight:900;font-size:28px;background:linear-gradient(90deg,var(--gold),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;">CoinsX</div>
+  <div style="font-size:13px;color:var(--text2);">লোড হচ্ছে...</div>
+  <div class="spinner"></div>
+</div>
+
 <script>
-const MINI_LINKS = {
-  group: 'https://t.me/zomato_app_payment_proof',
-  tutorial: 'https://youtube.com/shorts/q8499pfArbg?si=ag7wd6uFlN0NfFPP'
-};
+/* ══════════════════════════════════════════
+   CORE STATE
+══════════════════════════════════════════ */
+let tgUser=null, userData={}, config={}, currentPage='home', selectedMethod='bkash';
+let adCooldownTimers={3:null};
 
-const firebaseConfig={apiKey:"AIzaSyCS9W1gnMSaIV2KjH1QMBTLgTt-ew0mnTo",authDomain:"zomato-platform.firebaseapp.com",databaseURL:"https://zomato-platform-default-rtdb.asia-southeast1.firebasedatabase.app",projectId:"zomato-platform",storageBucket:"zomato-platform.firebasestorage.app",messagingSenderId:"183991686104",appId:"1:183991686104:web:247a3edcd71a1148f418ad"};
-firebase.initializeApp(firebaseConfig);
-const db=firebase.database();
+/* ══════════════════════════════════════════
+   FIREBASE HELPERS
+══════════════════════════════════════════ */
+function dbRef(p){return window._dbRef(window._db,p);}
+function dbGet(p){return window._dbGet(dbRef(p));}
+function dbSet(p,v){return window._dbSet(dbRef(p),v);}
+function dbUpdate(p,v){return window._dbUpdate(dbRef(p),v);}
+function dbPush(p,v){return window._dbPush(dbRef(p),v);}
 
-let APP={userId:null,userName:null,userPhoto:null,balance:0,totalEarned:0,totalWithdrawn:0,referralCode:null,referrals:[],completedTasks:[],watchedAds:[],settings:{referralBonus:5,minWithdraw:50,welcomeBonus:0,botUsername:'YourBot',botToken:'',watchChain:{count:3,reward:0.5,slots:[],cooldownSec:30,dailyLimit:5},withdrawChain:{enabled:false,count:2,message:'Watch ads before withdrawal',slots:[]},credentials:{adsgram:{},monetag:{},adsterra:{}},tasks:[],supportCards:[],video:{},welcome:{enabled:false,emoji:'🎉',title:'Welcome!',message:'Start watching ads and earn money every day!'}}};
+/* ══════════════════════════════════════════
+   UTILS
+══════════════════════════════════════════ */
+function todayKey(){const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;}
+function getTodayWatchCount(n){return userData.adWatchedDaily?.[`ad${n}`]?.[todayKey()]||0;}
+function getAdDailyLimit(n){
+  const chain = getSlotChain(n);
+  return Number(chain?.dailyLimit || config[`ad${n}DailyLimit`] || 5);
+}
+function isDailyLimitReached(n){return getTodayWatchCount(n)>=getAdDailyLimit(n);}
+function formatTime(s){const m=Math.floor(s/60);const sc=s%60;return m>0?`${m}মি ${sc}সে`:`${sc}সে`;}
 
-let CS={active:false,type:null,queue:[],idx:0,total:0,reward:0,done:false,wdData:null};
-let cooldownInterval=null,cooldownEndTime=0;
-let TOV={taskId:null,link:null,channelId:null};
-
-const MONETAG_ZONE='10900318';
-const MONETAG_SDK_FN='show_'+MONETAG_ZONE;
-
-function toArr(v){if(!v)return[];if(Array.isArray(v))return v;return Object.values(v);}
-
-function openMiniLink(link){
-  if(!link){showToast('⚠️ Link set করা নেই');return;}
-  const tg=window.Telegram?.WebApp;
-  if(tg){if(link.includes('t.me')||link.includes('telegram'))tg.openTelegramLink(link);else tg.openLink(link);}
-  else window.open(link,'_blank');
+/* get chain config for slot n */
+function getSlotChain(n){
+  return config.adChains?.[`slot${n}`] || null;
 }
 
-window.addEventListener('DOMContentLoaded',async()=>{
-  setTimeout(async()=>{
-    try{
-      const cfgSnap=await db.ref('settings/autoReject').get();
-      const cfg=cfgSnap.val();
-      if(!cfg||!cfg.enabled)return;
-      const cutoff=Date.now()-((cfg.hours||1)*3600000);
-      const wSnap=await db.ref('withdrawals').get();
-      if(!wSnap.exists())return;
-      const tasks=[];
-      wSnap.forEach(c=>{const w=c.val();if(w.status==='pending'&&new Date(w.createdAt).getTime()<cutoff)tasks.push({id:c.key,userId:w.userId,amount:w.amount});});
-      for(const w of tasks){
-        await db.ref('withdrawals/'+w.id).update({status:'rejected',reason:'[Auto] '+(cfg.reason||'সময়মতো প্রসেস করা হয়নি')});
-        const uSnap=await db.ref('users/'+w.userId).get();
-        if(uSnap.exists()){const d=uSnap.val();await db.ref('users/'+w.userId).update({balance:(d.balance||0)+w.amount,totalWithdrawn:Math.max(0,(d.totalWithdrawn||0)-w.amount)});}
-      }
-    }catch(e){}
-  },3000);
-
+/* ══════════════════════════════════════════
+   BOOT
+══════════════════════════════════════════ */
+function initTelegram(){
   const tg=window.Telegram?.WebApp;
-  if(tg){tg.ready();tg.expand();tg.setBackgroundColor('#06030c');}
-  const user=tg?.initDataUnsafe?.user;
-  if(user){APP.userId=String(user.id);APP.userName=[user.first_name,user.last_name].filter(Boolean).join(' ');APP.userPhoto=user.photo_url||null;}
-  else{APP.userId='demo_001';APP.userName='Demo User';}
-  APP.referralCode=APP.userId;
-  const startParam=tg?.initDataUnsafe?.start_param;
+  if(tg){tg.ready();tg.expand();tg.setHeaderColor('#0a0c14');tg.setBackgroundColor('#0a0c14');tgUser=tg.initDataUnsafe?.user||null;}
+  if(!tgUser)tgUser={id:123456789,first_name:'Test',last_name:'User',username:'testuser'};
+}
 
-  try{
-    let welcomeShown=false;
-    db.ref('settings').on('value',snap=>{
-      const s=snap.val()||{};
-      APP.settings={...APP.settings,...s};
-      renderTasks();renderSupport();renderVideo();
-      updateWatchCard();updateWdBtn();updateUI();
-      document.getElementById('rbLbl').textContent=`৳ ${(APP.settings.referralBonus||5).toFixed(2)}`;
-      document.getElementById('minWd').textContent=`৳ ${(APP.settings.minWithdraw||50).toFixed(2)}`;
-      if(!welcomeShown){welcomeShown=true;setTimeout(checkWelcomePopup,800);}
-    });
+function boot(){
+  initTelegram();
+  loadConfig().then(()=>loadOrCreateUser()).then(()=>{
+    renderAll();
+    document.getElementById('loadScreen').style.display='none';
+    document.getElementById('app').style.display='flex';
+    setupSDKs();
+    listenUserBalance();
+    showStartupPopup();
+  }).catch(err=>{
+    document.getElementById('loadScreen').innerHTML=`<div style="color:var(--red);padding:20px;text-align:center;font-size:14px;">⚠️ লোড হয়নি।<br><small>${err.message}</small></div>`;
+  });
+}
+if(window._firebaseReady){boot();}
+else{document.addEventListener('firebaseReady',boot,{once:true});}
+setTimeout(()=>{if(!window._firebaseReady){document.getElementById('loadScreen').innerHTML='<div style="color:var(--red);padding:24px;text-align:center;">Firebase কানেক্ট হয়নি।<br>Config চেক করুন।</div>';}},10000);
 
-    const uRef=db.ref('users/'+APP.userId);
-    const snap=await uRef.get();
-    if(!snap.exists()){
-      const settingsSnap=await db.ref('settings').get();
-      const settingsData=settingsSnap.val()||{};
-      const wb=settingsData.welcomeBonus??0;
-      const rb=settingsData.referralBonus??5;
-      await uRef.set({userId:APP.userId,userName:APP.userName,balance:wb,totalEarned:wb,totalWithdrawn:0,referredBy:startParam||null,referrals:[],completedTasks:[],watchedAds:[],blocked:false,cooldownEndTime:0,joinedAt:new Date().toISOString()});
-      if(startParam&&startParam!==APP.userId){
-        const rs=await db.ref('users/'+startParam).get();
-        if(rs.exists()){const rd=rs.val();const existingRefs=toArr(rd.referrals);await db.ref('users/'+startParam).update({balance:(rd.balance||0)+rb,totalEarned:(rd.totalEarned||0)+rb,referrals:[...existingRefs,{userId:APP.userId,name:APP.userName,date:new Date().toISOString()}]});}
-      }
-    }
-
-    uRef.on('value',snap=>{
-      const d=snap.val();if(!d)return;
-      if(d.blocked===true){document.getElementById('blockedScreen').style.display='flex';document.getElementById('ls').style.display='none';if(window.Telegram?.WebApp)setTimeout(()=>window.Telegram.WebApp.close(),400);return;}
-      APP.balance=d.balance||0;APP.totalEarned=d.totalEarned||0;APP.totalWithdrawn=d.totalWithdrawn||0;
-      APP.referrals=toArr(d.referrals);APP.completedTasks=toArr(d.completedTasks);APP.watchedAds=toArr(d.watchedAds);
-      cooldownEndTime=d.cooldownEndTime||0;
-      updateUI();updateWatchCard();checkCooldown();
-    });
-
-    db.ref('withdrawals').on('value',snap=>{
-      const items=[];
-      snap.forEach(c=>{const v=c.val();if(v&&String(v.userId)===String(APP.userId))items.push({id:c.key,...v});});
-      items.sort((a,b)=>new Date(b.createdAt)-new Date(a.createdAt));
-      renderWdHist(items);
-    });
-
-  }catch(e){console.error(e);showToast('⚠️ Connection error');}
-
-  updateProfile();
-  updateUI();
-
-  setTimeout(()=>{
-    document.getElementById('ls').style.display='none';
-  },2500);
-});
-
-function checkWelcomePopup(){const wp=APP.settings.welcome||{};if(!wp.enabled)return;document.getElementById('welcomeEmoji').textContent=wp.emoji||'🎉';document.getElementById('welcomeTitle').textContent=wp.title||'Welcome!';document.getElementById('welcomeMsg').textContent=wp.message||'Start earning today!';document.getElementById('welcomeScreen').classList.add('open');}
-function closeWelcome(){document.getElementById('welcomeScreen').classList.remove('open');}
-
-function renderTasks(){
-  const tasks=(APP.settings.tasks||[]).filter(t=>t.active!==false);
-  const el=document.getElementById('taskList');
-  if(!tasks.length){el.innerHTML=`<div class="empty" style="min-width:100%"><div class="eic">📋</div>No tasks yet</div>`;return;}
-  function getIconEl(t){
-    const link=(t.link||'').toLowerCase();
-    if(link.includes('t.me')||link.includes('telegram'))return`<div class="t-icon t-tg"><i class="fa-brands fa-telegram"></i></div>`;
-    if(link.includes('youtube')||link.includes('youtu.be'))return`<div class="t-icon t-yt"><i class="fa-brands fa-youtube"></i></div>`;
-    if(link.includes('whatsapp'))return`<div class="t-icon t-msg"><i class="fa-brands fa-whatsapp"></i></div>`;
-    return`<div class="t-icon t-gen" style="background:${t.bg||'rgba(124,111,253,.8)'}">${t.icon||'✅'}</div>`;
+/* ══════════════════════════════════════════
+   CONFIG & USER
+   (Earnzio-style: credentials{adsgram,monetag,adsterra} +
+   adChains.slotN = {count, slots[], reward, cooldownSec, dailyLimit}
+   + withdrawChain = {enabled, count, slots[], message})
+══════════════════════════════════════════ */
+async function loadConfig(){
+  const snap=await dbGet('config');
+  if(snap.exists()){
+    const s=snap.val();
+    config={
+      minWithdraw:50,referEarn:5,
+      supportLink:'https://t.me/yoursupport',
+      popup:{enabled:false,icon:'🤩',title:'Welcome',message:''},
+      helpItems:{q1:{q:'কীভাবে আয় করবো?',a:'টাস্ক পেজে গিয়ে এড দেখুন এবং টাস্ক সম্পন্ন করুন।'}},
+      tasks:{t1:{name:'আমাদের চ্যানেল জয়েন করুন',desc:'টেলিগ্রাম চ্যানেল সাবস্ক্রাইব করুন',reward:10,link:'https://t.me/yourchannel',icon:'📢'}},
+      ...s,
+      credentials:{
+        adsgram:{active:false,blockId:''},
+        monetag:{active:false,zoneId:''},
+        adsterra:{active:false,link:''},
+        ...(s.credentials||{})
+      },
+      adChains:{
+        slot1:{count:1,slots:['adsgram'],reward:0.5,cooldownSec:60,dailyLimit:5},
+        slot2:{count:1,slots:['monetag'],reward:1.0,cooldownSec:120,dailyLimit:5},
+        slot3:{count:1,slots:['adsterra'],reward:0.75,cooldownSec:90,dailyLimit:5},
+        ...(s.adChains||{})
+      },
+      withdrawChain:{enabled:false,count:1,slots:['adsgram'],message:'উইথড্রর আগে বিজ্ঞাপন দেখুন 👇',...(s.withdrawChain||{})}
+    };
+  } else {
+    config={
+      minWithdraw:50,referEarn:5,
+      supportLink:'https://t.me/yoursupport',
+      popup:{enabled:false,icon:'🤩',title:'Welcome',message:''},
+      helpItems:{q1:{q:'কীভাবে আয় করবো?',a:'টাস্ক পেজে গিয়ে এড দেখুন এবং টাস্ক সম্পন্ন করুন।'}},
+      tasks:{t1:{name:'আমাদের চ্যানেল জয়েন করুন',desc:'টেলিগ্রাম চ্যানেল সাবস্ক্রাইব করুন',reward:10,link:'https://t.me/yourchannel',icon:'📢'}},
+      credentials:{
+        adsgram:{active:false,blockId:''},
+        monetag:{active:false,zoneId:''},
+        adsterra:{active:false,link:''}
+      },
+      adChains:{
+        slot1:{count:1,slots:['adsgram'],reward:0.5,cooldownSec:60,dailyLimit:5},
+        slot2:{count:1,slots:['monetag'],reward:1.0,cooldownSec:120,dailyLimit:5},
+        slot3:{count:1,slots:['adsterra'],reward:0.75,cooldownSec:90,dailyLimit:5}
+      },
+      withdrawChain:{enabled:false,count:1,slots:['adsgram'],message:'উইথড্রর আগে বিজ্ঞাপন দেখুন 👇'}
+    };
   }
-  el.innerHTML=tasks.map(t=>{
-    const done=APP.completedTasks.includes(t.id);
-    const hasCh=t.channelId||t.channelUsername;
-    const actionEl=done
-      ?`<div class="t-done-check">✓</div>`
-      :hasCh
-        ?`<div class="t-arrow" onclick="openTaskVerify('${t.id}')"><i class="fa-solid fa-arrow-right"></i></div>`
-        :`<div class="t-arrow" onclick="doTaskDirect('${t.id}')"><i class="fa-solid fa-arrow-right"></i></div>`;
-    return`<div class="task-slide-item ${done?'done':''}">${getIconEl(t)}<div class="t-info"><h4>${t.name}</h4><p>${t.desc||''}</p><div class="t-reward-txt">+৳ ${Number(t.reward).toFixed(2)}</div></div>${actionEl}</div>`;
+}
+
+async function loadOrCreateUser(){
+  const uid=String(tgUser.id);
+  const snap=await dbGet(`users/${uid}`);
+  const tg=window.Telegram?.WebApp;
+  const startParam=tg?.initDataUnsafe?.start_param||'';
+  if(!snap.exists()){
+    userData={uid,name:`${tgUser.first_name||''} ${tgUser.last_name||''}`.trim(),username:tgUser.username||'',balance:0,totalEarned:0,referCount:0,referredBy:startParam||'',joinedAt:Date.now(),adWatched:{},adWatchedDaily:{},tasksDone:{}};
+    await dbSet(`users/${uid}`,userData);
+    if(startParam&&startParam!==uid){
+      const refSnap=await dbGet(`users/${startParam}`);
+      if(refSnap.exists()){const r=refSnap.val();const earn=Number(config.referEarn)||5;await dbUpdate(`users/${startParam}`,{balance:(r.balance||0)+earn,totalEarned:(r.totalEarned||0)+earn,referCount:(r.referCount||0)+1});}
+    }
+  } else {
+    userData=snap.val();
+    if(!userData.adWatchedDaily)userData.adWatchedDaily={};
+  }
+}
+
+function listenUserBalance(){
+  window._dbOnValue(dbRef(`users/${userData.uid}`),(snap)=>{
+    if(snap.exists()){userData=snap.val();if(!userData.adWatchedDaily)userData.adWatchedDaily={};updateBalanceUI();}
+  });
+}
+
+/* ══════════════════════════════════════════
+   SDK SETUP — Adsgram + Monetag
+   Loads every unique Monetag zone referenced anywhere in
+   adChains.*.slots or withdrawChain.slots via credentials.monetag.
+══════════════════════════════════════════ */
+function setupSDKs(){
+  _loadMonetagZone();
+}
+
+function _loadMonetagZone(){
+  const zoneId=config.credentials?.monetag?.zoneId;
+  if(!zoneId || !config.credentials?.monetag?.active) return;
+  if(document.querySelector(`script[data-zone="${zoneId}"]`)) return;
+  const s=document.createElement('script');
+  s.src='//libtl.com/sdk.js';
+  s.setAttribute('data-zone',zoneId);
+  s.setAttribute('data-sdk',`show_${zoneId}`);
+  s.async=true;
+  document.body.appendChild(s);
+}
+
+/* ══════════════════════════════════════════
+   RENDER FUNCTIONS (unchanged)
+══════════════════════════════════════════ */
+function renderAll(){renderProfile();renderAds();renderTasks();renderWithdraw();renderHistory();renderSupport();}
+
+function renderProfile(){
+  const name=userData.name||tgUser.first_name||'ইউজার';
+  document.getElementById('avatarInitial').textContent=name[0]?.toUpperCase()||'?';
+  document.getElementById('profileName').textContent=name;
+  document.getElementById('profileUid').textContent=`টেলিগ্রাম ID: ${userData.uid}`;
+  updateBalanceUI();
+  const botUsername='YourBotUsername';
+  const link=`https://t.me/${botUsername}?start=${userData.uid}`;
+  document.getElementById('referLinkText').textContent=link;
+  window._referLink=link;
+}
+
+function updateBalanceUI(){
+  const bal=(userData.balance||0).toFixed(2);
+  const total=(userData.totalEarned||0).toFixed(2);
+  document.getElementById('homeBalance').textContent=bal;
+  document.getElementById('homeEarnedTotal').textContent=`মোট আয়: ৳${total}`;
+  document.getElementById('wBalance').textContent=bal;
+  document.getElementById('referCount').textContent=`${userData.referCount||0} জন`;
+}
+
+function renderAds(){
+  document.getElementById('adEarn3').textContent=`৳${Number(getSlotChain(3)?.reward ?? 0.75).toFixed(2)}`;
+  document.getElementById('wMinLabel').textContent=`সর্বনিম্ন উইথড্র: ৳${config.minWithdraw||50}`;
+  checkAdCooldown(3);
+  renderWithdrawChainNotice();
+}
+
+function renderWithdrawChainNotice(){
+  const wdChain=config.withdrawChain||{};
+  const notice=document.getElementById('wdChainNotice');
+  if(!notice)return;
+  if(wdChain.enabled){
+    notice.style.display='block';
+    document.getElementById('wdChainMsg').textContent=wdChain.message||'উইথড্রর আগে বিজ্ঞাপন দেখুন 👇';
+  } else {
+    notice.style.display='none';
+  }
+}
+
+function updateAdLimitBadge(n){
+  const watched=getTodayWatchCount(n);
+  const limit=getAdDailyLimit(n);
+  const el=document.getElementById(`adLimit${n}`);
+  if(!el)return;
+  if(watched>=limit){el.textContent=`আজকের লিমিট শেষ (${watched}/${limit})`;el.className='ad-limit-badge done';}
+  else{el.textContent=`আজ দেখেছেন: ${watched}/${limit}`;el.className='ad-limit-badge';}
+}
+
+function checkAdCooldown(n){
+  updateAdLimitBadge(n);
+  if(isDailyLimitReached(n)){lockAdFull(n);return;}
+  const chain=getSlotChain(n);
+  const last=userData.adWatched?.[`ad${n}`]||0;
+  const cooldown=Number(chain?.cooldownSec ?? 60);
+  const remaining=cooldown-(Date.now()-last)/1000;
+  if(remaining>0)lockAd(n,Math.ceil(remaining));
+  else unlockAd(n);
+}
+
+function lockAdFull(n){
+  const btn=document.querySelector(`#adCard${n} .ad-btn`);
+  const cdEl=document.getElementById(`adCooldown${n}`);
+  if(btn){btn.disabled=true;}
+  if(cdEl)cdEl.textContent='';
+  clearInterval(adCooldownTimers[n]);
+}
+
+function lockAd(n,secs){
+  const btn=document.querySelector(`#adCard${n} .ad-btn`);
+  const cdEl=document.getElementById(`adCooldown${n}`);
+  if(btn){btn.disabled=true;}
+  let r=secs;
+  if(cdEl)cdEl.textContent=`⏳ ${formatTime(r)} পরে উপলব্ধ`;
+  adCooldownTimers[n]=setInterval(()=>{r--;if(r<=0){clearInterval(adCooldownTimers[n]);checkAdCooldown(n);}else{if(cdEl)cdEl.textContent=`⏳ ${formatTime(r)} পরে উপলব্ধ`;}},1000);
+}
+
+function unlockAd(n){
+  const btn=document.querySelector(`#adCard${n} .ad-btn`);
+  const cdEl=document.getElementById(`adCooldown${n}`);
+  if(btn){btn.disabled=false;}
+  if(cdEl)cdEl.textContent='';
+  clearInterval(adCooldownTimers[n]);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   WATCH AD — EARNZIO-STYLE AD CHAIN SYSTEM
+   Ported from Earnzio's startAdChain()/playAdFromNetwork() logic.
+
+   Each ad slot (only slot 3 remains on Home) and the withdraw gate
+   use the same engine: adChains.slotN / withdrawChain = {count,
+   slots[], reward, cooldownSec, dailyLimit}. `slots` cycles
+   (network per step) up to `count` steps, drawing credentials from
+   config.credentials. Adsgram/Monetag auto-advance on completion;
+   Adsterra opens the link and — on every step except the last —
+   waits for the user to tap "পরবর্তী বিজ্ঞাপন" (Continue) before
+   moving on, exactly like Earnzio. The final step always credits
+   automatically.
+══════════════════════════════════════════════════════════════ */
+let adChainState = {
+  running:false,
+  mode:'watch',      // 'watch' or 'withdraw'
+  slotN:0,            // 3 for watch mode, 0 for withdraw
+  currentStep:0,       // 1-indexed
+  totalSteps:1,
+  orderedNetworks:[],
+  reward:0,
+  _called:false,
+};
+let _chainContinueCallback=null;
+
+function watchAd(n){
+  if(isDailyLimitReached(n)){showToast('আজকের দৈনিক লিমিট শেষ হয়েছে','error');return;}
+  const chain=getSlotChain(n)||{};
+  const cooldown=Number(chain.cooldownSec ?? 60);
+  const last=userData.adWatched?.[`ad${n}`]||0;
+  const elapsed=(Date.now()-last)/1000;
+  if(cooldown && elapsed<cooldown){showToast(`আবার চেষ্টা করুন ${Math.ceil(cooldown-elapsed)} সেকেন্ড পর`,'error');return;}
+  startAdChain('watch',n,chain);
+}
+
+function handleWithdrawClick(){
+  if(!validateWithdrawForm())return;
+  const wdChain=config.withdrawChain||{};
+  if(wdChain.enabled){
+    startAdChain('withdraw',0,wdChain);
+  } else {
+    doSubmitWithdraw();
+  }
+}
+
+/* build ordered network list by cycling `slots` up to `count` steps
+   (identical pattern to Earnzio's startAdChain) */
+function _buildOrderedNetworks(chainCfg){
+  const total=Math.max(1,Number(chainCfg.count||1));
+  const raw=(chainCfg.slots&&chainCfg.slots.length)?chainCfg.slots:['adsgram'];
+  const ordered=[];
+  for(let i=0;i<total;i++)ordered.push(raw[i%raw.length]);
+  return ordered;
+}
+
+function startAdChain(mode,slotN,chainCfg){
+  if(adChainState.running)return;
+  const ordered=_buildOrderedNetworks(chainCfg||{});
+  adChainState={
+    running:true,
+    mode,
+    slotN,
+    currentStep:0,
+    totalSteps:ordered.length,
+    orderedNetworks:ordered,
+    reward:Number(chainCfg?.reward||0),
+    _called:false,
+  };
+  if(mode==='watch'){
+    const btn=document.querySelector(`#adCard${slotN} .ad-btn`);
+    if(btn){btn.disabled=true;}
+  } else {
+    const wd=document.getElementById('withdrawSubmitBtn');
+    if(wd)wd.disabled=true;
+  }
+  _showChainOverlay();
+  runNextAdInChain();
+}
+
+function _showChainOverlay(){
+  document.getElementById('chainEarnAmt').textContent = adChainState.mode==='withdraw'
+    ? 'উইথড্র যাচাই'
+    : `৳${adChainState.reward.toFixed(2)}`;
+  document.getElementById('chainTitle').textContent='এড লোড হচ্ছে...';
+  document.getElementById('chainSub').textContent='দয়া করে অপেক্ষা করুন, বন্ধ করবেন না';
+  document.getElementById('chainIcon').textContent='📺';
+  document.getElementById('chainProgressBar').style.width='6%';
+  document.getElementById('chainHint').textContent='একাধিক বিজ্ঞাপন প্রদর্শিত হতে পারে — সম্পূর্ণ হলে অটো যোগ হবে';
+  document.getElementById('chainDots').style.display='flex';
+  hideChainContinueBtn();
+  document.getElementById('adChainOverlay').classList.add('active');
+}
+
+/* ── AUTO ADVANCE: called once per step ── */
+function runNextAdInChain(){
+  adChainState.currentStep++;
+  const step=adChainState.currentStep;
+  const total=adChainState.totalSteps;
+  if(step>total){_chainFinish();return;}
+
+  const network=adChainState.orderedNetworks[step-1]||'adsgram';
+  const icons={adsgram:'🎮',monetag:'⚡',adsterra:'📡'};
+  document.getElementById('chainIcon').textContent=icons[network]||'📺';
+  document.getElementById('chainTitle').textContent='এড লোড হচ্ছে...';
+  document.getElementById('chainSub').textContent='দয়া করে অপেক্ষা করুন, বন্ধ করবেন না';
+  document.getElementById('chainProgressBar').style.width='6%';
+  hideChainContinueBtn();
+
+  adChainState._called=false;
+  playAdFromNetwork(network);
+}
+
+/* ── PLAY AD FROM NETWORK (ported from Earnzio) ── */
+function playAdFromNetwork(network){
+  const fill=document.getElementById('chainProgressBar');
+  const creds=config.credentials||{};
+
+  function safeNext(){
+    if(adChainState._called)return;
+    adChainState._called=true;
+    setTimeout(()=>_chainStepDone(),300);
+  }
+
+  // ── ADSGRAM ──
+  if(network==='adsgram' && creds.adsgram?.active && creds.adsgram?.blockId){
+    if(window.Adsgram){
+      try{
+        const AdController=window.Adsgram.init({blockId:String(creds.adsgram.blockId)});
+        _simulateProgressBar(fill,5000);
+        AdController.show().then(()=>safeNext()).catch(e=>{console.warn('Adsgram show failed',e);fill.style.width='100%';safeNext();});
+        return;
+      }catch(e){console.warn('Adsgram init error',e);fill.style.width='100%';safeNext();return;}
+    } else {
+      let waited=0;
+      const wi=setInterval(()=>{
+        waited+=200;
+        if(window.Adsgram){
+          clearInterval(wi);
+          try{
+            const AdController=window.Adsgram.init({blockId:String(creds.adsgram.blockId)});
+            _simulateProgressBar(fill,5000);
+            AdController.show().then(()=>safeNext()).catch(()=>{fill.style.width='100%';safeNext();});
+          }catch(e){fill.style.width='100%';safeNext();}
+        } else if(waited>=3000){
+          clearInterval(wi);
+          console.warn('Adsgram SDK পাওয়া যাচ্ছে না, এড়িয়ে যাচ্ছি');
+          fill.style.width='100%';safeNext();
+        }
+      },200);
+      return;
+    }
+  }
+
+  // ── MONETAG ──
+  if(network==='monetag' && creds.monetag?.active && creds.monetag?.zoneId){
+    const fnName=`show_${creds.monetag.zoneId}`;
+    if(typeof window[fnName]==='function'){
+      try{
+        _simulateProgressBar(fill,5000);
+        const result=window[fnName]();
+        if(result && typeof result.then==='function'){
+          result.then(()=>safeNext()).catch(e=>{console.warn('Monetag failed',e);fill.style.width='100%';safeNext();});
+        } else {
+          setTimeout(()=>{fill.style.width='100%';safeNext();},3000);
+        }
+        return;
+      }catch(e){console.warn('Monetag error',e);fill.style.width='100%';safeNext();return;}
+    } else {
+      let waited=0;
+      const wi=setInterval(()=>{
+        waited+=200;
+        if(typeof window[fnName]==='function'){
+          clearInterval(wi);
+          try{
+            _simulateProgressBar(fill,5000);
+            const result=window[fnName]();
+            if(result && typeof result.then==='function'){
+              result.then(()=>safeNext()).catch(()=>{fill.style.width='100%';safeNext();});
+            } else {
+              setTimeout(()=>{fill.style.width='100%';safeNext();},3000);
+            }
+          }catch(e){fill.style.width='100%';safeNext();}
+        } else if(waited>=3000){
+          clearInterval(wi);
+          console.warn('Monetag fn পাওয়া যাচ্ছে না, এড়িয়ে যাচ্ছি');
+          fill.style.width='100%';safeNext();
+        }
+      },200);
+      return;
+    }
+  }
+
+  // ── ADSTERRA ── opens link; pauses on Continue button unless this is the last step
+  if(network==='adsterra' && creds.adsterra?.active && creds.adsterra?.link){
+    const isLastAd=adChainState.currentStep>=adChainState.totalSteps;
+    try{
+      const tg=window.Telegram?.WebApp;
+      if(tg && typeof tg.openLink==='function'){tg.openLink(creds.adsterra.link);}
+      else{window.open(creds.adsterra.link,'_blank');}
+    }catch(e){console.warn('Adsterra open error',e);}
+
+    _simulateProgressBar(fill,1500);
+
+    if(isLastAd){
+      setTimeout(()=>{fill.style.width='100%';safeNext();},1500);
+    } else {
+      setTimeout(()=>{
+        fill.style.width='100%';
+        document.getElementById('chainTitle').textContent='বিজ্ঞাপন দেখা হয়েছে?';
+        document.getElementById('chainSub').textContent='তারপর "পরবর্তী বিজ্ঞাপন" চাপুন';
+        showChainContinueBtn(safeNext);
+      },1500);
+    }
+    return;
+  }
+
+  // ── not configured/active — auto-skip ──
+  console.warn('নেটওয়ার্ক সক্রিয়/কনফিগার নয়:',network,'— স্বয়ংক্রিয়ভাবে এড়িয়ে যাচ্ছি');
+  document.getElementById('chainTitle').textContent='এড়িয়ে যাচ্ছি...';
+  fill.style.width='100%';
+  safeNext();
+}
+
+function _simulateProgressBar(fillEl,durationMs){
+  const start=Date.now();
+  function tick(){
+    const pct=Math.min(100,((Date.now()-start)/durationMs)*100);
+    fillEl.style.width=pct+'%';
+    if(pct<100)requestAnimationFrame(tick);
+  }
+  tick();
+}
+
+/* ── Continue button (Adsterra multi-step gate, Earnzio-style) ── */
+function showChainContinueBtn(callback){
+  _chainContinueCallback=null;
+  const btn=document.getElementById('chainContinueBtn');
+  const hint=document.getElementById('chainHint');
+  const dots=document.getElementById('chainDots');
+  if(btn)btn.classList.add('show');
+  if(hint)hint.style.display='none';
+  if(dots)dots.style.display='none';
+  setTimeout(()=>{_chainContinueCallback=callback;},400);
+}
+function hideChainContinueBtn(){
+  _chainContinueCallback=null;
+  const btn=document.getElementById('chainContinueBtn');
+  const hint=document.getElementById('chainHint');
+  const dots=document.getElementById('chainDots');
+  if(btn)btn.classList.remove('show');
+  if(hint)hint.style.display='';
+  if(dots)dots.style.display='flex';
+}
+function chainContinueClicked(){
+  if(!_chainContinueCallback)return;
+  const cb=_chainContinueCallback;
+  _chainContinueCallback=null;
+  hideChainContinueBtn();
+  cb();
+}
+
+/* ── STEP DONE → auto-continue to next, or finish ── */
+function _chainStepDone(){
+  adChainState._called=false;
+  runNextAdInChain();
+}
+
+/* ── CHAIN FINISH → credit (watch) or unlock withdraw submit (withdraw) ── */
+async function _chainFinish(){
+  adChainState.running=false;
+
+  const bar=document.getElementById('chainProgressBar');
+  bar.style.width='100%';
+  document.getElementById('chainTitle').textContent='সম্পন্ন হচ্ছে...';
+  document.getElementById('chainSub').textContent = adChainState.mode==='withdraw'
+    ? 'উইথড্র রিকোয়েস্ট পাঠানো হচ্ছে'
+    : 'ব্যালেন্স যোগ করা হচ্ছে';
+
+  await new Promise(r=>setTimeout(r,450));
+
+  document.getElementById('adChainOverlay').classList.remove('active');
+  const flash=document.getElementById('chainCreditFlash');
+  flash.style.display='block';
+  setTimeout(()=>flash.style.display='none',600);
+
+  if(adChainState.mode==='withdraw'){
+    const wd=document.getElementById('withdrawSubmitBtn');
+    if(wd)wd.disabled=false;
+    await doSubmitWithdraw();
+  } else {
+    await creditAd(adChainState.slotN);
+  }
+
+  adChainState={running:false,mode:'watch',slotN:0,currentStep:0,totalSteps:1,orderedNetworks:[],reward:0,_called:false};
+}
+
+/* ── CREDIT (watch mode) ── */
+async function creditAd(n){
+  const chain=getSlotChain(n)||{};
+  const earn=Number(chain.reward||0);
+  const key=todayKey();
+  const dailyCount=getTodayWatchCount(n);
+  await dbUpdate(`users/${userData.uid}`,{
+    balance:(userData.balance||0)+earn,
+    totalEarned:(userData.totalEarned||0)+earn,
+    [`adWatched/ad${n}`]:Date.now(),
+    [`adWatchedDaily/ad${n}/${key}`]:dailyCount+1
+  });
+  showToast(`+৳${earn.toFixed(2)} ব্যালেন্সে যোগ হয়েছে ✅`,'success');
+  checkAdCooldown(n);
+  const btn=document.querySelector(`#adCard${n} .ad-btn`);
+  if(btn)btn.disabled=false;
+}
+
+/* ══════════════════════════════════════════
+   TASKS
+══════════════════════════════════════════ */
+function renderTasks(){
+  const tasks=config.tasks||{};
+  const keys=Object.keys(tasks);
+  const el=document.getElementById('taskList');
+  if(keys.length===0){el.innerHTML='<div class="empty-state"><div class="e-icon">📭</div>কোনো টাস্ক নেই</div>';return;}
+  el.innerHTML=keys.map(k=>{
+    const t=tasks[k];const done=userData.tasksDone?.[k];
+    return `<div class="task-item ${done?'done':''}" onclick="${done?'':'doTask(\''+k+'\')'}" ><div class="task-icon">${t.icon||'✅'}</div><div class="task-info"><div class="task-name">${t.name}</div><div class="task-desc">${t.desc||''}</div></div>${done?'<div class="task-done-badge">✅</div>':`<div class="task-reward">+৳${Number(t.reward).toFixed(0)}</div>`}</div>`;
   }).join('');
 }
 
-async function doTaskDirect(id){const t=(APP.settings.tasks||[]).find(x=>x.id===id);if(!t||APP.completedTasks.includes(id))return;if(t.link){const tg=window.Telegram?.WebApp;if(tg&&t.link.includes('t.me'))tg.openTelegramLink(t.link);else window.open(t.link,'_blank');await new Promise(r=>setTimeout(r,2000));}await completeTask(id,t);}
-
-function openTaskVerify(id){const t=(APP.settings.tasks||[]).find(x=>x.id===id);if(!t||APP.completedTasks.includes(id))return;TOV={taskId:id,link:t.link||'',channelId:t.channelId||t.channelUsername||''};document.getElementById('tovIc').textContent=t.icon||'📢';document.getElementById('tovTitle').textContent=t.name;document.getElementById('tovSub').textContent=`Join the channel to earn ৳${Number(t.reward).toFixed(2)}. After joining, tap "Verify" to claim.`;document.getElementById('tovStatus').textContent='';document.getElementById('tovVerifyBtn').textContent="✅ I've Joined — Verify";document.getElementById('tovVerifyBtn').classList.remove('verifying');document.getElementById('taskOv').classList.add('open');}
-function tovOpenLink(){if(!TOV.link)return;const tg=window.Telegram?.WebApp;if(tg&&TOV.link.includes('t.me'))tg.openTelegramLink(TOV.link);else window.open(TOV.link,'_blank');}
-
-async function tovVerify(){
-  const id=TOV.taskId;const t=(APP.settings.tasks||[]).find(x=>x.id===id);if(!t)return;
-  const botToken=APP.settings.botToken||'';const channelId=TOV.channelId;
-  if(!botToken||!channelId){await completeTask(id,t);tovClose();return;}
-  const btn=document.getElementById('tovVerifyBtn');const status=document.getElementById('tovStatus');
-  btn.textContent='⏳ Verifying...';btn.classList.add('verifying');
-  status.style.color='var(--muted)';status.textContent='Checking membership...';
-  try{
-    const cid=channelId.startsWith('@')?channelId:'@'+channelId;
-    const res=await fetch(`https://api.telegram.org/bot${botToken}/getChatMember?chat_id=${encodeURIComponent(cid)}&user_id=${APP.userId}`);
-    const data=await res.json();
-    if(data.ok){
-      const st=data.result?.status;
-      if(['member','administrator','creator','restricted'].includes(st)){status.style.color='var(--green)';status.textContent='✅ Verified! Reward added.';await completeTask(id,t);setTimeout(tovClose,1200);}
-      else{status.style.color='var(--red)';status.textContent='❌ Not a member yet. Please join first!';btn.textContent="✅ I've Joined — Verify";btn.classList.remove('verifying');}
-    }else{status.style.color='var(--yellow)';status.textContent='⚠️ Could not verify. Reward added anyway.';await completeTask(id,t);setTimeout(tovClose,1400);}
-  }catch(e){status.style.color='var(--yellow)';status.textContent='⚠️ Verify failed. Reward added.';await completeTask(id,t);setTimeout(tovClose,1400);}
+async function doTask(key){
+  const t=config.tasks?.[key];if(!t)return;
+  if(t.link)window.open(t.link,'_blank');
+  const earn=Number(t.reward)||0;
+  await dbUpdate(`users/${userData.uid}`,{balance:(userData.balance||0)+earn,totalEarned:(userData.totalEarned||0)+earn,[`tasksDone/${key}`]:true});
+  showToast(`+৳${earn.toFixed(0)} টাস্ক সম্পন্ন! ✅`,'success');
+  renderTasks();
 }
 
-function tovClose(){document.getElementById('taskOv').classList.remove('open');TOV={taskId:null,link:null,channelId:null};}
+/* ══════════════════════════════════════════
+   WITHDRAW
+══════════════════════════════════════════ */
+function renderWithdraw(){updateBalanceUI();document.getElementById('wMinLabel').textContent=`সর্বনিম্ন উইথড্র: ৳${config.minWithdraw||50}`;renderWithdrawChainNotice();}
+function selectMethod(el,method){document.querySelectorAll('.method-btn').forEach(b=>b.classList.remove('selected'));el.classList.add('selected');selectedMethod=method;}
 
-async function completeTask(id,t){
-  if(APP.completedTasks.includes(id))return;
-  const s=await db.ref('users/'+APP.userId).get();const d=s.val();
-  const existingTasks=toArr(d.completedTasks);
-  await db.ref('users/'+APP.userId).update({balance:(d.balance||0)+Number(t.reward),totalEarned:(d.totalEarned||0)+Number(t.reward),completedTasks:[...existingTasks,id]});
-  showToast(`+৳ ${Number(t.reward).toFixed(2)} টাকা added!`);
+function validateWithdrawForm(){
+  const number=document.getElementById('wNumber').value.trim();
+  const amount=parseFloat(document.getElementById('wAmount').value);
+  const min=Number(config.minWithdraw)||50;
+  const bal=userData.balance||0;
+  if(!number||number.length<10){showToast('সঠিক নম্বর দিন','error');return false;}
+  if(!amount||amount<min){showToast(`সর্বনিম্ন ৳${min} উইথড্র করুন`,'error');return false;}
+  if(amount>bal){showToast('পর্যাপ্ত ব্যালেন্স নেই','error');return false;}
+  return true;
 }
 
-function checkCooldown(){if(cooldownEndTime>Date.now())startCooldownUI(cooldownEndTime-Date.now());else clearCooldownUI();}
-function startCooldownUI(remainingMs){
-  clearInterval(cooldownInterval);
-  const btn=document.getElementById('watchBtn');const barWrap=document.getElementById('cooldownBarWrap');const bar=document.getElementById('cooldownBar');
-  const totalSec=APP.settings.watchChain?.cooldownSec||30;
-  barWrap.style.display='block';btn.disabled=true;
-  btn.className='watch-ad-btn cooldown';
-  cooldownInterval=setInterval(()=>{const left=Math.max(0,cooldownEndTime-Date.now());const sec=Math.ceil(left/1000);bar.style.width=((left/(totalSec*1000))*100)+'%';if(sec>0){document.getElementById('watchBtnTxt').textContent=`⏳ Wait ${sec}s...`;}else clearCooldownUI();},500);
-}
-function clearCooldownUI(){
-  clearInterval(cooldownInterval);const btn=document.getElementById('watchBtn');
-  document.getElementById('cooldownBarWrap').style.display='none';
-  if(isDailyLimitReached()){
-    btn.disabled=true;btn.className='watch-ad-btn limit-done';
-    document.getElementById('watchBtnTxt').textContent="✅ Today's limit reached";
-    return;
-  }
-  btn.disabled=false;btn.className='watch-ad-btn';
-  document.getElementById('watchBtnTxt').textContent='বিজ্ঞাপন দেখুন';
-}
-function isDailyLimitReached(){const limit=APP.settings.watchChain?.dailyLimit||5;const today=new Date().toDateString();return APP.watchedAds.filter(w=>w.type==='watch_chain'&&new Date(w.date).toDateString()===today).length>=limit;}
-
-function updateWatchCard(){
-  const wc=APP.settings.watchChain||{};const reward=wc.reward||0.5;const limit=wc.dailyLimit||5;
-  document.getElementById('wcRB').textContent=`+৳ ${reward.toFixed(2)}`;
-  document.getElementById('wcLimit').textContent=limit;
-  document.getElementById('adovReward').textContent=reward.toFixed(2);
-  document.getElementById('adRewardLbl').textContent=`৳${reward.toFixed(2)}`;
-  document.getElementById('watchBtnReward').textContent=`৳${reward.toFixed(2)}`;
-  const today=new Date().toDateString();
-  const todayCount=APP.watchedAds.filter(w=>w.type==='watch_chain'&&new Date(w.date).toDateString()===today).length;
-  document.getElementById('wcToday').textContent=todayCount;
-  document.getElementById('wcTodayAd').textContent=todayCount;
-  document.getElementById('limitProgress2').textContent=`${todayCount}/${limit}`;
-  document.getElementById('limitStatusLbl').textContent=todayCount>=limit?'✅ Completed':'In Progress';
-  checkCooldown();
+async function doSubmitWithdraw(){
+  const number=document.getElementById('wNumber').value.trim();
+  const amount=parseFloat(document.getElementById('wAmount').value);
+  if(!number||!amount){showToast('উইথড্রর তথ্য পূর্ণ নেই','error');return;}
+  const bal=userData.balance||0;
+  if(amount>bal){showToast('পর্যাপ্ত ব্যালেন্স নেই','error');return;}
+  await dbUpdate(`users/${userData.uid}`,{balance:bal-amount});
+  await dbPush('withdrawals',{uid:userData.uid,name:userData.name,method:selectedMethod,number,amount,status:'pending',requestedAt:Date.now()});
+  showToast('উইথড্র রিকোয়েস্ট সফল! ✅','success');
+  document.getElementById('wNumber').value='';document.getElementById('wAmount').value='';
+  renderHistory();
 }
 
-function buildQueue(chainData){const slots=chainData.slots||[];const creds=APP.settings.credentials||{};return slots.map(n=>({name:n,...(creds[n]||{})}));}
-
-function startChain(type,wdData=null){
-  if(type==='watch'&&isDailyLimitReached()){showToast("✅ Today's limit reached");return;}
-  if(type==='watch'&&cooldownEndTime>Date.now()){showToast(`⏳ Wait ${Math.ceil((cooldownEndTime-Date.now())/1000)}s`);return;}
-  const chainData=type==='watch'?(APP.settings.watchChain||{}):(APP.settings.withdrawChain||{});
-  const queue=buildQueue(chainData);
-  if(!queue.length){if(type==='watch'){showToast('⚠️ No ads configured');return;}else{submitWithdrawDirect(wdData);return;}}
-  CS={active:true,type,queue,idx:0,total:queue.length,reward:chainData.reward||0.5,done:false,wdData};
-  _slotAdvanced=false;
-  document.getElementById('adovComplete').classList.remove('show');
-  document.getElementById('adovWdLoading').classList.remove('show');
-  _hideContinueBtn();
-  if(type==='watch'){
-    document.getElementById('adovReward').textContent=CS.reward.toFixed(2);
-    document.getElementById('adovSteps').style.display='flex';
-  }else{
-    document.getElementById('adovTitle').textContent='Processing...';
-    document.getElementById('adovSteps').style.display='none';
-    document.getElementById('adovWdLoading').classList.add('show');
-  }
-  document.getElementById('adovSteps').innerHTML=queue.map((_,i)=>`<div class="adov-s" id="as_${i}"></div>`).join('');
-  document.getElementById('adOverlay').classList.add('open');
-  playSlot();
+async function renderHistory(){
+  const el=document.getElementById('wHistory');
+  el.innerHTML='<div style="display:flex;justify-content:center;padding:30px;"><div class="spinner"></div></div>';
+  const snap=await dbGet('withdrawals');
+  if(!snap.exists()){el.innerHTML='<div class="empty-state"><div class="e-icon">📭</div>কোনো ইতিহাস নেই</div>';return;}
+  const mine=Object.entries(snap.val()).filter(([,v])=>v.uid===userData.uid).sort(([,a],[,b])=>b.requestedAt-a.requestedAt);
+  if(mine.length===0){el.innerHTML='<div class="empty-state"><div class="e-icon">📭</div>কোনো উইথড্র নেই</div>';return;}
+  const mi={bkash:'📱',nagad:'🟠',rocket:'🚀'};
+  const sl={pending:'অপেক্ষমান',approved:'অনুমোদিত',rejected:'বাতিল'};
+  el.innerHTML=mine.map(([,v])=>`<div class="hist-item"><div class="hist-icon">${mi[v.method]||'💳'}</div><div class="hist-info"><div class="hist-method">${v.method?.toUpperCase()}</div><div class="hist-number">${v.number}</div><div class="hist-date">${new Date(v.requestedAt).toLocaleDateString('bn-BD')}</div></div><div><div class="hist-amount" style="color:var(--gold)">৳${Number(v.amount).toFixed(2)}</div><div class="hist-status ${v.status}">${sl[v.status]||v.status}</div></div></div>`).join('');
 }
 
-let _slotAdvanced=false;
-function _showContinueBtn(){
-  document.getElementById('adovWaiting').classList.add('show');
-  document.getElementById('adovDivider').style.display='block';
-  document.getElementById('adovContinue').classList.add('show');
+/* ══════════════════════════════════════════
+   SUPPORT
+══════════════════════════════════════════ */
+function renderSupport(){
+  const items=config.helpItems||{};
+  const el=document.getElementById('faqList');
+  const keys=Object.keys(items);
+  el.innerHTML=keys.length===0?'<div class="empty-state"><div class="e-icon">❓</div>কোনো আইটেম নেই</div>':keys.map(k=>`<div class="support-item" onclick="toggleFaq(this)"><div class="support-q"><span>${items[k].q}</span><span>▾</span></div><div class="support-a">${items[k].a}</div></div>`).join('');
+  document.getElementById('tgSupportBtn').onclick=()=>window.open(config.supportLink||'https://t.me/support','_blank');
 }
-function _hideContinueBtn(){
-  document.getElementById('adovWaiting').classList.remove('show');
-  document.getElementById('adovDivider').style.display='none';
-  document.getElementById('adovContinue').classList.remove('show');
+function toggleFaq(el){el.classList.toggle('open');}
+
+/* ══════════════════════════════════════════
+   POPUP
+══════════════════════════════════════════ */
+function showStartupPopup(){
+  const popup=config.popup||{};
+  if(!popup.enabled)return;
+  const title=popup.title||'Welcome';
+  const message=popup.message||'';
+  const btnText=popup.btnText||'Continue';
+  const icon=popup.icon||'🤩';
+  if(!message)return;
+  document.getElementById('popupIcon').textContent=icon;
+  document.getElementById('popupTitle').textContent=title;
+  document.getElementById('popupMessage').textContent=message;
+  document.getElementById('popupOkayBtn').innerHTML=`${btnText} <span class="popup-btn-arrow">›</span>`;
+  document.getElementById('startupPopup').style.display='flex';
 }
-function onAdsterraBack(){_hideContinueBtn();_next();}
-
-function _next(){
-  if(_slotAdvanced||!CS.active)return;_slotAdvanced=true;
-  const el=document.getElementById('as_'+CS.idx);if(el)el.className='adov-s done';
-  CS.idx++;playSlot();
-}
-
-function playSlot(){
-  if(!CS.active)return;
-  if(CS.idx>=CS.total){chainAllDone();return;}
-  _slotAdvanced=false;_hideContinueBtn();
-  const net=CS.queue[CS.idx];
-  document.querySelectorAll('.adov-s').forEach((el,i)=>{el.className='adov-s'+(i<CS.idx?' done':i===CS.idx?' active':'');});
-
-  if(net.name==='adsgram'){
-    if(!net.blockId){_next();return;}
-    try{
-      const ctrl=window.Adsgram?.init({blockId:String(net.blockId)});
-      if(!ctrl){_next();return;}
-      ctrl.show().then(()=>_next()).catch(()=>_next());
-    }catch(e){_next();}
-  }else if(net.name==='monetag'){
-    try{
-      const showFn=window[MONETAG_SDK_FN];
-      if(typeof showFn==='function'){
-        showFn().then(()=>{_next();}).catch(()=>{_next();});
-      }else{
-        let retryCount=0;
-        const retryInterval=setInterval(()=>{
-          retryCount++;
-          const fn=window[MONETAG_SDK_FN];
-          if(typeof fn==='function'){clearInterval(retryInterval);fn().then(()=>_next()).catch(()=>_next());}
-          else if(retryCount>=5){clearInterval(retryInterval);_next();}
-        },1000);
-      }
-    }catch(e){_next();}
-  }else if(net.name==='adsterra'){
-    if(!net.link&&!net.script){_next();return;}
-    try{
-      if(net.link){const tg=window.Telegram?.WebApp;if(tg)tg.openLink(net.link);else window.open(net.link,'_blank','noopener');}
-      else if(net.script){const div=document.createElement('div');div.innerHTML=net.script;div.querySelectorAll('script').forEach(sc=>{const ns=document.createElement('script');if(sc.src){ns.src=sc.src;ns.async=true;}else ns.textContent=sc.textContent;document.body.appendChild(ns);});}
-    }catch(e){}
-    _showContinueBtn();
-  }else{_next();}
+function closePopup(){
+  const el=document.getElementById('startupPopup');
+  el.style.animation='popupBgIn .22s ease reverse forwards';
+  setTimeout(()=>{el.style.display='none';el.style.animation='';},210);
 }
 
-function onSlotDone(){_next();}
-function onSlotSkip(){_next();}
-
-async function chainAllDone(){
-  if(CS.done)return;CS.done=true;CS.active=false;_slotAdvanced=true;
-  _hideContinueBtn();
-  document.querySelectorAll('.adov-s').forEach(el=>{if(!el.classList.contains('skip'))el.className='adov-s done';});
-  if(CS.type==='watch'){
-    const reward=CS.reward;const cooldownSec=APP.settings.watchChain?.cooldownSec||30;const newCooldownEnd=Date.now()+(cooldownSec*1000);
-    try{
-      const snap=await db.ref('users/'+APP.userId).get();const d=snap.val();
-      const existingWatched=toArr(d.watchedAds);
-      const nw=[...existingWatched,{date:new Date().toISOString(),reward,type:'watch_chain'}];
-      await db.ref('users/'+APP.userId).update({balance:(d.balance||0)+reward,totalEarned:(d.totalEarned||0)+reward,watchedAds:nw,cooldownEndTime:newCooldownEnd});
-      cooldownEndTime=newCooldownEnd;
-      document.getElementById('adovCompleteTxt').textContent=`+৳ ${reward.toFixed(2)} টাকা Added!`;
-      document.getElementById('adovCompleteSub').textContent='Your balance has been updated';
-      document.getElementById('adovComplete').classList.add('show');
-      setTimeout(()=>{document.getElementById('adOverlay').classList.remove('open');startCooldownUI(newCooldownEnd-Date.now());showToast(`+৳ ${reward.toFixed(2)} টাকা added!`);CS={active:false,type:null,queue:[],idx:0,total:0,reward:0,done:false,wdData:null};},2000);
-    }catch(e){setTimeout(()=>document.getElementById('adOverlay').classList.remove('open'),2000);}
-  }else{
-    const savedWdData={...CS.wdData};
-    document.getElementById('adovComplete').classList.remove('show');
-    document.getElementById('adovWdLoading').classList.add('show');
-    CS={active:false,type:null,queue:[],idx:0,total:0,reward:0,done:false,wdData:null};
-    try{await submitWithdrawDirect(savedWdData);}catch(e){showToast('❌ Submit error: '+e.message);}
-    document.getElementById('adOverlay').classList.remove('open');
-    document.getElementById('adovWdLoading').classList.remove('show');
-  }
+/* ══════════════════════════════════════════
+   NAV
+══════════════════════════════════════════ */
+function goPage(name){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById(`page-${name}`).classList.add('active');
+  const idx=['support','home','task','withdraw'].indexOf(name);
+  document.querySelectorAll('.nav-btn')[idx]?.classList.add('active');
+  currentPage=name;
+  if(name==='withdraw'){renderWithdraw();renderHistory();}
+  if(name==='task'){renderAds();renderTasks();}
 }
 
-function updateWdBtn(){document.getElementById('wdAdInfo').style.display='none';document.getElementById('wdBtn').textContent='Withdraw Now →';document.getElementById('wdBtn').className='bigbtn wdbtn-main';}
-
-function handleWithdraw(){
-  const wallet=document.getElementById('wdWallet').value,account=document.getElementById('wdAcc').value.trim(),amount=parseFloat(document.getElementById('wdAmt').value),minWd=APP.settings.minWithdraw||50;
-  if(!wallet)return showToast('⚠️ Select payment method');
-  if(!account)return showToast('⚠️ Enter account number');
-  if(!amount||amount<minWd)return showToast(`⚠️ Minimum ৳${minWd.toFixed(2)}`);
-  if(amount>APP.balance)return showToast('⚠️ Insufficient balance');
-  const wlMap={bkash:'bKash',nagad:'Nagad',rocket:'Rocket',binance:'Binance (USDT)',crypto:'Crypto'};
-  const wdData={wallet,walletLabel:wlMap[wallet]||wallet,account,amount};
-  const wdc=APP.settings.withdrawChain||{};
-  if(wdc.enabled&&(wdc.slots||[]).length>0)startChain('withdraw',wdData);else submitWithdrawDirect(wdData);
-}
-
-async function submitWithdrawDirect(wdData){
-  if(!wdData)return;
-  const btn=document.getElementById('wdBtn');const orig=btn.textContent;btn.disabled=true;btn.textContent='Processing...';
-  try{
-    const snap=await db.ref('users/'+APP.userId).get();const d=snap.val()||{};
-    await db.ref('users/'+APP.userId).update({balance:(d.balance||0)-wdData.amount,totalWithdrawn:(d.totalWithdrawn||0)+wdData.amount});
-    await db.ref('withdrawals').push({userId:APP.userId,userName:APP.userName,wallet:wdData.wallet,walletLabel:wdData.walletLabel,account:wdData.account,amount:wdData.amount,status:'pending',reason:'',createdAt:new Date().toISOString()});
-    document.getElementById('wdWallet').value='';document.getElementById('wdAcc').value='';document.getElementById('wdAmt').value='';
-    showToast('✅ Withdrawal request submitted!');
-  }catch(e){showToast('❌ Error: '+e.message);}
-  btn.disabled=false;btn.textContent=orig;
-}
-
-function renderSupport(){const cards=APP.settings.supportCards||[];const el=document.getElementById('supGrid');if(!cards.length){el.innerHTML=`<div class="empty" style="grid-column:span 2;font-family:'Hind Siliguri',sans-serif">কোনো সাপোর্ট লিংক নেই</div>`;return;}el.innerHTML=cards.map(c=>`<a href="${c.link||'#'}" class="scard" target="_blank"><div class="sic" style="background:${c.bg||'var(--as)'}">${c.icon||'💬'}</div><div class="st">${c.title}</div><div class="sd">${c.desc||''}</div></a>`).join('');}
-function renderVideo(){const v=APP.settings.video||{};document.getElementById('vtitle').textContent=v.title||'কিভাবে কাজ করবেন তার ভিডিও';document.getElementById('vph').innerHTML=`<div class="vplay">▶</div><div style="font-size:13px;color:rgba(255,255,255,.5);z-index:2;font-family:'Hind Siliguri',sans-serif">টিউটোরিয়াল ভিডিও</div>`;}
-function openTutorial(){const v=APP.settings.video||{};if(!v.url){showToast('⚠️ Tutorial link set করা নেই');return;}const tg=window.Telegram?.WebApp;if(tg){if(v.url.includes('t.me')||v.url.includes('telegram'))tg.openTelegramLink(v.url);else tg.openLink(v.url);}else window.open(v.url,'_blank');}
-
-function renderRefList(){const el=document.getElementById('rList');const refs=APP.referrals;if(!refs.length){el.innerHTML=`<div class="empty"><div class="eic">👤</div>No referrals yet</div>`;return;}el.innerHTML=[...refs].reverse().map(r=>`<div class="ritem"><div class="rava">${(r.name||'?').charAt(0).toUpperCase()}</div><div><div class="run">${r.name||'Unknown'}</div><div class="rdt">${ta(r.date)}</div></div><div class="re">+৳ ${Number(APP.settings.referralBonus||5).toFixed(2)}</div></div>`).join('');}
-
-function copyRef(){const l=`https://t.me/${APP.settings.botUsername||'YourBot'}?start=${APP.referralCode}`;navigator.clipboard?.writeText(l).catch(()=>{});showToast('📋 Referral link copied!');}
-function shareRef(){const l=`https://t.me/${APP.settings.botUsername||'YourBot'}?start=${APP.referralCode}`;const tg=window.Telegram?.WebApp;const u=`https://t.me/share/url?url=${encodeURIComponent(l)}&text=${encodeURIComponent('🚀 Join Zomato Platform & earn money daily!')}`;if(tg)tg.openTelegramLink(u);else window.open(u,'_blank');}
-function renderWdHist(items){const el=document.getElementById('wdHist');if(!items.length){el.innerHTML=`<div class="empty"><div class="eic">📭</div>No withdrawals yet</div>`;return;}const wm={bkash:{ic:'💰',bg:'rgba(220,50,120,.15)'},nagad:{ic:'💰',bg:'rgba(0,130,70,.15)'},rocket:{ic:'💰',bg:'rgba(138,0,230,.15)'},binance:{ic:'🟡',bg:'rgba(240,185,11,.15)'},crypto:{ic:'₿',bg:'rgba(247,147,26,.15)'}};const sm={pending:'sp',approved:'sa',rejected:'sr'};const sl={pending:'⏳ Pending',approved:'✓ Approved',rejected:'✗ Rejected'};el.innerHTML=items.map(h=>{const m=wm[h.wallet]||{ic:'💰',bg:'rgba(255,255,255,.08)'};return`<div class="hitem"><div class="htop"><div class="hwallet"><div class="hwic" style="background:${m.bg}">${m.ic}</div><div class="hwn">${h.walletLabel||h.wallet}</div></div><div class="hamt">৳ ${Number(h.amount).toFixed(2)}</div></div><div class="hbtm"><div class="hacc">${h.account}</div><div class="sbdg ${sm[h.status]||'sp'}">${sl[h.status]||'Pending'}</div></div><div class="ht">🕐 ${fd(h.createdAt)}</div>${h.status==='rejected'&&h.reason?`<div class="hrr">⚠️ <span>${h.reason}</span></div>`:''}</div>`;}).join('');}
-
-function updateProfile(){
-  document.getElementById('uname').textContent='Hello, '+APP.userName+' 👋';
-  document.getElementById('uid').textContent='ID: '+APP.userId;
-  const wrap=document.getElementById('uava-wrap');
-  if(APP.userPhoto){
-    wrap.innerHTML=`<div class="avatar-wrap"><img src="${APP.userPhoto}" alt="avatar"></div>`;
-  }else{
-    wrap.innerHTML=`<div class="avatar-wrap-text">${APP.userName.charAt(0).toUpperCase()}</div>`;
-  }
-}
-
-function updateUI(){
-  const refCount=APP.referrals.length;
-  document.getElementById('hbal').textContent=APP.balance.toFixed(2);
-  document.getElementById('sEarned').textContent=APP.totalEarned.toFixed(2);
-  document.getElementById('sWd').textContent=APP.totalWithdrawn.toFixed(2);
-  document.getElementById('sRef').textContent=refCount;
-  document.getElementById('refEarnedLbl').textContent=`+৳${(refCount*(APP.settings.referralBonus||5)).toFixed(2)} Earned`;
-  document.getElementById('wdBal').textContent=APP.balance.toFixed(2);
-  document.getElementById('rTotal').textContent=refCount;
-  document.getElementById('rCoins').textContent=`৳${(refCount*(APP.settings.referralBonus||5)).toFixed(2)}`;
-  document.getElementById('rActive').textContent=refCount;
-  document.getElementById('rLink').textContent=`https://t.me/${APP.settings.botUsername||'YourBot'}?start=${APP.referralCode}`;
-  renderRefList();renderTasks();
-}
-
-function showPage(p,el){
-  document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
-  document.querySelectorAll('.nav-link').forEach(x=>x.classList.remove('active'));
-  document.getElementById('page-'+p).classList.add('active');
-  el.classList.add('active');
-}
-function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2800);}
-function ta(iso){if(!iso)return'';const m=Math.floor((Date.now()-new Date(iso))/60000);if(m<1)return'Just now';if(m<60)return`${m}m ago`;const h=Math.floor(m/60);if(h<24)return`${h}h ago`;return`${Math.floor(h/24)}d ago`;}
-function fd(iso){if(!iso)return'—';return new Date(iso).toLocaleString('en-US',{dateStyle:'medium',timeStyle:'short'});}
+/* ══════════════════════════════════════════
+   REFER & TOAST
+══════════════════════════════════════════ */
+function copyRefer(){navigator.clipboard?.writeText(window._referLink||'').then(()=>showToast('রেফার লিংক কপি হয়েছে ✅','success')).catch(()=>showToast('কপি হয়নি','error'));}
+function showToast(msg,type=''){const t=document.getElementById('toast');t.textContent=msg;t.className=`toast ${type}`;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);}
 </script>
 </body>
 </html>
