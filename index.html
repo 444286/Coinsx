@@ -384,6 +384,23 @@ body{display:flex;flex-direction:column;}
 .fb-group-join{background:#1877f2;color:#fff;text-decoration:none;border-radius:8px;padding:9px 12px;font-size:11px;font-weight:800;white-space:nowrap;}
 .fb-groups-empty{font-size:12px;color:var(--text2);line-height:1.6;padding:8px 2px;}
 
+
+/* Video library */
+.video-player-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:12px;margin-bottom:14px;box-shadow:var(--shadow);}
+.video-player-card video{display:block;width:100%;max-height:420px;aspect-ratio:16/9;background:#000;border-radius:12px;object-fit:contain;}
+.video-now-title{font-size:15px;font-weight:800;color:var(--text);margin:12px 2px 4px;}
+.video-now-desc{font-size:12px;color:var(--text2);line-height:1.6;margin:0 2px 4px;}
+.video-list-title{font-size:14px;font-weight:800;color:var(--text);margin:18px 2px 10px;}
+.video-list{display:flex;flex-direction:column;gap:9px;}
+.video-list-item{display:flex;align-items:center;gap:11px;padding:10px;background:var(--card2);border:1px solid var(--border);border-radius:12px;cursor:pointer;}
+.video-list-item.active{border-color:var(--gold);background:rgba(245,200,66,.08);}
+.video-thumb{width:88px;height:58px;flex-shrink:0;border-radius:8px;background:#080b12;object-fit:cover;display:flex;align-items:center;justify-content:center;font-size:25px;overflow:hidden;}
+.video-thumb img{width:100%;height:100%;object-fit:cover;}
+.video-list-info{min-width:0;flex:1;}
+.video-list-name{font-size:13px;font-weight:700;color:var(--text);line-height:1.4;word-break:break-word;}
+.video-list-sub{font-size:11px;color:var(--text2);margin-top:4px;}
+.video-play-icon{font-size:20px;color:var(--gold);padding:0 4px;}
+
 </style>
 </head>
 <body>
@@ -513,10 +530,12 @@ body{display:flex;flex-direction:column;}
       </div>
     </div>
 
-    <!-- ════════ TASK PAGE ════════ -->
-    <div class="page" id="page-task">
-      <div class="section-title">✅ টাস্ক করুন</div>
-      <div id="taskList"><div style="display:flex;justify-content:center;padding:30px;"><div class="spinner"></div></div></div>
+    <!-- ════════ VIDEO PAGE ════════ -->
+    <div class="page" id="page-video">
+      <div class="section-title">🎬 ভিডিও দেখুন</div>
+      <div id="videoPlayerArea">
+        <div class="empty-state"><div class="e-icon">🎥</div>ভিডিও লোড হচ্ছে...</div>
+      </div>
     </div>
 
     <!-- ════════ WITHDRAW PAGE ════════ -->
@@ -561,7 +580,7 @@ body{display:flex;flex-direction:column;}
   <nav class="bottom-nav">
     <button class="nav-btn" onclick="goPage('support')"><span class="icon">🎧</span><span>সাপোর্ট</span></button>
     <button class="nav-btn active" onclick="goPage('home')"><span class="icon">🏠</span><span>হোম</span></button>
-    <button class="nav-btn" onclick="goPage('task')"><span class="icon">🎯</span><span>টাস্ক</span></button>
+    <button class="nav-btn" onclick="goPage('video')"><span class="icon">🎬</span><span>ভিডিও</span></button>
     <button class="nav-btn" onclick="goPage('withdraw')"><span class="icon">💸</span><span>উইথড্র</span></button>
   </nav>
 </div>
@@ -595,6 +614,16 @@ const TARGET_URL = "https://t.me/YourBotUsername";
    STATE
 ══════════════════════════════════════════ */
 let tgUser = null, userData = {}, config = {}, currentPage = 'home', selectedMethod = 'bkash';
+
+/* =====================================================
+   MAIN SITE VIDEO LIST
+   এখানে Cloudinary-এর MP4 link বসিয়ে GitHub-এ Commit দিন।
+   নতুন ভিডিও যোগ করতে নিচের array-তে আরেকটি object যোগ করুন।
+===================================================== */
+const MAIN_SITE_VIDEOS = [
+  // উদাহরণ:
+  // { title: 'ভিডিও ১', url: 'https://res.cloudinary.com/YOUR_CLOUD_NAME/video/upload/YOUR_VIDEO.mp4', description: 'ভিডিওর বিবরণ' },
+];
 
 let postState = {
   currentCode : null,
@@ -717,6 +746,7 @@ async function loadConfig(){
     popup          : { enabled:false, icon:'🤩', title:'Welcome', message:'' },
     helpItems      : { q1:{ q:'কীভাবে আয় করবো?', a:'পোস্ট কপি করুন এবং টাস্ক সম্পন্ন করুন।' } },
     tasks          : { t1:{ name:'আমাদের চ্যানেল জয়েন করুন', desc:'টেলিগ্রাম চ্যানেল সাবস্ক্রাইব করুন', reward:10, link:'https://t.me/yourchannel', icon:'📢' } },
+    videos         : [],
     postTargetUrl  : TARGET_URL,
     postEarnAmount : 2,   // ← admin sets earn per post (৳)
     postDailyLimit : 10,  // ← admin sets max posts per day
@@ -984,7 +1014,7 @@ function showEarnPopup(amount){
 function renderAll(){
   renderFacebookGroups();
   renderProfile();
-  renderTasks();
+  renderVideos();
   renderWithdraw();
   renderHistory();
   renderSupport();
@@ -1034,6 +1064,72 @@ function updateBalanceUI(){
   document.getElementById('wBalance').textContent       = bal;
   const referCount = document.getElementById('referCount');
   if(referCount) referCount.textContent = `${userData.referCount || 0} জন`;
+}
+
+
+function safeVideoText(value){
+  return String(value ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+}
+function cloudinaryVideoUrl(video){
+  let url = String(video?.url || video?.secure_url || video?.videoUrl || '').trim();
+  if(!url && video?.publicId && config.cloudinaryCloudName){
+    url = `https://res.cloudinary.com/${encodeURIComponent(config.cloudinaryCloudName)}/video/upload/${String(video.publicId).split('/').map(encodeURIComponent).join('/')}`;
+    if(!/\.(mp4|webm|mov|m3u8)(\?|$)/i.test(url)) url += '.mp4';
+  }
+  try{
+    const parsed = new URL(url);
+    if(parsed.protocol !== 'https:' || !/(^|\.)cloudinary\.com$/i.test(parsed.hostname)) return '';
+    return parsed.href;
+  }catch(_){ return ''; }
+}
+function renderVideos(){
+  const box = document.getElementById('videoPlayerArea');
+  if(!box) return;
+  const raw = MAIN_SITE_VIDEOS; // ভিডিওগুলো Main Site code থেকেই নেওয়া হবে
+  const videos = (Array.isArray(raw) ? raw : Object.keys(raw).map(k => ({id:k,...raw[k]})))
+    .filter(v => v && cloudinaryVideoUrl(v));
+  if(!videos.length){
+    box.innerHTML = '<div class="empty-state"><div class="e-icon">🎥</div>এখনো কোনো ভিডিও যোগ করা হয়নি</div>';
+    return;
+  }
+  const first = videos[0];
+  const url = cloudinaryVideoUrl(first);
+  const poster = String(first.poster || first.thumbnail || '');
+  box.innerHTML = `
+    <div class="video-player-card">
+      <video id="coinsxVideoPlayer" controls playsinline preload="metadata" ${poster ? `poster="${safeVideoText(poster)}"` : ''}>
+        <source src="${safeVideoText(url)}" type="${/\.m3u8(\?|$)/i.test(url) ? 'application/x-mpegURL' : 'video/mp4'}">
+        আপনার ব্রাউজার ভিডিও চালাতে পারছে না।
+      </video>
+      <div class="video-now-title" id="videoNowTitle">${safeVideoText(first.title || first.name || 'ভিডিও')}</div>
+      <div class="video-now-desc" id="videoNowDesc">${safeVideoText(first.description || '')}</div>
+    </div>
+    <div class="video-list-title">📚 সব ভিডিও (${videos.length})</div>
+    <div class="video-list" id="videoList">
+      ${videos.map((v,i)=>`<div class="video-list-item ${i===0?'active':''}" data-video-index="${i}">
+        <div class="video-thumb">${v.poster || v.thumbnail ? `<img src="${safeVideoText(v.poster || v.thumbnail)}" alt="">` : '▶️'}</div>
+        <div class="video-list-info"><div class="video-list-name">${safeVideoText(v.title || v.name || `ভিডিও ${i+1}`)}</div><div class="video-list-sub">${safeVideoText(v.duration || 'ভিডিও চালু করতে চাপ দিন')}</div></div>
+        <div class="video-play-icon">▶</div>
+      </div>`).join('')}
+    </div>`;
+  box.querySelectorAll('[data-video-index]').forEach(item=>{
+    item.addEventListener('click',()=>{
+      const selected = videos[Number(item.dataset.videoIndex)];
+      const player = document.getElementById('coinsxVideoPlayer');
+      if(!selected || !player) return;
+      const selectedUrl = cloudinaryVideoUrl(selected);
+      player.pause();
+      player.src = selectedUrl;
+      if(selected.poster || selected.thumbnail) player.poster = selected.poster || selected.thumbnail;
+      else player.removeAttribute('poster');
+      player.load();
+      player.play().catch(()=>{});
+      document.getElementById('videoNowTitle').textContent = selected.title || selected.name || 'ভিডিও';
+      document.getElementById('videoNowDesc').textContent = selected.description || '';
+      box.querySelectorAll('.video-list-item').forEach(el=>el.classList.remove('active'));
+      item.classList.add('active');
+    });
+  });
 }
 
 function renderTasks(){
@@ -1174,11 +1270,11 @@ function goPage(name){
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
   document.getElementById(`page-${name}`).classList.add('active');
-  const idx = ['support','home','task','withdraw'].indexOf(name);
+  const idx = ['support','home','video','withdraw'].indexOf(name);
   document.querySelectorAll('.nav-btn')[idx]?.classList.add('active');
   currentPage = name;
   if(name === 'withdraw'){ renderWithdraw(); renderHistory(); }
-  if(name === 'task')    { renderTasks(); }
+  if(name === 'video')    { renderVideos(); }
 }
 
 /* ══════════════════════════════════════════
