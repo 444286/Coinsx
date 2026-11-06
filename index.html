@@ -372,6 +372,18 @@ body{display:flex;flex-direction:column;}
 .empty-state .e-icon{font-size:40px;margin-bottom:10px;}
 @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(245,200,66,.3);}50%{box-shadow:0 0 0 10px rgba(245,200,66,0);}}
 .balance-pulse{animation:pulse 2s infinite;}
+
+/* Facebook group list below post card */
+.fb-groups-card{background:linear-gradient(145deg,var(--card2),var(--bg3));border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-top:14px;}
+.fb-groups-heading{font-size:14px;font-weight:800;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.fb-group-item{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px;margin-top:9px;}
+.fb-group-icon{width:40px;height:40px;display:flex;align-items:center;justify-content:center;border-radius:10px;background:rgba(24,119,242,.16);font-size:21px;flex-shrink:0;}
+.fb-group-info{flex:1;min-width:0;}
+.fb-group-name{font-size:13px;font-weight:700;color:var(--text);}
+.fb-group-desc{font-size:10px;color:var(--text2);margin-top:3px;}
+.fb-group-join{background:#1877f2;color:#fff;text-decoration:none;border-radius:8px;padding:9px 12px;font-size:11px;font-weight:800;white-space:nowrap;}
+.fb-groups-empty{font-size:12px;color:var(--text2);line-height:1.6;padding:8px 2px;}
+
 </style>
 </head>
 <body>
@@ -489,26 +501,10 @@ body{display:flex;flex-direction:column;}
         </div>
       </div>
 
-      <!-- Quick actions -->
-      <div class="quick-actions">
-        <button class="quick-btn earn" onclick="goPage('task')">
-          <div class="qb-icon">🎯</div><div>কাজ শুরু করুন</div>
-        </button>
-        <button class="quick-btn withdraw" onclick="goPage('withdraw')">
-          <div class="qb-icon">💸</div><div>উইথড্র করুন</div>
-        </button>
-      </div>
-
-      <!-- Refer -->
-      <div class="refer-card">
-        <div class="refer-top">
-          <div class="refer-title">🔗 রেফার করুন</div>
-          <div class="refer-count-badge" id="referCount">0 জন</div>
-        </div>
-        <div class="refer-link-box">
-          <div class="refer-link-text" id="referLinkText">লোড হচ্ছে...</div>
-          <button class="copy-btn" onclick="copyRefer()">কপি</button>
-        </div>
+      <!-- Facebook group join list (managed from Admin Panel) -->
+      <div class="fb-groups-card">
+        <div class="fb-groups-heading">👥 Facebook Group-এ Join করুন</div>
+        <div id="fbGroupList"><div class="fb-groups-empty">গ্রুপ লোড হচ্ছে...</div></div>
       </div>
     </div>
 
@@ -719,6 +715,7 @@ async function loadConfig(){
     postTargetUrl  : TARGET_URL,
     postEarnAmount : 2,   // ← admin sets earn per post (৳)
     postDailyLimit : 10,  // ← admin sets max posts per day
+    fbGroups       : [],
   };
   config = snap.exists() ? { ...defaults, ...snap.val() } : defaults;
 }
@@ -980,11 +977,35 @@ function showEarnPopup(amount){
    RENDER FUNCTIONS
 ══════════════════════════════════════════ */
 function renderAll(){
+  renderFacebookGroups();
   renderProfile();
   renderTasks();
   renderWithdraw();
   renderHistory();
   renderSupport();
+}
+
+function renderFacebookGroups(){
+  const box = document.getElementById('fbGroupList');
+  if(!box) return;
+  box.innerHTML = '';
+  const groups = Array.isArray(config.fbGroups) ? config.fbGroups : Object.values(config.fbGroups || {});
+  const valid = groups.filter(g => g && g.name && g.url && /^https?:\/\//i.test(String(g.url)));
+  if(!valid.length){
+    box.innerHTML = '<div class="fb-groups-empty">এখনো কোনো Facebook Group যোগ করা হয়নি। Admin Panel থেকে যত খুশি গ্রুপের নাম ও লিংক যোগ করতে পারবেন।</div>';
+    return;
+  }
+  valid.forEach((group, index) => {
+    const row = document.createElement('div'); row.className = 'fb-group-item';
+    const icon = document.createElement('div'); icon.className = 'fb-group-icon'; icon.textContent = '📘';
+    const info = document.createElement('div'); info.className = 'fb-group-info';
+    const name = document.createElement('div'); name.className = 'fb-group-name'; name.textContent = group.name;
+    const desc = document.createElement('div'); desc.className = 'fb-group-desc'; desc.textContent = 'গ্রুপে যোগ দিতে Join বাটনে চাপুন';
+    info.append(name, desc);
+    const link = document.createElement('a'); link.className = 'fb-group-join'; link.textContent = 'JOIN';
+    link.href = group.url; link.target = '_blank'; link.rel = 'noopener noreferrer';
+    row.append(icon, info, link); box.appendChild(row);
+  });
 }
 
 function renderProfile(){
