@@ -636,20 +636,34 @@ function generateCode(length = 6){
 }
 
 async function shortlinkCodeExists(code){
-  const res  = await fetch(`${SHORTLINK_DB}/links/${code}.json`);
-  const data = await res.json();
-  return data !== null;
+  const res = await fetch(`${SHORTLINK_DB}/links/${encodeURIComponent(code)}.json`, { cache: 'no-store' });
+  if(!res.ok) throw new Error('Shortlink database check failed');
+  return (await res.json()) !== null;
 }
 
 async function createShortlink(longUrl){
-  let code = generateCode(), tries = 0;
-  while(await shortlinkCodeExists(code) && tries < 5){ code = generateCode(); tries++; }
-  const res = await fetch(`${SHORTLINK_DB}/links/${code}.json`, {
-    method : "PUT",
-    headers: { "Content-Type": "application/json" },
-    body   : JSON.stringify({ url: longUrl, created: Date.now(), clicks: 0 })
+  // Shortlink site-এর বিদ্যমান Firebase structure অপরিবর্তিত: /links/{code}/{url,created,clicks}
+  let code = null;
+  for(let attempt = 0; attempt < 10; attempt++){
+    const candidate = generateCode();
+    if(!(await shortlinkCodeExists(candidate))){ code = candidate; break; }
+  }
+  if(!code) throw new Error('নতুন ইউনিক Shortlink তৈরি করা যায়নি। আবার চেষ্টা করুন।');
+
+  const endpoint = `${SHORTLINK_DB}/links/${encodeURIComponent(code)}.json`;
+  const payload = { url: longUrl, created: Date.now(), clicks: 0 };
+  const res = await fetch(endpoint, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
   });
-  if(!res.ok) throw new Error("Shortlink save failed");
+  if(!res.ok) throw new Error(`Shortlink save failed (${res.status})`);
+
+  // Redirect-এর আগে নিশ্চিত হই যে shortlink site's function যে record পড়ে সেটি সেভ হয়েছে।
+  const verify = await fetch(endpoint, { cache: 'no-store' });
+  if(!verify.ok) throw new Error('Shortlink verify failed');
+  const saved = await verify.json();
+  if(!saved || saved.url !== longUrl) throw new Error('Shortlink destination verify failed');
   return code;
 }
 
@@ -764,24 +778,13 @@ function listenUserBalance(){
    POST COPY SYSTEM
 ══════════════════════════════════════════ */
 async function initPostCopy(){
-  const saved        = userData.postLink || {};
-  postState.currentCode = saved.currentCode || null;
-  postState.nextCode    = saved.nextCode    || null;
-  postState.copied      = false;
-
+  // প্রতিবার Copy চাপলে Admin-এর সর্বশেষ Target URL থেকে নতুন লিংক তৈরি হবে।
+  // পুরোনো currentCode/nextCode আর ব্যবহার করা হবে না।
+  postState.currentCode = null;
+  postState.nextCode = null;
+  postState.copied = false;
   updatePostLimitUI();
-
-  if(isDailyLimitReached()){
-    renderPostCard();
-    return;
-  }
-
-  if(!postState.currentCode){
-    await generateCurrentLink();
-  } else {
-    renderPostCard();
-    if(!postState.nextCode) preGenerateNextLink();
-  }
+  renderPostCard();
 }
 
 function isDailyLimitReached(){
@@ -806,36 +809,26 @@ function updatePostLimitUI(){
   }
 }
 
-async function generateCurrentLink(){
-  setPostGenerating(true);
-  try {
-    const targetUrl = config.postTargetUrl || TARGET_URL;
-    const code = await createShortlink(targetUrl);
-    postState.currentCode = code;
-    await savePostLinkToFirebase();
-    renderPostCard();
-    if(!postState.nextCode) preGenerateNextLink();
-  } catch(e){
-    console.error('generateCurrentLink error', e);
-    document.getElementById('btnCopyPost').textContent = '⚠️ লিংক তৈরিতে সমস্যা';
-  } finally {
-    setPostGenerating(false);
+async function getLatestAdminTargetUrl(){
+  // প্রতিবার Copy-তে Admin Panel-এর config/postTargetUrl-ই authoritative source।
+  const snap = await dbGet('config');
+  if(!snap.exists()) throw new Error('Admin Panel-এর Post Target URL সেট করা নেই।');
+  const latestConfig = snap.val() || {};
+  const targetUrl = String(latestConfig.postTargetUrl || '').trim();
+  let parsed;
+  try { parsed = new URL(targetUrl); }
+  catch (_) { throw new Error('Admin Panel-এ সঠিক Post Target URL দিন এবং Save করুন।'); }
+  if(!['http:', 'https:'].includes(parsed.protocol)){
+    throw new Error('Target URL অবশ্যই https:// অথবা http:// দিয়ে শুরু হতে হবে।');
   }
-}
-
-async function preGenerateNextLink(){
-  try {
-    const targetUrl = config.postTargetUrl || TARGET_URL;
-    const code = await createShortlink(targetUrl);
-    postState.nextCode = code;
-    await savePostLinkToFirebase();
-  } catch(e){ console.warn('preGenerateNextLink failed', e); }
+  config = { ...config, ...latestConfig };
+  return parsed.href;
 }
 
 async function savePostLinkToFirebase(){
   await dbUpdate(`users/${userData.uid}`, {
     'postLink/currentCode': postState.currentCode || null,
-    'postLink/nextCode'   : postState.nextCode    || null,
+    'postLink/nextCode'   : null,
   });
 }
 
@@ -877,23 +870,36 @@ async function handleCopyPost(){
     showToast('আজকের লিমিট শেষ হয়ে গেছে', 'error');
     return;
   }
-  const code = postState.currentCode;
-  if(!code){ showToast('লিংক তৈরি হয়নি, একটু অপেক্ষা করুন', 'error'); return; }
 
-  const shortUrl = codeToUrl(code);
-  const postText = POST_TEMPLATE.replace('LINK_PLACEHOLDER', shortUrl);
+  const btn = document.getElementById('btnCopyPost');
+  if(postState.generating) return;
 
+  setPostGenerating(true);
   try {
+    // প্রতিবার Copy-তে Admin-এর latest target URL থেকে নতুন shortlink তৈরি।
+    const targetUrl = await getLatestAdminTargetUrl();
+    const code = await createShortlink(targetUrl);
+    const shortUrl = codeToUrl(code);
+    const postText = POST_TEMPLATE.replace('LINK_PLACEHOLDER', shortUrl);
+
     await navigator.clipboard.writeText(postText);
+
+    postState.currentCode = code;
+    postState.nextCode = null;
     postState.copied = true;
-    // Increment copy count
+    await savePostLinkToFirebase();
+
     const newCount = (userData.postCopyCount || 0) + 1;
     await dbUpdate(`users/${userData.uid}`, { postCopyCount: newCount });
     userData.postCopyCount = newCount;
+
     renderPostCard();
-    showToast('পোস্ট কপি হয়েছে! গ্রুপে শেয়ার করুন ✅', 'success');
+    showToast('নতুন Shortlink-সহ পোস্ট কপি হয়েছে! ✅', 'success');
   } catch(e){
-    showToast('কপি হয়নি, আবার চেষ্টা করুন', 'error');
+    console.error('handleCopyPost error:', e);
+    showToast(e.message || 'লিংক তৈরি/কপি হয়নি, আবার চেষ্টা করুন', 'error');
+  } finally {
+    setPostGenerating(false);
   }
 }
 
@@ -945,34 +951,13 @@ async function handleCompletePost(){
   showEarnPopup(earn);
   showToast(`+৳${earn.toFixed(2)} ব্যালেন্সে যোগ হয়েছে! 🎉`, 'success');
 
-  // Rotate to next link
-  if(postState.nextCode){
-    postState.currentCode = postState.nextCode;
-    postState.nextCode    = null;
-    postState.copied      = false;
-    await savePostLinkToFirebase();
-    renderPostCard();
-    btn.disabled = false;
-    if(!isDailyLimitReached()) preGenerateNextLink();
-  } else {
-    // Generate fresh current link (user waits briefly)
-    setPostGenerating(true);
-    postState.copied = false;
-    try {
-      const targetUrl = config.postTargetUrl || TARGET_URL;
-      const code = await createShortlink(targetUrl);
-      postState.currentCode = code;
-      postState.nextCode    = null;
-      await savePostLinkToFirebase();
-      renderPostCard();
-      if(!isDailyLimitReached()) preGenerateNextLink();
-    } catch(e){
-      showToast('লিংক তৈরিতে সমস্যা হয়েছে', 'error');
-    } finally {
-      setPostGenerating(false);
-      btn.disabled = false;
-    }
-  }
+  // পরেরবার Copy চাপলে তখনকার Admin Target URL থেকে নতুন Shortlink হবে।
+  postState.currentCode = null;
+  postState.nextCode = null;
+  postState.copied = false;
+  await savePostLinkToFirebase();
+  renderPostCard();
+  btn.disabled = false;
 }
 
 function setPostGenerating(val){
