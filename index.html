@@ -466,6 +466,17 @@ body{display:flex;flex-direction:column;}
           <div class="post-limit-badge" id="postLimitBadge">0 / 0</div>
         </div>
 
+        <!-- Action buttons -->
+        <div class="post-action-row">
+          <button class="btn-copy-post" id="btnCopyPost" onclick="handleCopyPost()">
+            📋 পোস্ট কপি করুন
+          </button>
+          <button class="btn-complete-post" id="btnCompletePost" onclick="handleCompletePost()">
+            ✅ Complete
+          </button>
+        </div>
+
+
         <!-- Instructions box -->
         <div class="post-instructions">
           <div class="post-instructions-title">📌 কীভাবে করবেন</div>
@@ -480,16 +491,6 @@ body{display:flex;flex-direction:column;}
         <!-- Limit reached box -->
         <div class="post-limit-reached" id="postLimitReached">
           🚫 আজকের সর্বোচ্চ পোস্ট লিমিট পূর্ণ হয়েছে। আগামীকাল আবার চেষ্টা করুন।
-        </div>
-
-        <!-- Action buttons -->
-        <div class="post-action-row">
-          <button class="btn-copy-post" id="btnCopyPost" onclick="handleCopyPost()">
-            📋 পোস্ট কপি করুন
-          </button>
-          <button class="btn-complete-post" id="btnCompletePost" onclick="handleCompletePost()">
-            ✅ Complete
-          </button>
         </div>
 
         <!-- Generating indicator -->
