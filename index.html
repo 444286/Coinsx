@@ -1016,7 +1016,8 @@ function renderProfile(){
   updateBalanceUI();
   const botUsername = 'YourBotUsername';
   const link = `https://t.me/${botUsername}?start=${userData.uid}`;
-  document.getElementById('referLinkText').textContent = link;
+  const referLinkText = document.getElementById('referLinkText');
+  if(referLinkText) referLinkText.textContent = link;
   window._referLink = link;
 }
 
@@ -1026,7 +1027,8 @@ function updateBalanceUI(){
   document.getElementById('homeBalance').textContent    = bal;
   document.getElementById('homeEarnedTotal').textContent = `মোট আয়: ৳${total}`;
   document.getElementById('wBalance').textContent       = bal;
-  document.getElementById('referCount').textContent     = `${userData.referCount || 0} জন`;
+  const referCount = document.getElementById('referCount');
+  if(referCount) referCount.textContent = `${userData.referCount || 0} জন`;
 }
 
 function renderTasks(){
