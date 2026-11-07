@@ -459,7 +459,7 @@ body{display:flex;flex-direction:column;}
   </div>
 </div>
 
-<div id="app" style="display:none;">
+<div id="app" style="display:flex;">
   <div class="pages">
 
     <!-- ════════ HOME PAGE ════════ -->
@@ -539,11 +539,7 @@ body{display:flex;flex-direction:column;}
         <div class="post-warning" role="alert">
           <div class="post-warning-title">⚠️ গুরুত্বপূর্ণ নিয়ম (Important Rules)</div>
           <div class="post-warning-text">
-            <strong>১.</strong> প্রতিটি ফেসবুক পোস্টে শুধুমাত্র ১টি কমেন্ট করবেন।<br>
-            <strong>২.</strong> কমেন্ট করার পর অবশ্যই Complete বাটনে ক্লিক করবেন।<br>
-            <strong>৩.</strong> কমেন্ট Pending রাখা যাবে না।<br>
-            <strong>৪.</strong> গ্রুপে কমেন্ট যাচাই করা হবে; ভুয়া বা নিয়মবহির্ভূত কমেন্ট গ্রহণযোগ্য নয়।<br>
-            <strong>৫.</strong> নিয়ম না মানলে কাজ বাতিল এবং পেমেন্ট রিজেক্ট হতে পারে।
+            যে পোস্টগুলোতে কমেন্ট বেশি দেখবেন সেগুলোতে কমেন্ট করবেন।যেমন কোনো পোস্ট যদি 1h  অর্থাৎ ১ঘন্টা আগে পোস্ট হয় এবং তার কমেন্ট ১০টার বেশি দেখেন তবে সেই পোস্টে কমেন্ট করবেন। এভাবে ২ঘন্টার জন্য ২০+, ৩ঘন্টার জন্য ৩০+ কমেন্ট এর মতো দেখতে পেলে করবেন। যেই পোস্টে কমেন্ট সংখ্যা কম দেখবেন ওগুলো এরিয়ে যাবেন। ⚠️ কাজ না বুঝতে পারলে ভিডিওতে বিস্তারিত দেখে নিবোন।
           </div>
         </div>
 
@@ -619,12 +615,6 @@ body{display:flex;flex-direction:column;}
 
 <div class="toast" id="toast"></div>
 
-<div id="loadScreen" style="position:fixed;inset:0;z-index:9999;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;">
-  <div style="font-size:56px;animation:spin 2s linear infinite">🪙</div>
-  <div style="font-family:var(--font-en);font-weight:900;font-size:28px;background:linear-gradient(90deg,var(--gold),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;">CoinsX</div>
-  <div style="font-size:13px;color:var(--text2);">লোড হচ্ছে...</div>
-  <div class="spinner"></div>
-</div>
 
 <script>
 /* ══════════════════════════════════════════
@@ -746,25 +736,17 @@ function boot(){
     .then(() => loadOrCreateUser())
     .then(() => {
       renderAll();
-      document.getElementById('loadScreen').style.display = 'none';
-      document.getElementById('app').style.display = 'flex';
       listenUserBalance();
       showStartupPopup();
       initPostCopy();
     })
     .catch(err => {
-      document.getElementById('loadScreen').innerHTML =
-        `<div style="color:var(--red);padding:20px;text-align:center;font-size:14px;">⚠️ লোড হয়নি।<br><small>${err.message}</small></div>`;
+      console.error('CoinsX initialization error:', err);
+      if (typeof showToast === 'function') showToast('ডেটা লোড করতে সমস্যা হয়েছে। আবার চেষ্টা করুন।');
     });
 }
 if(window._firebaseReady){ boot(); }
 else{ document.addEventListener('firebaseReady', boot, { once:true }); }
-setTimeout(() => {
-  if(!window._firebaseReady){
-    document.getElementById('loadScreen').innerHTML =
-      '<div style="color:var(--red);padding:24px;text-align:center;">Firebase কানেক্ট হয়নি।<br>Config চেক করুন।</div>';
-  }
-}, 10000);
 
 /* ══════════════════════════════════════════
    CONFIG & USER
