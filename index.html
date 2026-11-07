@@ -161,6 +161,26 @@ body{display:flex;flex-direction:column;}
   font-family:var(--font-en);margin-top:1px;
 }
 
+
+/* Important rules warning box */
+.post-warning{
+  background:rgba(255,176,32,.10);
+  border:1px solid rgba(255,176,32,.42);
+  border-left:4px solid #f0a51b;
+  border-radius:10px;
+  padding:14px 16px;
+  margin:0 0 14px;
+}
+.post-warning-title{
+  display:flex;align-items:center;gap:8px;
+  color:#e39a12;font-size:13px;font-weight:800;
+  margin-bottom:8px;
+}
+.post-warning-text{
+  color:var(--text);font-size:12px;line-height:1.65;
+}
+.post-warning-text strong{color:#e39a12;}
+
 /* Earn info row */
 .post-earn-row{
   display:flex;align-items:center;justify-content:space-between;
