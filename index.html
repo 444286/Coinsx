@@ -10,7 +10,7 @@
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import { getDatabase, ref, get, set, update, push, onValue }
+  import { getDatabase, ref, get, set, update, push, onValue, runTransaction }
     from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
   const firebaseConfig = {
     apiKey: "AIzaSyCmP_6ZPNGdN-yfYZI6wS4RND060GvU5X8",
@@ -30,6 +30,7 @@
   window._dbUpdate  = update;
   window._dbPush    = push;
   window._dbOnValue = onValue;
+  window._dbTransaction = runTransaction;
   window._firebaseReady = true;
   setTimeout(() => document.dispatchEvent(new Event("firebaseReady")), 0);
 </script>
@@ -662,6 +663,7 @@ function dbGet(p)      { return window._dbGet(dbRef(p)); }
 function dbSet(p,v)    { return window._dbSet(dbRef(p), v); }
 function dbUpdate(p,v) { return window._dbUpdate(dbRef(p), v); }
 function dbPush(p,v)   { return window._dbPush(dbRef(p), v); }
+function dbTransaction(p, updater) { return window._dbTransaction(dbRef(p), updater); }
 
 /* ══════════════════════════════════════════
    DATE HELPERS — daily limit uses local date string
@@ -734,7 +736,9 @@ function boot(){
   initTelegram();
   loadConfig()
     .then(() => loadOrCreateUser())
-    .then(() => {
+    .then(async () => {
+      await runClientAutoReject();
+      if(!window._coinsxAutoRejectTimer) window._coinsxAutoRejectTimer = setInterval(() => { if(!document.hidden) runClientAutoReject(); }, 5 * 60 * 1000);
       renderAll();
       listenUserBalance();
       showStartupPopup();
@@ -747,6 +751,7 @@ function boot(){
 }
 if(window._firebaseReady){ boot(); }
 else{ document.addEventListener('firebaseReady', boot, { once:true }); }
+document.addEventListener('visibilitychange', () => { if(!document.hidden && window._firebaseReady) runClientAutoReject(); });
 
 /* ══════════════════════════════════════════
    CONFIG & USER
@@ -1194,6 +1199,53 @@ function selectMethod(el, method){
   selectedMethod = method;
 }
 
+// Auto-reject checker: runs when a User App opens and periodically while it remains open.
+let autoRejectCheckRunning = false;
+async function runClientAutoReject(){
+  if(autoRejectCheckRunning) return;
+  autoRejectCheckRunning = true;
+  try{
+    const cfgSnap = await dbGet('settings/autoReject');
+    const cfg = cfgSnap.exists() ? cfgSnap.val() : null;
+    if(!cfg || !cfg.enabled) return;
+    const hours = Math.max(1, Number(cfg.hours) || 1);
+    const cutoff = Date.now() - hours * 60 * 60 * 1000;
+    const reason = String(cfg.reason || 'নির্ধারিত সময়ের মধ্যে Withdraw প্রসেস করা হয়নি।').trim();
+    const wSnap = await dbGet('withdrawals');
+    if(!wSnap.exists()) return;
+    for(const [id, w] of Object.entries(wSnap.val() || {})){
+      const requestedAt = Number(w.requestedAt || (w.createdAt ? new Date(w.createdAt).getTime() : 0));
+      if(!requestedAt || requestedAt > cutoff) continue;
+      // Claim rejection only if it is still pending. Concurrent app/admin checks cannot reject twice.
+      const claim = await dbTransaction(`withdrawals/${id}`, current => {
+        if(!current || current.status !== 'pending') return;
+        return { ...current, status:'rejected', reason:'[Auto] ' + reason, autoRejected:true, rejectedAt:Date.now() };
+      });
+      const latest = claim.snapshot && claim.snapshot.val();
+      // Complete a previously claimed auto-refund too, if an earlier app session stopped mid-way.
+      if(latest && latest.status === 'rejected' && latest.autoRejected && latest.userRefunded !== true){
+        const uid = String(latest.uid || latest.userId || '');
+        if(!uid) continue;
+        const amount = Math.max(0, Number(latest.amount) || 0);
+        const refund = await dbTransaction(`users/${uid}`, user => {
+          if(!user) return;
+          const refunds = user.autoRejectRefunds || {};
+          if(refunds[id]) return user;
+          return {
+            ...user,
+            balance: (Number(user.balance) || 0) + amount,
+            autoRejectRefunds: { ...refunds, [id]: true }
+          };
+        });
+        if(refund.committed || (refund.snapshot && refund.snapshot.child(`autoRejectRefunds/${id}`).exists())){
+          await dbUpdate(`withdrawals/${id}`, { userRefunded:true });
+        }
+      }
+    }
+  }catch(err){ console.warn('Auto reject check failed:', err); }
+  finally{ autoRejectCheckRunning = false; }
+}
+
 async function handleWithdraw(){
   const number = document.getElementById('wNumber').value.trim();
   const amount = parseFloat(document.getElementById('wAmount').value);
@@ -1231,7 +1283,7 @@ async function renderHistory(){
       <div class="hist-info">
         <div class="hist-method">${v.method?.toUpperCase()}</div>
         <div class="hist-number">${v.number}</div>
-        <div class="hist-date">${new Date(v.requestedAt).toLocaleDateString('bn-BD')}</div>
+        <div class="hist-date">${new Date(Number(v.requestedAt)).toLocaleString('bn-BD')}</div>${v.status === 'rejected' && v.reason ? `<div class="hist-date" style="color:var(--red);margin-top:4px;white-space:normal;">কারণ: ${String(v.reason).replace(/[&<>\"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',"'":'&#39;'}[c]))}</div>` : ''}
       </div>
       <div>
         <div class="hist-amount" style="color:var(--gold)">৳${Number(v.amount).toFixed(2)}</div>
