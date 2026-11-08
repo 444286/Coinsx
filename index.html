@@ -437,7 +437,7 @@ body{display:flex;flex-direction:column;}
       <div class="auth-error" id="loginError"></div>
       <div class="auth-field">
         <label>মোবাইল নম্বর</label>
-        <input type="tel" id="loginMobile" placeholder="01XXXXXXXXX" maxlength="11">
+        <input type="tel" id="loginMobile" placeholder="01XXXXXXXXX" maxlength="11" minlength="11" inputmode="numeric" pattern="01[0-9]{9}" autocomplete="tel" oninput="this.value=this.value.replace(/[^0-9]/g,'').slice(0,11)">
       </div>
       <div class="auth-field">
         <label>পাসওয়ার্ড</label>
@@ -459,7 +459,7 @@ body{display:flex;flex-direction:column;}
       </div>
       <div class="auth-field">
         <label>মোবাইল নম্বর</label>
-        <input type="tel" id="regMobile" placeholder="01XXXXXXXXX" maxlength="11">
+        <input type="tel" id="regMobile" placeholder="01XXXXXXXXX" maxlength="11" minlength="11" inputmode="numeric" pattern="01[0-9]{9}" autocomplete="tel" oninput="this.value=this.value.replace(/[^0-9]/g,'').slice(0,11)">
       </div>
       <div class="auth-field">
         <label>পাসওয়ার্ড</label>
@@ -753,6 +753,11 @@ function generateUID(){
   return String(Math.floor(Math.random() * (max - min + 1)) + min);
 }
 
+/* Bangladesh mobile validation: must be exactly 11 digits and start with 01 */
+function isValidBDMobile(number){
+  return /^01[0-9]{9}$/.test(String(number || '').trim());
+}
+
 /* ═══════════════════════════════════════════
    REGISTER
 ═══════════════════════════════════════════ */
@@ -762,7 +767,7 @@ async function handleRegister(){
   const password = document.getElementById('regPassword').value;
 
   if(!name){ showAuthError('registerError','নাম দিন'); return; }
-  if(!mobile || mobile.length < 10){ showAuthError('registerError','সঠিক মোবাইল নম্বর দিন'); return; }
+  if(!isValidBDMobile(mobile)){ showAuthError('registerError','ভুল নম্বর ফরম্যাট! নম্বর অবশ্যই 01 দিয়ে শুরু হতে হবে এবং মোট ১১টি ডিজিট হতে হবে। উদাহরণ: 01XXXXXXXXX'); return; }
   if(password.length < 6){ showAuthError('registerError','পাসওয়ার্ড কমপক্ষে ৬ ক্যারেক্টার হতে হবে'); return; }
 
   const btn = document.getElementById('registerBtn');
@@ -824,6 +829,7 @@ async function handleLogin(){
   const password = document.getElementById('loginPassword').value;
 
   if(!mobile){ showAuthError('loginError','মোবাইল নম্বর দিন'); return; }
+  if(!isValidBDMobile(mobile)){ showAuthError('loginError','ভুল নম্বর ফরম্যাট! নম্বর অবশ্যই 01 দিয়ে শুরু হতে হবে এবং মোট ১১টি ডিজিট হতে হবে। উদাহরণ: 01XXXXXXXXX'); return; }
   if(!password){ showAuthError('loginError','পাসওয়ার্ড দিন'); return; }
 
   const btn = document.getElementById('loginBtn');
