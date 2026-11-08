@@ -861,7 +861,12 @@ function formatCountdown(ms){
   const h = Math.floor(total / 3600);
   const min = Math.floor((total % 3600) / 60);
   const sec = total % 60;
-  return [h,min,sec].map(v => String(v).padStart(2,'0')).join(':');
+  const bn = value => String(value).replace(/[0-9]/g, digit => '০১২৩৪৫৬৭৮৯'[Number(digit)]);
+  const parts = [];
+  if(h > 0) parts.push(`${bn(h)} ঘন্টা`);
+  if(min > 0) parts.push(`${bn(min)} মিনিট`);
+  if(sec > 0 || parts.length === 0) parts.push(`${bn(sec)} সেকেন্ড`);
+  return parts.join(' ');
 }
 function getRollingWindowState(){
   const hours = Number(config.postWindowHours) || 0;
@@ -933,11 +938,11 @@ function renderPostCard(){
     limitBox.classList.toggle('show', daily);
     cooldown.classList.add('show');
     cooldown.innerHTML = daily
-      ? `আজকের দৈনিক লিমিট শেষ। রাত ১২টার পর আবার কমেন্ট করতে পারবেন।<span class="post-cooldown-time">${formatCountdown(state.remainingMs)}</span>`
+      ? `আজকের দৈনিক লিমিট শেষ। রাত ১২টার পর আবার কমেন্ট করতে পারবেন।<span class="post-cooldown-time">রাত ${formatCountdown(state.remainingMs)}</span>`
       : `নির্ধারিত সময়ের কমেন্ট লিমিট পূর্ণ হয়েছে। আবার কমেন্ট করতে পারবেন এই সময় পর।<span class="post-cooldown-time">${formatCountdown(state.remainingMs)}</span>`;
     btnCopy.style.display = 'flex';
     btnCopy.disabled = true;
-    btnCopy.innerHTML = `⏳ আবার কমেন্ট করতে পারবেন<br><strong style="font-size:22px;">${formatCountdown(state.remainingMs)}</strong> পর`;
+    btnCopy.innerHTML = `⏳ আবার কমেন্ট করতে পারবেন<br><strong style="font-size:22px;">${daily ? 'রাত ' : ''}${formatCountdown(state.remainingMs)}</strong> পর`;
     btnComplete.classList.remove('show');
     btnComplete.disabled = true;
     copiedBadge.classList.remove('show');
