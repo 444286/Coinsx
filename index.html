@@ -929,6 +929,7 @@ if(window._firebaseReady){ boot(); }
 else{ document.addEventListener('firebaseReady', boot, { once:true }); }
 document.addEventListener('visibilitychange', () => { if(!document.hidden && window._firebaseReady && userData.uid) runClientAutoReject(); });
 
+
 /* ═══════════════════════════════════════════
    CONFIG
 ═══════════════════════════════════════════ */
@@ -1397,6 +1398,7 @@ async function runClientAutoReject(){
   finally{ autoRejectCheckRunning=false; }
 }
 
+
 async function handleWithdraw(){
   const number=document.getElementById('wNumber').value.trim();
   const amount=parseFloat(document.getElementById('wAmount').value);
@@ -1413,27 +1415,54 @@ async function handleWithdraw(){
   renderHistory();
 }
 
+function escapeHtml(value){
+  return String(value ?? '').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
 async function renderHistory(){
   const el=document.getElementById('wHistory');
   el.innerHTML='<div style="display:flex;justify-content:center;padding:30px;"><div class="spinner"></div></div>';
-  const snap=await dbGet('withdrawals');
-  if(!snap.exists()){ el.innerHTML='<div class="empty-state"><div class="e-icon">📭</div>কোনো ইতিহাস নেই</div>'; return; }
-  const mine=Object.entries(snap.val()).filter(([,v])=>v.uid===userData.uid).sort(([,a],[,b])=>b.requestedAt-a.requestedAt);
-  if(mine.length===0){ el.innerHTML='<div class="empty-state"><div class="e-icon">📭</div>কোনো উইথড্র নেই</div>'; return; }
-  const mi={bkash:'📱',nagad:'🟠',rocket:'🚀'};
-  const sl={pending:'অপেক্ষমান',approved:'অনুমোদিত',rejected:'বাতিল'};
-  el.innerHTML=mine.map(([,v])=>`<div class="hist-item">
-    <div class="hist-icon">${mi[v.method]||'💳'}</div>
-    <div class="hist-info">
-      <div class="hist-method">${v.method?.toUpperCase()}</div>
-      <div class="hist-number">${v.number}</div>
-      <div class="hist-date">${new Date(Number(v.requestedAt)).toLocaleString('bn-BD')}</div>
-      ${v.status==='rejected'&&v.reason?`<div class="hist-date" style="color:var(--red);margin-top:4px;white-space:normal;">কারণ: ${String(v.reason).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}</div>`:''}
-    </div>
-    <div>
-      <div class="hist-amount" style="color:var(--gold)">৳${Number(v.amount).toFixed(2)}</div>
-      <div class="hist-status ${v.status}">${sl[v.status]||v.status}</div>
-    </div></div>`).join('');
+  try{
+    const snap=await dbGet('withdrawals');
+    if(!snap.exists()){
+      el.innerHTML='<div class="empty-state"><div class="e-icon">📭</div>কোনো ইতিহাস নেই</div>';
+      return;
+    }
+    const mine=Object.entries(snap.val()||{})
+      .filter(([,v])=>String(v.uid||v.userId||'')===String(userData.uid))
+      .sort(([,a],[,b])=>Number(b.requestedAt||b.createdAt||0)-Number(a.requestedAt||a.createdAt||0));
+    if(!mine.length){
+      el.innerHTML='<div class="empty-state"><div class="e-icon">📭</div>কোনো উইথড্র নেই</div>';
+      return;
+    }
+    const mi={bkash:'📱',nagad:'🟠',rocket:'🚀'};
+    const sl={pending:'অপেক্ষমান',approved:'অনুমোদিত',rejected:'বাতিল'};
+    el.innerHTML=mine.map(([id,v])=>{
+      const requestedAt=Number(v.requestedAt||v.createdAt||0);
+      const processedAt=Number(v.processedAt||v.approvedAt||v.rejectedAt||0);
+      const reason=v.status==='rejected'&&v.reason
+        ? `<div class="hist-date" style="color:var(--red);margin-top:5px;white-space:normal;line-height:1.5;">❗ বাতিলের কারণ: ${escapeHtml(v.reason)}</div>` : '';
+      const processed=processedAt
+        ? `<div class="hist-date" style="margin-top:3px;">প্রসেস: ${new Date(processedAt).toLocaleString('bn-BD')}</div>` : '';
+      const refund=v.status==='rejected'&&v.userRefunded===true
+        ? '<div class="hist-date" style="color:var(--green);margin-top:3px;">✓ টাকা ব্যালেন্সে ফেরত দেওয়া হয়েছে</div>' : '';
+      return `<div class="hist-item">
+        <div class="hist-icon">${mi[v.method]||'💳'}</div>
+        <div class="hist-info">
+          <div class="hist-method">${escapeHtml(String(v.method||'').toUpperCase())}</div>
+          <div class="hist-number">${escapeHtml(v.number||'')}</div>
+          <div class="hist-date">${requestedAt?new Date(requestedAt).toLocaleString('bn-BD'):'-'}</div>
+          ${processed}${reason}${refund}
+        </div>
+        <div>
+          <div class="hist-amount" style="color:var(--gold)">৳${Number(v.amount||0).toFixed(2)}</div>
+          <div class="hist-status ${escapeHtml(v.status||'pending')}">${sl[v.status]||escapeHtml(v.status||'অজানা')}</div>
+        </div>
+      </div>`;
+    }).join('');
+  }catch(err){
+    console.error('Withdraw history load failed:',err);
+    el.innerHTML='<div class="empty-state">ইতিহাস লোড করা যায়নি। আবার চেষ্টা করুন।</div>';
+  }
 }
 
 function renderSupport(){
