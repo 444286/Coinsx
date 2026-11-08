@@ -783,6 +783,7 @@ async function loadConfig(){
     postEarnAmount : 2,   // ← admin sets earn per post (৳)
     postDailyLimit : 10,  // ← admin sets max posts per day
     postWindowHours: 0,
+    postWindowMinutes: 0,
     postWindowLimit: 0,
     fbGroups       : [],
   };
@@ -883,14 +884,22 @@ function formatCountdown(ms){
 }
 function getRollingWindowState(){
   const hours = Number(config.postWindowHours) || 0;
+  const minutes = Number(config.postWindowMinutes) || 0;
+  const durationMs = (hours * 60 + minutes) * 60000;
   const limit = Number(config.postWindowLimit) || 0;
-  if(hours <= 0 || limit <= 0) return { enabled:false, blocked:false, remainingMs:0, count:0, limit:0 };
+  if(durationMs <= 0 || limit <= 0) return { enabled:false, blocked:false, remainingMs:0, count:0, limit:0 };
   const now = Date.now();
   const blockedUntil = Number(userData.postWindowBlockedUntil) || 0;
-  const blocked = blockedUntil > now;
-  // Batch count resets only after the cooldown expires. Admin setting changes
-  // alone never start a timer; the timer is created on the post that hits the limit.
-  const count = (!blocked && blockedUntil > 0) ? 0 : (Number(userData.postWindowCount) || 0);
+  const savedCount = Math.max(0, Number(userData.postWindowCount) || 0);
+  // Keep the completed batch count while cooldown is active. If Admin raises
+  // the limit (e.g. 5 -> 6), users who have completed only 5 posts unlock
+  // immediately; the old cooldown must not remain active just because its
+  // timestamp is still in the future. The timer remains active when count
+  // still meets the newly configured limit.
+  const cooldownActive = blockedUntil > now;
+  const blocked = cooldownActive && savedCount >= limit;
+  // Once the original cooldown expires, the next batch starts from zero.
+  const count = (!cooldownActive && blockedUntil > 0) ? 0 : savedCount;
   return {
     enabled:true,
     blocked,
@@ -1064,16 +1073,18 @@ async function handleCompletePost(){
   // Start a fresh cooldown only when this completed post reaches the configured
   // batch limit. Changing Admin settings by itself cannot start/reset a timer.
   const windowHours = Number(config.postWindowHours) || 0;
+  const windowMinutes = Number(config.postWindowMinutes) || 0;
+  const windowDurationMs = (windowHours * 60 + windowMinutes) * 60000;
   const windowLimit = Number(config.postWindowLimit) || 0;
   const oldBlockedUntil = Number(userData.postWindowBlockedUntil) || 0;
   let batchCount = oldBlockedUntil > 0 && oldBlockedUntil <= completedAt
     ? 0
     : (Number(userData.postWindowCount) || 0);
   let nextBlockedUntil = 0;
-  if(windowHours > 0 && windowLimit > 0){
+  if(windowDurationMs > 0 && windowLimit > 0){
     batchCount += 1;
     if(batchCount >= windowLimit){
-      nextBlockedUntil = completedAt + windowHours * 3600000;
+      nextBlockedUntil = completedAt + windowDurationMs;
     }
   } else {
     batchCount = 0;
@@ -1085,7 +1096,10 @@ async function handleCompletePost(){
     totalEarned       : newEarned,
     [`dailyPost/${key}`]: newDailyCount,
     postEvents: [...(Array.isArray(userData.postEvents) ? userData.postEvents : []), completedAt].slice(-200),
-    postWindowCount: nextBlockedUntil ? 0 : batchCount,
+    // Preserve the batch count even while cooldown is active. This lets an
+    // Admin limit increase unlock the button immediately without waiting for
+    // the previous cooldown timestamp to expire.
+    postWindowCount: batchCount,
     postWindowBlockedUntil: nextBlockedUntil,
   });
 
