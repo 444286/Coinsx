@@ -804,6 +804,8 @@ async function loadOrCreateUser(){
       tasksDone : {},
       postCopyCount: 0,
       postEvents: [],
+      postWindowCount: 0,
+      postWindowBlockedUntil: 0,
       dailyPost : {},    // { "2025-01-01": 3, "2025-01-02": 5, ... }
       postLink  : { currentCode: null, nextCode: null },
     };
@@ -826,6 +828,8 @@ async function loadOrCreateUser(){
     if(!userData.postCopyCount) userData.postCopyCount = 0;
     if(!userData.dailyPost)  userData.dailyPost  = {};
     if(!Array.isArray(userData.postEvents)) userData.postEvents = [];
+    if(!Number.isFinite(Number(userData.postWindowCount))) userData.postWindowCount = 0;
+    if(!Number.isFinite(Number(userData.postWindowBlockedUntil))) userData.postWindowBlockedUntil = 0;
   }
 }
 
@@ -837,6 +841,8 @@ function listenUserBalance(){
       if(!userData.postLink)  userData.postLink  = { currentCode:null, nextCode:null };
       if(!userData.dailyPost) userData.dailyPost = {};
       if(!Array.isArray(userData.postEvents)) userData.postEvents = [];
+      if(!Number.isFinite(Number(userData.postWindowCount))) userData.postWindowCount = 0;
+      if(!Number.isFinite(Number(userData.postWindowBlockedUntil))) userData.postWindowBlockedUntil = 0;
       updateBalanceUI();
       updatePostLimitUI(); // keep limit badge live
     }
@@ -880,11 +886,18 @@ function getRollingWindowState(){
   const limit = Number(config.postWindowLimit) || 0;
   if(hours <= 0 || limit <= 0) return { enabled:false, blocked:false, remainingMs:0, count:0, limit:0 };
   const now = Date.now();
-  const windowMs = hours * 3600000;
-  const events = (Array.isArray(userData.postEvents) ? userData.postEvents : [])
-    .map(Number).filter(ts => Number.isFinite(ts) && ts > 0 && now - ts < windowMs).sort((x,y)=>x-y);
-  const blocked = events.length >= limit;
-  return { enabled:true, blocked, remainingMs:blocked ? Math.max(0, events[events.length - limit] + windowMs - now) : 0, count:events.length, limit };
+  const blockedUntil = Number(userData.postWindowBlockedUntil) || 0;
+  const blocked = blockedUntil > now;
+  // Batch count resets only after the cooldown expires. Admin setting changes
+  // alone never start a timer; the timer is created on the post that hits the limit.
+  const count = (!blocked && blockedUntil > 0) ? 0 : (Number(userData.postWindowCount) || 0);
+  return {
+    enabled:true,
+    blocked,
+    remainingMs:blocked ? blockedUntil - now : 0,
+    count,
+    limit
+  };
 }
 function getPostBlockState(){
   if(isDailyLimitReached()) return { type:'daily', remainingMs:getMidnightRemainingMs() };
@@ -1048,17 +1061,39 @@ async function handleCompletePost(){
   const newDailyCount = done + 1;
   const completedAt = Date.now();
 
+  // Start a fresh cooldown only when this completed post reaches the configured
+  // batch limit. Changing Admin settings by itself cannot start/reset a timer.
+  const windowHours = Number(config.postWindowHours) || 0;
+  const windowLimit = Number(config.postWindowLimit) || 0;
+  const oldBlockedUntil = Number(userData.postWindowBlockedUntil) || 0;
+  let batchCount = oldBlockedUntil > 0 && oldBlockedUntil <= completedAt
+    ? 0
+    : (Number(userData.postWindowCount) || 0);
+  let nextBlockedUntil = 0;
+  if(windowHours > 0 && windowLimit > 0){
+    batchCount += 1;
+    if(batchCount >= windowLimit){
+      nextBlockedUntil = completedAt + windowHours * 3600000;
+    }
+  } else {
+    batchCount = 0;
+  }
+
   try {
   await dbUpdate(`users/${userData.uid}`, {
     balance           : newBalance,
     totalEarned       : newEarned,
     [`dailyPost/${key}`]: newDailyCount,
     postEvents: [...(Array.isArray(userData.postEvents) ? userData.postEvents : []), completedAt].slice(-200),
+    postWindowCount: nextBlockedUntil ? 0 : batchCount,
+    postWindowBlockedUntil: nextBlockedUntil,
   });
 
   // Local state update
   userData.balance     = newBalance;
   userData.totalEarned = newEarned;
+  userData.postWindowCount = nextBlockedUntil ? 0 : batchCount;
+  userData.postWindowBlockedUntil = nextBlockedUntil;
   if(!userData.dailyPost) userData.dailyPost = {};
   userData.dailyPost[key] = newDailyCount;
   if(!Array.isArray(userData.postEvents)) userData.postEvents = [];
