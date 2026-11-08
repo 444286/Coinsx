@@ -1384,7 +1384,7 @@ async function runClientAutoReject(){
     for(const [id,w] of Object.entries(wSnap.val()||{})){
       const requestedAt=Number(w.requestedAt||(w.createdAt?new Date(w.createdAt).getTime():0));
       if(!requestedAt||requestedAt>cutoff) continue;
-      const claim=await dbTransaction(`withdrawals/${id}`,current=>{ if(!current||current.status!=='pending') return; return{...current,status:'rejected',reason:'[Auto] '+reason,autoRejected:true,rejectedAt:Date.now()}; });
+      const claim=await dbTransaction(`withdrawals/${id}`,current=>{ if(!current||current.status!=='pending'||current.manualProcessed===true) return; return{...current,status:'rejected',reason:'[Auto] '+reason,autoRejected:true,rejectedAt:Date.now()}; });
       const latest=claim.snapshot&&claim.snapshot.val();
       if(latest&&latest.status==='rejected'&&latest.autoRejected&&latest.userRefunded!==true){
         const uid=String(latest.uid||latest.userId||'');
