@@ -1032,7 +1032,9 @@ async function handleCompletePost(){
   const newBalance    = (userData.balance     || 0) + earn;
   const newEarned     = (userData.totalEarned || 0) + earn;
   const newDailyCount = done + 1;
+  const completedAt = Date.now();
 
+  try {
   await dbUpdate(`users/${userData.uid}`, {
     balance           : newBalance,
     totalEarned       : newEarned,
@@ -1059,7 +1061,12 @@ async function handleCompletePost(){
   postState.copied = false;
   await savePostLinkToFirebase();
   renderPostCard();
-  btn.disabled = false;
+  } catch (e) {
+    console.error('handleCompletePost error:', e);
+    showToast('ব্যালেন্স যোগ করা যায়নি। আবার চেষ্টা করুন।', 'error');
+  } finally {
+    btn.disabled = false;
+  }
 }
 
 function setPostGenerating(val){
