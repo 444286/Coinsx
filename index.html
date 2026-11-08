@@ -230,7 +230,8 @@ body{display:flex;flex-direction:column;}
 .post-cooldown-time{display:block;font-family:var(--font-bn),sans-serif;font-size:16px;letter-spacing:0;font-weight:800;margin-top:7px;color:var(--red);text-align:center;line-height:1.35}.post-cooldown-time .countdown-main{display:block;text-align:center}.post-cooldown-time .countdown-seconds{display:block;text-align:center;font-size:15px;margin-top:2px}
 
 /* Cooldown button keeps the original left/right layout */
-.btn-copy-post .post-retry-label{display:block;flex:0 0 38%;font-size:16px;font-weight:800;line-height:1.35;text-align:center;white-space:normal;}
+.btn-copy-post .post-retry-label{display:flex;flex:0 0 38%;min-width:0;flex-direction:column;align-items:center;justify-content:center;gap:0;font-size:15px;font-weight:800;line-height:1.3;text-align:center;white-space:nowrap;}
+.btn-copy-post .post-retry-label span{display:block;white-space:nowrap;line-height:1.3;}
 .btn-copy-post .post-retry-timer{display:block;flex:1;min-width:0;font-size:14px;font-weight:700;line-height:1.3;text-align:center;}
 .btn-copy-post .post-retry-timer .countdown-main{display:block;text-align:center;font-size:14px;margin:0;white-space:nowrap;}
 .btn-copy-post .post-retry-timer .countdown-seconds{display:block;text-align:center;font-size:14px;margin:2px 0 0;white-space:nowrap;}
@@ -950,7 +951,7 @@ function renderPostCard(){
     btnCopy.disabled = true;
     btnCopy.style.flexDirection = 'row';
     btnCopy.style.gap = '5px';
-    btnCopy.innerHTML = `<span class="post-retry-label">⏳ আবার কমেন্ট<br>করতে পারবেন</span><span class="post-retry-timer">${formatCountdown(state.remainingMs)}</span><span class="post-retry-after">বাকি</span>`;
+    btnCopy.innerHTML = `<span class="post-retry-label"><span>⏳ আবার কমেন্ট</span><span>করতে পারবেন</span></span><span class="post-retry-timer">${formatCountdown(state.remainingMs)}</span><span class="post-retry-after">পর</span>`;
     btnComplete.classList.remove('show');
     btnComplete.disabled = true;
     copiedBadge.classList.remove('show');
