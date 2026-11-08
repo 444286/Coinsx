@@ -169,15 +169,44 @@ body{display:flex;flex-direction:column;}
 .card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow);}
 
 /* Profile bar */
-.profile-bar{display:flex;align-items:center;gap:12px;background:linear-gradient(135deg,var(--card2),var(--bg3));border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;margin-bottom:14px;}
+.profile-bar{display:flex;align-items:center;gap:12px;background:linear-gradient(135deg,var(--card2),var(--bg3));border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;margin-bottom:14px;transition:border-color .2s;}
+.profile-bar:active{border-color:var(--accent);}
 .avatar{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-family:var(--font-en);font-weight:900;font-size:18px;color:#fff;flex-shrink:0;box-shadow:0 0 0 3px rgba(61,107,255,.25);}
 .profile-info{flex:1;min-width:0;}
 .profile-name{font-family:var(--font-en);font-weight:700;font-size:15px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .profile-uid{font-size:11px;color:var(--text2);margin-top:2px;}
+.profile-edit-hint{font-size:10px;color:var(--accent);margin-top:2px;font-weight:600;}
 
 /* Logout button in profile */
 .logout-btn{background:rgba(255,77,109,.12);border:1px solid rgba(255,77,109,.2);color:var(--red);border-radius:8px;padding:6px 12px;font-size:11px;font-weight:700;cursor:pointer;font-family:var(--font-bn);transition:background .2s;}
 .logout-btn:active{background:rgba(255,77,109,.2);}
+
+/* Profile Modal */
+.profile-modal-box{
+  width:100%;max-width:460px;
+  background:var(--card2);border-radius:24px 24px 0 0;
+  padding:24px 20px 0;
+  box-shadow:0 -16px 60px rgba(0,0,0,.7);
+  animation:slideUp .3s cubic-bezier(.34,1.1,.64,1);
+  max-height:88vh;overflow-y:auto;
+}
+@keyframes slideUp{from{transform:translateY(100%);opacity:0;}to{transform:translateY(0);opacity:1;}}
+.pm-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
+.pm-avatar{width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-family:var(--font-en);font-weight:900;font-size:26px;color:#fff;box-shadow:0 0 0 4px rgba(61,107,255,.25);}
+.pm-close-btn{width:36px;height:36px;border-radius:50%;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--text2);cursor:pointer;border:1px solid var(--border);}
+.pm-name{font-family:var(--font-en);font-weight:800;font-size:20px;color:var(--text);margin-bottom:14px;}
+.pm-info-row{display:flex;align-items:center;justify-content:space-between;background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:11px 14px;margin-bottom:8px;}
+.pm-info-label{font-size:12px;color:var(--text2);font-weight:600;}
+.pm-info-val{font-family:var(--font-en);font-size:13px;font-weight:700;color:var(--text);}
+.pm-divider{height:1px;background:var(--border);margin:18px 0 14px;}
+.pm-section-title{font-size:12px;font-weight:800;color:var(--text2);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;}
+.pm-field{margin-bottom:10px;}
+.pm-input{width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:11px;padding:12px 14px;color:var(--text);font-size:14px;outline:none;font-family:var(--font-bn);transition:border-color .2s;}
+.pm-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(61,107,255,.12);}
+.pm-input::placeholder{color:var(--text2);font-size:13px;}
+.pm-save-btn{width:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));color:#fff;border:none;border-radius:12px;padding:13px;font-size:14px;font-weight:800;cursor:pointer;font-family:var(--font-bn);transition:filter .2s,transform .15s;box-shadow:0 4px 20px rgba(61,107,255,.3);}
+.pm-save-btn:active{transform:scale(.97);filter:brightness(.92);}
+.pm-save-btn:disabled{opacity:.5;cursor:not-allowed;}
 
 /* Balance card */
 .balance-card{background:linear-gradient(135deg,#1a2a6c,#b21f1f,#fdbb2d);border-radius:var(--radius);padding:22px 20px;margin-bottom:14px;position:relative;overflow:hidden;box-shadow:0 12px 40px rgba(0,0,0,.6);}
@@ -452,6 +481,43 @@ body{display:flex;flex-direction:column;}
   <div class="ep-label">ব্যালেন্সে যোগ হয়েছে!</div>
 </div>
 
+<!-- PROFILE MODAL -->
+<div id="profileModal" style="display:none;position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,0.75);align-items:flex-end;justify-content:center;">
+  <div class="profile-modal-box" id="profileModalBox">
+    <div class="pm-header">
+      <div class="pm-avatar" id="pmAvatar">?</div>
+      <div class="pm-close-btn" onclick="closeProfileModal()">✕</div>
+    </div>
+    <div class="pm-name" id="pmName">—</div>
+    <div class="pm-info-row"><span class="pm-info-label">📱 মোবাইল</span><span class="pm-info-val" id="pmMobile">—</span></div>
+    <div class="pm-info-row"><span class="pm-info-label">🆔 UID</span><span class="pm-info-val" id="pmUid">—</span></div>
+
+    <div class="pm-divider"></div>
+
+    <div class="pm-section-title">✏️ নাম পরিবর্তন</div>
+    <div class="pm-field">
+      <input type="text" id="pmNewName" placeholder="নতুন নাম লিখুন" class="pm-input">
+    </div>
+    <button class="pm-save-btn" onclick="handleChangeName()">নাম পরিবর্তন করুন</button>
+
+    <div class="pm-divider"></div>
+
+    <div class="pm-section-title">🔒 পাসওয়ার্ড পরিবর্তন</div>
+    <div class="pm-field">
+      <input type="password" id="pmOldPass" placeholder="বর্তমান পাসওয়ার্ড" class="pm-input">
+    </div>
+    <div class="pm-field">
+      <input type="password" id="pmNewPass" placeholder="নতুন পাসওয়ার্ড (কমপক্ষে ৬ ক্যারেক্টার)" class="pm-input">
+    </div>
+    <div class="pm-field">
+      <input type="password" id="pmConfirmPass" placeholder="নতুন পাসওয়ার্ড আবার লিখুন" class="pm-input">
+    </div>
+    <button class="pm-save-btn" onclick="handleChangePassword()">পাসওয়ার্ড পরিবর্তন করুন</button>
+
+    <div style="height:16px;"></div>
+  </div>
+</div>
+
 <!-- STARTUP POPUP -->
 <div id="startupPopup" style="display:none;">
   <div class="popup-box">
@@ -483,13 +549,14 @@ body{display:flex;flex-direction:column;}
 
     <!-- HOME PAGE -->
     <div class="page active" id="page-home">
-      <div class="profile-bar">
+      <div class="profile-bar" onclick="openProfileModal()" style="cursor:pointer;">
         <div class="avatar" id="avatarInitial">?</div>
         <div class="profile-info">
           <div class="profile-name" id="profileName">লোড হচ্ছে...</div>
           <div class="profile-uid" id="profileUid">ID: —</div>
+          <div class="profile-edit-hint">✏️ প্রোফাইল দেখুন / পরিবর্তন করুন</div>
         </div>
-        <button class="logout-btn" onclick="handleLogout()">লগআউট</button>
+        <button class="logout-btn" onclick="event.stopPropagation();handleLogout()">লগআউট</button>
       </div>
 
       <div class="balance-card balance-pulse">
@@ -626,8 +693,19 @@ let postState = { currentCode:null, nextCode:null, copied:false, generating:fals
 /* ═══════════════════════════════════════════
    SESSION (localStorage)
 ═══════════════════════════════════════════ */
+const SESSION_TTL = 24 * 60 * 60 * 1000; // 24 hours
+
 function getSession(){
-  try{ return JSON.parse(localStorage.getItem('coinsx_session') || 'null'); }
+  try{
+    const s = JSON.parse(localStorage.getItem('coinsx_session') || 'null');
+    if(!s) return null;
+    // Check 24h expiry
+    if(Date.now() - (s.ts||0) > SESSION_TTL){
+      localStorage.removeItem('coinsx_session');
+      return null;
+    }
+    return s;
+  }
   catch(_){ return null; }
 }
 function saveSession(uid, mobile){
@@ -669,7 +747,10 @@ function showAuthError(formId, msg){
    GENERATE UID
 ═══════════════════════════════════════════ */
 function generateUID(){
-  return 'cx_' + Date.now().toString(36) + Math.random().toString(36).slice(2,8);
+  // 10-digit numeric UID
+  const min = 1000000000; // 10 digits start
+  const max = 9999999999;
+  return String(Math.floor(Math.random() * (max - min + 1)) + min);
 }
 
 /* ═══════════════════════════════════════════
@@ -1161,8 +1242,79 @@ function renderProfile(){
   const name=userData.name||'ইউজার';
   document.getElementById('avatarInitial').textContent=name[0]?.toUpperCase()||'?';
   document.getElementById('profileName').textContent=name;
-  document.getElementById('profileUid').textContent=`মোবাইল: ${userData.mobile||'—'} | ID: ${userData.uid||'—'}`;
+  document.getElementById('profileUid').textContent=`ID: ${userData.uid||'—'}`;
   updateBalanceUI();
+}
+
+/* ═══════════════════════════════════════════
+   PROFILE MODAL
+═══════════════════════════════════════════ */
+function openProfileModal(){
+  const modal=document.getElementById('profileModal');
+  const name=userData.name||'ইউজার';
+  document.getElementById('pmAvatar').textContent=name[0]?.toUpperCase()||'?';
+  document.getElementById('pmName').textContent=name;
+  document.getElementById('pmMobile').textContent=userData.mobile||'—';
+  document.getElementById('pmUid').textContent=userData.uid||'—';
+  // Clear fields
+  ['pmNewName','pmOldPass','pmNewPass','pmConfirmPass'].forEach(id=>{
+    const el=document.getElementById(id); if(el) el.value='';
+  });
+  modal.style.display='flex';
+  document.body.style.overflow='hidden';
+}
+function closeProfileModal(){
+  const modal=document.getElementById('profileModal');
+  modal.style.display='none';
+  document.body.style.overflow='';
+}
+// Close modal on backdrop click
+document.getElementById('profileModal').addEventListener('click',function(e){
+  if(e.target===this) closeProfileModal();
+});
+
+async function handleChangeName(){
+  const newName=document.getElementById('pmNewName').value.trim();
+  if(!newName){ showToast('নতুন নাম লিখুন','error'); return; }
+  if(newName===userData.name){ showToast('নাম একই আছে','error'); return; }
+  const btn=event.currentTarget;
+  btn.disabled=true; btn.textContent='পরিবর্তন হচ্ছে...';
+  try{
+    await dbUpdate(`users/${userData.uid}`,{name:newName});
+    // Update mobileIndex name too
+    const mobileKey=(userData.mobile||'').replace(/\./g,'_');
+    await dbUpdate(`mobileIndex/${mobileKey}`,{name:newName});
+    userData.name=newName;
+    renderProfile();
+    document.getElementById('pmName').textContent=newName;
+    document.getElementById('pmAvatar').textContent=newName[0]?.toUpperCase()||'?';
+    document.getElementById('pmNewName').value='';
+    showToast('নাম সফলভাবে পরিবর্তন হয়েছে ✅','success');
+  }catch(e){
+    console.error('Name change error:',e);
+    showToast('নাম পরিবর্তন হয়নি। আবার চেষ্টা করুন।','error');
+  }finally{ btn.disabled=false; btn.textContent='নাম পরিবর্তন করুন'; }
+}
+
+async function handleChangePassword(){
+  const oldPass=document.getElementById('pmOldPass').value;
+  const newPass=document.getElementById('pmNewPass').value;
+  const confirmPass=document.getElementById('pmConfirmPass').value;
+  if(!oldPass){ showToast('বর্তমান পাসওয়ার্ড দিন','error'); return; }
+  if(oldPass!==userData.password){ showToast('বর্তমান পাসওয়ার্ড ভুল','error'); return; }
+  if(newPass.length<6){ showToast('নতুন পাসওয়ার্ড কমপক্ষে ৬ ক্যারেক্টার হতে হবে','error'); return; }
+  if(newPass!==confirmPass){ showToast('নতুন পাসওয়ার্ড মিলছে না','error'); return; }
+  const btn=event.currentTarget;
+  btn.disabled=true; btn.textContent='পরিবর্তন হচ্ছে...';
+  try{
+    await dbUpdate(`users/${userData.uid}`,{password:newPass});
+    userData.password=newPass;
+    ['pmOldPass','pmNewPass','pmConfirmPass'].forEach(id=>{ const el=document.getElementById(id); if(el) el.value=''; });
+    showToast('পাসওয়ার্ড সফলভাবে পরিবর্তন হয়েছে ✅','success');
+  }catch(e){
+    console.error('Password change error:',e);
+    showToast('পাসওয়ার্ড পরিবর্তন হয়নি। আবার চেষ্টা করুন।','error');
+  }finally{ btn.disabled=false; btn.textContent='পাসওয়ার্ড পরিবর্তন করুন'; }
 }
 function updateBalanceUI(){
   const bal=(userData.balance||0).toFixed(2);
