@@ -301,7 +301,16 @@ body{display:flex;flex-direction:column;}
 
 /* Video */
 .video-player-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:12px;margin-bottom:14px;box-shadow:var(--shadow);}
-.video-player-card video{display:block;width:100%;max-height:420px;aspect-ratio:16/9;background:#000;border-radius:12px;object-fit:contain;}
+.video-player-card video{
+  display:block;
+  width:100%;
+  height:min(160vw, 72vh);
+  max-height:none;
+  aspect-ratio:9/16;
+  background:#000;
+  border-radius:12px;
+  object-fit:contain;
+}
 .video-now-title{font-size:15px;font-weight:800;color:var(--text);margin:12px 2px 4px;}
 .video-now-desc{font-size:12px;color:var(--text2);line-height:1.6;margin:0 2px 4px;}
 .video-list-title{font-size:14px;font-weight:800;color:var(--text);margin:18px 2px 10px;}
