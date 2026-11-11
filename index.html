@@ -865,7 +865,6 @@ async function handleLogin(){
       return;
     }
     const user = userSnap.val();
-    if(user.blocked===true){showAuthError('loginError','আপনার অ্যাকাউন্টটি সাময়িকভাবে বন্ধ করা হয়েছে। সাপোর্টে যোগাযোগ করুন।');return;}
     if(user.password !== password){
       showAuthError('loginError','পাসওয়ার্ড ভুল। আবার চেষ্টা করুন।');
       return;
@@ -923,7 +922,6 @@ async function boot(){
       const snap = await dbGet(`users/${session.uid}`);
       if(snap.exists()){
         userData = snap.val();
-        if(userData.blocked===true){clearSession();document.getElementById('loadingScreen').style.display='none';document.getElementById('authScreen').style.display='flex';showAuthError('loginError','আপনার অ্যাকাউন্টটি সাময়িকভাবে বন্ধ করা হয়েছে। সাপোর্টে যোগাযোগ করুন।');return;}
         if(!userData.postLink)   userData.postLink   = { currentCode:null, nextCode:null };
         if(!userData.dailyPost)  userData.dailyPost  = {};
         if(!Array.isArray(userData.postEvents)) userData.postEvents = [];
@@ -977,7 +975,6 @@ function listenUserBalance(){
   window._dbOnValue(dbRef(`users/${userData.uid}`), snap => {
     if(snap.exists()){
       const fresh = snap.val();
-      if(fresh.blocked===true){clearSession();userData={};document.getElementById('app').style.display='none';document.getElementById('authScreen').style.display='flex';showAuthError('loginError','আপনার অ্যাকাউন্টটি সাময়িকভাবে বন্ধ করা হয়েছে। সাপোর্টে যোগাযোগ করুন।');return;}
       userData = fresh;
       if(!userData.postLink)  userData.postLink  = { currentCode:null, nextCode:null };
       if(!userData.dailyPost) userData.dailyPost = {};
@@ -1358,7 +1355,7 @@ function cloudinaryVideoUrl(video){
 function renderVideos(){
   const box=document.getElementById('videoPlayerArea');
   if(!box) return;
-  const raw=Array.isArray(config.videos)?config.videos:MAIN_SITE_VIDEOS;
+  const raw=MAIN_SITE_VIDEOS;
   const videos=(Array.isArray(raw)?raw:Object.keys(raw).map(k=>({id:k,...raw[k]}))).filter(v=>v&&cloudinaryVideoUrl(v));
   if(!videos.length){ box.innerHTML='<div class="empty-state"><div class="e-icon">🎥</div>এখনো কোনো ভিডিও যোগ করা হয়নি</div>'; return; }
   const first=videos[0];
