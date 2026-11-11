@@ -463,8 +463,8 @@ body{display:flex;flex-direction:column;}
     <div class="auth-form" id="registerForm">
       <div class="auth-error" id="registerError"></div>
       <div class="auth-field">
-        <label>আপনার নাম</label>
-        <input type="text" id="regName" placeholder="পূর্ণ নাম লিখুন">
+        <label>আপনার নাম (আপনার ফেসবুক আইডির নাম দিবেন)</label>
+        <input type="text" id="regName" placeholder="পূর্ণ নাম লিখুন (ফেসবুক আইডির নামটি বসাবেন)">
       </div>
       <div class="auth-field">
         <label>মোবাইল নম্বর</label>
@@ -477,7 +477,7 @@ body{display:flex;flex-direction:column;}
       <button class="auth-submit" id="registerBtn" onclick="handleRegister()">রেজিস্ট্রেশন করুন</button>
       <div class="auth-divider">অথবা</div>
       <div style="text-align:center;font-size:12px;color:var(--text2);">
-        আগে থেকে আছেন? <span style="color:var(--accent);cursor:pointer;font-weight:700;" onclick="switchAuthTab('login')">লগইন করুন</span>
+        আগে থেকে একাউন্ট আছে? <span style="color:var(--accent);cursor:pointer;font-weight:700;" onclick="switchAuthTab('login')">লগইন করুন</span>
       </div>
     </div>
   </div>
