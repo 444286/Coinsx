@@ -943,7 +943,7 @@ async function boot(){
         window._dbOnValue(dbRef('supportTickets'),()=>{if(currentPage==='support')renderMySupportTickets();});
         listenUserBalance();
         runClientAutoReject();
-        if(!window._coinsxAutoRejectTimer) window._coinsxAutoRejectTimer = setInterval(() => { if(!document.hidden) runClientAutoReject(); }, 5 * 60 * 1000);
+        if(!window._coinsxAutoRejectTimer) window._coinsxAutoRejectTimer = setInterval(() => { runClientAutoReject(); }, 1 * 60 * 1000);
         if(!window._coinsxPostCountdownTimer) window._coinsxPostCountdownTimer = setInterval(() => { if(!document.hidden) renderPostCard(); }, 1000);
         showStartupPopup();
         initPostCopy();
@@ -958,7 +958,7 @@ async function boot(){
 
 if(window._firebaseReady){ boot(); }
 else{ document.addEventListener('firebaseReady', boot, { once:true }); }
-document.addEventListener('visibilitychange', () => { if(!document.hidden && window._firebaseReady && userData.uid) runClientAutoReject(); });
+document.addEventListener('visibilitychange', () => { if(window._firebaseReady && userData && userData.uid) runClientAutoReject(); });
 
 
 /* ═══════════════════════════════════════════
