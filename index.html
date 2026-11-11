@@ -660,6 +660,14 @@ body{display:flex;flex-direction:column;}
     <div class="page" id="page-support">
       <div class="section-title">❓ সাহায্য কেন্দ্র</div>
       <div id="faqList"><div style="display:flex;justify-content:center;padding:30px;"><div class="spinner"></div></div></div>
+      <div class="support-ticket-box" style="background:var(--card2);border:1px solid var(--border);border-radius:14px;padding:16px;margin:16px 0;">
+        <div style="font-size:15px;font-weight:700;margin-bottom:6px;">📝 আপনার কী সমস্যা তা আমাদের জানান</div>
+        <div style="font-size:12px;color:var(--text2);margin-bottom:12px;">নিচের তালিকা থেকে সমস্যাটি নির্বাচন করে Submit করুন।</div>
+        <select id="supportIssueSelect" class="inp" style="width:100%;margin-bottom:10px;"><option value="">সমস্যা নির্বাচন করুন</option></select>
+        <button class="withdraw-btn" id="supportTicketSubmit" onclick="submitSupportTicket()" style="width:100%;">টিকেট Submit করুন</button>
+      </div>
+      <div class="section-title" style="margin-top:20px;">🎫 আপনার সাপোর্ট টিকেট</div>
+      <div id="mySupportTickets"><div class="empty-state">এখনো কোনো টিকেট করেননি</div></div>
       <div class="support-telegram">
         <div style="font-size:14px;font-weight:600;">আরও সাহায্য দরকার?</div>
         <div style="font-size:12px;color:var(--text2);margin-top:4px;">আমাদের সাপোর্ট টিমের সাথে যোগাযোগ করুন</div>
@@ -932,6 +940,7 @@ async function boot(){
         document.getElementById('loadingScreen').style.display = 'none';
         document.getElementById('app').style.display = 'flex';
         renderAll();
+        window._dbOnValue(dbRef('supportTickets'),()=>{if(currentPage==='support')renderMySupportTickets();});
         listenUserBalance();
         runClientAutoReject();
         if(!window._coinsxAutoRejectTimer) window._coinsxAutoRejectTimer = setInterval(() => { if(!document.hidden) runClientAutoReject(); }, 5 * 60 * 1000);
@@ -966,7 +975,7 @@ async function loadConfig(){
     postTargetUrl:'https://t.me/takardorjabot',
     postEarnAmount:2, postDailyLimit:10,
     postWindowHours:0, postWindowMinutes:0, postWindowLimit:0,
-    fbGroups:[],
+    fbGroups:[], supportOptions:[],
   };
   config = snap.exists() ? { ...defaults, ...snap.val() } : defaults;
 }
@@ -1548,10 +1557,41 @@ function renderSupport(){
   const items=config.helpItems||{};
   const el=document.getElementById('faqList');
   const keys=Object.keys(items);
-  el.innerHTML=keys.length===0?'<div class="empty-state"><div class="e-icon">❓</div>কোনো আইটেম নেই</div>':keys.map(k=>`<div class="support-item" onclick="toggleFaq(this)"><div class="support-q"><span>${items[k].q}</span><span>▾</span></div><div class="support-a">${items[k].a}</div></div>`).join('');
+  el.innerHTML=keys.length===0?'<div class="empty-state"><div class="e-icon">❓</div>কোনো আইটেম নেই</div>':keys.map(k=>`<div class="support-item" onclick="toggleFaq(this)"><div class="support-q"><span>${escapeHtml(items[k].q)}</span><span>▾</span></div><div class="support-a">${escapeHtml(items[k].a)}</div></div>`).join('');
+  const select=document.getElementById('supportIssueSelect');
+  if(select){const options=Array.isArray(config.supportOptions)?config.supportOptions:Object.values(config.supportOptions||{});select.innerHTML='<option value="">সমস্যা নির্বাচন করুন</option>'+options.filter(x=>x&&x.active!==false).map(x=>`<option value="${escapeHtml(x.id||x.title)}">${escapeHtml(x.title||'')}</option>`).join('');}
   document.getElementById('tgSupportBtn').onclick=()=>window.open(config.supportLink||'https://t.me/support','_blank');
+  renderMySupportTickets();
 }
 function toggleFaq(el){ el.classList.toggle('open'); }
+async function submitSupportTicket(){
+  const select=document.getElementById('supportIssueSelect');
+  const optionId=select?.value||'';
+  if(!optionId)return showToast('⚠️ আগে সমস্যাটি নির্বাচন করুন','error');
+  if(!userData||!userData.uid)return showToast('⚠️ আবার লগইন করুন','error');
+  const options=Array.isArray(config.supportOptions)?config.supportOptions:Object.values(config.supportOptions||{});
+  const chosen=options.find(x=>String(x.id||x.title)===String(optionId));
+  if(!chosen)return showToast('⚠️ সমস্যার অপশনটি পাওয়া যায়নি','error');
+  const btn=document.getElementById('supportTicketSubmit');btn.disabled=true;btn.textContent='পাঠানো হচ্ছে...';
+  try{
+    const now=Date.now();
+    const ticket={uid:String(userData.uid),name:String(userData.name||''),mobile:String(userData.mobile||''),username:String(userData.username||''),userDetails:{uid:String(userData.uid),name:String(userData.name||''),mobile:String(userData.mobile||''),username:String(userData.username||''),balance:Number(userData.balance||0),totalEarn:Number(userData.totalEarn||userData.totalEarned||0),totalWithdrawn:Number(userData.totalWithdrawn||0),inviteCount:Number(userData.inviteCount||0),createdAt:userData.createdAt||null},issueId:String(chosen.id||''),issue:String(chosen.title||''),status:'pending',createdAt:now,updatedAt:now,adminReply:'',adminReason:''};
+    const ref=await dbPush('supportTickets',ticket);
+    await window._dbSet(ref,ticket);
+    showToast('✅ আপনার টিকেট জমা হয়েছে','success');
+    renderMySupportTickets();
+  }catch(e){console.error(e);showToast('❌ টিকেট পাঠানো যায়নি','error');}
+  finally{btn.disabled=false;btn.textContent='টিকেট Submit করুন';}
+}
+async function renderMySupportTickets(){
+  const el=document.getElementById('mySupportTickets');if(!el||!userData?.uid)return;
+  try{
+    const snap=await dbGet('supportTickets');
+    const mine=Object.entries(snap.val()||{}).filter(([,t])=>t&&String(t.uid)===String(userData.uid)).sort((a,b)=>(Number(b[1].createdAt)||0)-(Number(a[1].createdAt)||0));
+    if(!mine.length){el.innerHTML='<div class="empty-state">এখনো কোনো টিকেট করেননি</div>';return;}
+    el.innerHTML=mine.map(([id,t])=>`<div style="background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:13px;margin-bottom:10px;"><div style="display:flex;justify-content:space-between;gap:8px;align-items:center;"><b>${escapeHtml(t.issue||'সাপোর্ট টিকেট')}</b><span style="font-size:11px;padding:4px 8px;border-radius:20px;background:${t.status==='solved'?'#16a34a22':'#f59e0b22'};color:${t.status==='solved'?'#22c55e':'#f59e0b'}">${t.status==='solved'?'সমাধান হয়েছে':'অপেক্ষমাণ'}</span></div><div style="font-size:11px;color:var(--text2);margin-top:6px;">টিকেট: ${escapeHtml(id)} · ${new Date(Number(t.createdAt)||Date.now()).toLocaleString('bn-BD')}</div>${t.status==='solved'?`<div style="border-top:1px solid var(--border);margin-top:10px;padding-top:10px;"><b style="font-size:12px;color:var(--accent);">অ্যাডমিনের উত্তর</b><div style="font-size:13px;margin-top:5px;white-space:pre-wrap;">${escapeHtml(t.adminReply||t.adminReason||'সমাধান করা হয়েছে')}</div></div>`:'<div style="font-size:12px;color:var(--text2);margin-top:8px;">আপনার সমস্যাটি সাপোর্ট টিম পর্যালোচনা করছে।</div>'}</div>`).join('');
+  }catch(e){el.innerHTML='<div class="empty-state">টিকেট লোড করা যায়নি</div>';}
+}
 
 /* Startup Popup */
 function showStartupPopup(){
@@ -1578,6 +1618,7 @@ function goPage(name){
   document.querySelectorAll('.nav-btn')[idx]?.classList.add('active');
   currentPage=name;
   if(name==='withdraw'){ renderWithdraw(); renderHistory(); }
+  if(name==='support'){ renderSupport(); }
   if(name==='video') renderVideos();
 }
 
