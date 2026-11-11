@@ -1564,6 +1564,13 @@ function renderSupport(){
   renderMySupportTickets();
 }
 function toggleFaq(el){ el.classList.toggle('open'); }
+function legacyTicketNumber(id){let h=2166136261;for(const ch of String(id||'')){h^=ch.charCodeAt(0);h=Math.imul(h,16777619);}return String(100000+(h>>>0)%900000);}
+async function createUniqueTicketNumber(){
+  const snap=await dbGet('supportTickets');
+  const used=new Set(Object.values(snap.val()||{}).map(t=>String(t?.ticketNo||'')));
+  for(let i=0;i<200;i++){const n=String(100000+Math.floor(Math.random()*900000));if(!used.has(n))return n;}
+  throw new Error('টিকেট নম্বর তৈরি করা যায়নি');
+}
 async function submitSupportTicket(){
   const select=document.getElementById('supportIssueSelect');
   const optionId=select?.value||'';
@@ -1575,7 +1582,8 @@ async function submitSupportTicket(){
   const btn=document.getElementById('supportTicketSubmit');btn.disabled=true;btn.textContent='পাঠানো হচ্ছে...';
   try{
     const now=Date.now();
-    const ticket={uid:String(userData.uid),name:String(userData.name||''),mobile:String(userData.mobile||''),username:String(userData.username||''),userDetails:{uid:String(userData.uid),name:String(userData.name||''),mobile:String(userData.mobile||''),username:String(userData.username||''),balance:Number(userData.balance||0),totalEarn:Number(userData.totalEarn||userData.totalEarned||0),totalWithdrawn:Number(userData.totalWithdrawn||0),inviteCount:Number(userData.inviteCount||0),createdAt:userData.createdAt||null},issueId:String(chosen.id||''),issue:String(chosen.title||''),status:'pending',createdAt:now,updatedAt:now,adminReply:'',adminReason:''};
+    const ticketNo=await createUniqueTicketNumber();
+    const ticket={ticketNo,uid:String(userData.uid),name:String(userData.name||''),mobile:String(userData.mobile||''),username:String(userData.username||''),userDetails:{uid:String(userData.uid),name:String(userData.name||''),mobile:String(userData.mobile||''),username:String(userData.username||''),balance:Number(userData.balance||0),totalEarn:Number(userData.totalEarn||userData.totalEarned||0),totalWithdrawn:Number(userData.totalWithdrawn||0),inviteCount:Number(userData.inviteCount||0),createdAt:userData.createdAt||null},issueId:String(chosen.id||''),issue:String(chosen.title||''),status:'pending',createdAt:now,updatedAt:now,adminReply:'',adminReason:''};
     const ref=await dbPush('supportTickets',ticket);
     await window._dbSet(ref,ticket);
     showToast('✅ আপনার টিকেট জমা হয়েছে','success');
@@ -1589,7 +1597,7 @@ async function renderMySupportTickets(){
     const snap=await dbGet('supportTickets');
     const mine=Object.entries(snap.val()||{}).filter(([,t])=>t&&String(t.uid)===String(userData.uid)).sort((a,b)=>(Number(b[1].createdAt)||0)-(Number(a[1].createdAt)||0));
     if(!mine.length){el.innerHTML='<div class="empty-state">এখনো কোনো টিকেট করেননি</div>';return;}
-    el.innerHTML=mine.map(([id,t])=>`<div style="background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:13px;margin-bottom:10px;"><div style="display:flex;justify-content:space-between;gap:8px;align-items:center;"><b>${escapeHtml(t.issue||'সাপোর্ট টিকেট')}</b><span style="font-size:11px;padding:4px 8px;border-radius:20px;background:${t.status==='solved'?'#16a34a22':'#f59e0b22'};color:${t.status==='solved'?'#22c55e':'#f59e0b'}">${t.status==='solved'?'সমাধান হয়েছে':'অপেক্ষমাণ'}</span></div><div style="font-size:11px;color:var(--text2);margin-top:6px;">টিকেট: ${escapeHtml(id)} · ${new Date(Number(t.createdAt)||Date.now()).toLocaleString('bn-BD')}</div>${t.status==='solved'?`<div style="border-top:1px solid var(--border);margin-top:10px;padding-top:10px;"><b style="font-size:12px;color:var(--accent);">অ্যাডমিনের উত্তর</b><div style="font-size:13px;margin-top:5px;white-space:pre-wrap;">${escapeHtml(t.adminReply||t.adminReason||'সমাধান করা হয়েছে')}</div></div>`:'<div style="font-size:12px;color:var(--text2);margin-top:8px;">আপনার সমস্যাটি সাপোর্ট টিম পর্যালোচনা করছে।</div>'}</div>`).join('');
+    el.innerHTML=mine.map(([id,t])=>`<div style="background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:13px;margin-bottom:10px;"><div style="display:flex;justify-content:space-between;gap:8px;align-items:center;"><b>${escapeHtml(t.issue||'সাপোর্ট টিকেট')}</b><span style="font-size:11px;padding:4px 8px;border-radius:20px;background:${t.status==='solved'?'#16a34a22':'#f59e0b22'};color:${t.status==='solved'?'#22c55e':'#f59e0b'}">${t.status==='solved'?'সমাধান হয়েছে':'অপেক্ষমাণ'}</span></div><div style="font-size:11px;color:var(--text2);margin-top:6px;">টিকেট নম্বর: ${escapeHtml(/^\d{6}$/.test(String(t.ticketNo||''))?t.ticketNo:legacyTicketNumber(id))} · ${new Date(Number(t.createdAt)||Date.now()).toLocaleString('bn-BD')}</div>${t.status==='solved'?`<div style="border-top:1px solid var(--border);margin-top:10px;padding-top:10px;"><b style="font-size:12px;color:var(--accent);">অ্যাডমিনের উত্তর</b><div style="font-size:13px;margin-top:5px;white-space:pre-wrap;">${escapeHtml(t.adminReply||t.adminReason||'সমাধান করা হয়েছে')}</div></div>`:'<div style="font-size:12px;color:var(--text2);margin-top:8px;">আপনার সমস্যাটি সাপোর্ট টিম পর্যালোচনা করছে।</div>'}</div>`).join('');
   }catch(e){el.innerHTML='<div class="empty-state">টিকেট লোড করা যায়নি</div>';}
 }
 
