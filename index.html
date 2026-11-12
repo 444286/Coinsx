@@ -873,6 +873,7 @@ async function handleLogin(){
       return;
     }
     const user = userSnap.val();
+    if(user.blocked === true){ showAuthError('loginError','Blocked Account'); return; }
     if(user.password !== password){
       showAuthError('loginError','পাসওয়ার্ড ভুল। আবার চেষ্টা করুন।');
       return;
@@ -930,6 +931,7 @@ async function boot(){
       const snap = await dbGet(`users/${session.uid}`);
       if(snap.exists()){
         userData = snap.val();
+        if(userData.blocked === true){ clearSession(); userData={}; document.getElementById('loadingScreen').style.display='none'; document.getElementById('authScreen').style.display='flex'; showAuthError('loginError','Blocked Account'); return; }
         if(!userData.postLink)   userData.postLink   = { currentCode:null, nextCode:null };
         if(!userData.dailyPost)  userData.dailyPost  = {};
         if(!Array.isArray(userData.postEvents)) userData.postEvents = [];
@@ -975,7 +977,7 @@ async function loadConfig(){
     postTargetUrl:'https://t.me/takardorjabot',
     postEarnAmount:2, postDailyLimit:10,
     postWindowHours:0, postWindowMinutes:0, postWindowLimit:0,
-    fbGroups:[], supportOptions:[],
+    fbGroups:[], supportOptions:[], supportDailyLimit:1,
   };
   config = snap.exists() ? { ...defaults, ...snap.val() } : defaults;
 }
@@ -984,6 +986,7 @@ function listenUserBalance(){
   window._dbOnValue(dbRef(`users/${userData.uid}`), snap => {
     if(snap.exists()){
       const fresh = snap.val();
+      if(fresh.blocked === true){ clearSession(); userData={}; document.getElementById('app').style.display='none'; document.getElementById('authScreen').style.display='flex'; showAuthError('loginError','Blocked Account'); return; }
       userData = fresh;
       if(!userData.postLink)  userData.postLink  = { currentCode:null, nextCode:null };
       if(!userData.dailyPost) userData.dailyPost = {};
@@ -1581,7 +1584,17 @@ async function submitSupportTicket(){
   if(!chosen)return showToast('⚠️ সমস্যার অপশনটি পাওয়া যায়নি','error');
   const btn=document.getElementById('supportTicketSubmit');btn.disabled=true;btn.textContent='পাঠানো হচ্ছে...';
   try{
+    const existingSnap=await dbGet('supportTickets');
+    const allTickets=Object.values(existingSnap.val()||{}).filter(t=>t&&String(t.uid)===String(userData.uid));
+    if(allTickets.some(t=>String(t.status||'pending').toLowerCase()!=='solved')){
+      showToast('ইতিমধ্যে একটি পেন্ডিং আছে।','error'); return;
+    }
     const now=Date.now();
+    const today=todayKey();
+    const submittedToday=allTickets.filter(t=>{const d=new Date(Number(t.createdAt)||0);return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`===today;}).length;
+    const dailyLimit=Math.max(1,Number(config.supportDailyLimit)||1);
+    if(submittedToday>=dailyLimit){showToast(`আজকের সর্বোচ্চ ${dailyLimit}টি টিকেট জমা দেওয়া হয়েছে।`,'error');return;}
+
     const ticketNo=await createUniqueTicketNumber();
     const ticket={ticketNo,uid:String(userData.uid),name:String(userData.name||''),mobile:String(userData.mobile||''),username:String(userData.username||''),userDetails:{uid:String(userData.uid),name:String(userData.name||''),mobile:String(userData.mobile||''),username:String(userData.username||''),balance:Number(userData.balance||0),totalEarn:Number(userData.totalEarn||userData.totalEarned||0),totalWithdrawn:Number(userData.totalWithdrawn||0),inviteCount:Number(userData.inviteCount||0),createdAt:userData.createdAt||null},issueId:String(chosen.id||''),issue:String(chosen.title||''),status:'pending',createdAt:now,updatedAt:now,adminReply:'',adminReason:''};
     const ref=await dbPush('supportTickets',ticket);
