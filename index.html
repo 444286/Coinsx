@@ -66,45 +66,55 @@ body{display:flex;flex-direction:column;}
 .bg-mesh::after{width:350px;height:350px;background:radial-gradient(circle,var(--gold-dark),transparent);bottom:-80px;left:-80px;animation-delay:-6s;}
 @keyframes meshFloat{from{transform:translate(0,0) scale(1);}to{transform:translate(30px,30px) scale(1.1);}}
 
-/* ═══ AUTH SCREENS ═══ */
+/* ═══ AUTH SCREENS — GOLD LUXURY ═══ */
 #authScreen{
   position:fixed;inset:0;z-index:1000;
   display:flex;align-items:center;justify-content:center;
-  background:var(--bg);padding:20px;
-  overflow-y:auto;
+  background:radial-gradient(circle at 50% 0%,#3a2a05 0%,#0a0805 62%);
+  padding:20px;
+  overflow-y:auto;overflow-x:hidden;
 }
+.auth-coins{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
+.auth-coin{
+  position:absolute;border-radius:50%;
+  background:radial-gradient(circle at 30% 30%,#fff3b0,#f5c842 45%,#a87900);
+  box-shadow:0 6px 20px rgba(245,200,66,.5);
+  animation:coinFloat 5s ease-in-out infinite alternate;
+}
+.auth-coin.c1{left:9%;top:7%;width:46px;height:46px;opacity:.9;}
+.auth-coin.c2{right:8%;top:11%;width:30px;height:30px;opacity:.7;animation-delay:-1.5s;}
+.auth-coin.c3{right:6%;bottom:14%;width:52px;height:52px;opacity:.9;animation-delay:-3s;}
+.auth-coin.c4{left:4%;bottom:20%;width:26px;height:26px;opacity:.6;animation-delay:-2s;}
+.auth-coin.c5{left:58%;top:3%;width:20px;height:20px;opacity:.5;animation-delay:-4s;}
+.auth-coin.c6{left:34%;top:4%;width:16px;height:16px;opacity:.5;animation-delay:-.8s;}
+@keyframes coinFloat{from{transform:translateY(0) rotate(-6deg);}to{transform:translateY(-14px) rotate(6deg);}}
+@media (prefers-reduced-motion:reduce){.auth-coin{animation:none;}}
+
 .auth-box{
-  width:100%;max-width:400px;
-  background:var(--card2);
-  border:1px solid var(--border);
-  border-radius:24px;padding:36px 28px;
-  box-shadow:0 24px 64px rgba(0,0,0,.7);
+  width:100%;max-width:400px;margin:auto;
+  background:rgba(20,14,2,.78);
+  border:1.5px solid #c49a00;
+  border-radius:24px;padding:32px 24px 28px;
+  box-shadow:0 0 40px rgba(245,200,66,.18),0 24px 64px rgba(0,0,0,.7);
   position:relative;z-index:1;
 }
-.auth-logo{text-align:center;margin-bottom:28px;}
-.auth-logo-icon{
-  width:72px;height:72px;border-radius:20px;
-  background:linear-gradient(135deg,var(--accent),var(--accent2));
-  display:flex;align-items:center;justify-content:center;
-  font-size:34px;margin:0 auto 14px;
-  box-shadow:0 8px 32px rgba(61,107,255,.35);
-}
+.auth-logo{text-align:center;margin-bottom:26px;}
 .auth-logo-title{
-  font-family:var(--font-en);font-weight:900;font-size:26px;
-  background:linear-gradient(90deg,var(--gold),var(--gold2));
+  font-family:var(--font-bn);font-weight:700;font-size:34px;letter-spacing:0;
+  background:linear-gradient(180deg,#fff3b0,#f5c842 50%,#a87900);
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-  letter-spacing:-1px;
+  line-height:1.15;
 }
-.auth-logo-sub{font-size:12px;color:var(--text2);margin-top:4px;}
+.auth-logo-sub{font-size:12px;color:#c9b268;margin-top:6px;line-height:1.5;}
 
-.auth-tabs{display:flex;background:var(--bg);border-radius:12px;padding:4px;gap:4px;margin-bottom:24px;}
+.auth-tabs{display:flex;background:#120d03;border-radius:12px;padding:4px;gap:4px;margin-bottom:22px;border:1px solid #3a2c08;}
 .auth-tab{
-  flex:1;text-align:center;padding:9px;border-radius:9px;
+  flex:1;text-align:center;padding:10px;border-radius:9px;
   font-size:13px;font-weight:700;cursor:pointer;
-  color:var(--text2);transition:all .2s;border:none;background:transparent;
+  color:#c9b268;transition:all .2s;border:none;background:transparent;
   font-family:var(--font-bn);
 }
-.auth-tab.active{background:var(--accent);color:#fff;box-shadow:0 4px 16px rgba(61,107,255,.3);}
+.auth-tab.active{background:linear-gradient(90deg,#c49a00,#f5c842);color:#1a1200;box-shadow:0 4px 16px rgba(245,200,66,.3);}
 
 .auth-form{display:none;}
 .auth-form.active{display:block;}
@@ -112,30 +122,30 @@ body{display:flex;flex-direction:column;}
 .auth-field{margin-bottom:14px;}
 .auth-field label{
   display:block;font-size:12px;font-weight:600;
-  color:var(--text2);margin-bottom:6px;letter-spacing:.3px;
+  color:#d9c37a;margin-bottom:6px;letter-spacing:.3px;
 }
 .auth-field input{
-  width:100%;background:var(--bg);
-  border:1.5px solid var(--border);border-radius:11px;
-  padding:13px 15px;color:var(--text);font-size:14px;
+  width:100%;background:#120d03;
+  border:1.5px solid #5a4510;border-radius:12px;
+  padding:14px 15px;color:#fff3c4;font-size:14px;
   outline:none;font-family:var(--font-bn);
   transition:border-color .2s,box-shadow .2s;
 }
 .auth-field input:focus{
-  border-color:var(--accent);
-  box-shadow:0 0 0 3px rgba(61,107,255,.12);
+  border-color:var(--gold);
+  box-shadow:0 0 0 3px rgba(245,200,66,.15);
 }
-.auth-field input::placeholder{color:var(--text2);font-size:13px;}
+.auth-field input::placeholder{color:#8a7840;font-size:13px;}
 
 .auth-submit{
   width:100%;
-  background:linear-gradient(90deg,var(--accent),var(--accent2));
-  color:#fff;border:none;border-radius:12px;
+  background:linear-gradient(90deg,#a87900,#f5c842,#a87900);
+  color:#1a1200;border:none;border-radius:12px;
   padding:15px;font-size:15px;font-weight:800;
   cursor:pointer;font-family:var(--font-bn);
   margin-top:6px;
   transition:filter .2s,transform .15s;
-  box-shadow:0 6px 24px rgba(61,107,255,.35);
+  box-shadow:0 8px 30px rgba(245,200,66,.4);
 }
 .auth-submit:active{transform:scale(.98);filter:brightness(.95);}
 .auth-submit:disabled{opacity:.5;cursor:not-allowed;transform:none;filter:none;}
@@ -148,10 +158,12 @@ body{display:flex;flex-direction:column;}
 }
 .auth-error.show{display:block;}
 
-.auth-divider{text-align:center;font-size:11px;color:var(--text2);margin:16px 0;position:relative;}
-.auth-divider::before,.auth-divider::after{content:'';position:absolute;top:50%;width:35%;height:1px;background:var(--border);}
+.auth-divider{text-align:center;font-size:11px;color:#c9b268;margin:16px 0;position:relative;}
+.auth-divider::before,.auth-divider::after{content:'';position:absolute;top:50%;width:35%;height:1px;background:#3a2c08;}
 .auth-divider::before{left:0;}
 .auth-divider::after{right:0;}
+.auth-alt{text-align:center;font-size:12px;color:#d9c37a;}
+.auth-alt span{color:var(--gold);cursor:pointer;font-weight:700;}
 
 /* ═══ MAIN APP ═══ */
 #app{position:relative;z-index:1;display:flex;flex-direction:column;height:100%;display:none;}
@@ -412,10 +424,13 @@ body{display:flex;flex-direction:column;}
 
 <!-- AUTH SCREEN -->
 <div id="authScreen">
+  <div class="auth-coins" aria-hidden="true">
+    <div class="auth-coin c1"></div><div class="auth-coin c2"></div><div class="auth-coin c3"></div>
+    <div class="auth-coin c4"></div><div class="auth-coin c5"></div><div class="auth-coin c6"></div>
+  </div>
   <div class="auth-box">
     <div class="auth-logo">
-      <div class="auth-logo-icon">🪙</div>
-      <div class="auth-logo-title">CoinsX</div>
+      <div class="auth-logo-title" id="authTitle">লগইন</div>
       <div class="auth-logo-sub">প্রতিদিন আয় করুন, সহজেই উইথড্র করুন</div>
     </div>
 
@@ -437,8 +452,8 @@ body{display:flex;flex-direction:column;}
       </div>
       <button class="auth-submit" id="loginBtn" onclick="handleLogin()">লগইন করুন</button>
       <div class="auth-divider">অথবা</div>
-      <div style="text-align:center;font-size:12px;color:var(--text2);">
-        নতুন? <span style="color:var(--accent);cursor:pointer;font-weight:700;" onclick="switchAuthTab('register')">এখানে রেজিস্ট্রেশন করুন</span>
+      <div class="auth-alt">
+        নতুন? <span onclick="switchAuthTab('register')">এখানে রেজিস্ট্রেশন করুন</span>
       </div>
     </div>
 
@@ -459,8 +474,8 @@ body{display:flex;flex-direction:column;}
       </div>
       <button class="auth-submit" id="registerBtn" onclick="handleRegister()">রেজিস্ট্রেশন করুন</button>
       <div class="auth-divider">অথবা</div>
-      <div style="text-align:center;font-size:12px;color:var(--text2);">
-        আগে থেকে একাউন্ট আছে? <span style="color:var(--accent);cursor:pointer;font-weight:700;" onclick="switchAuthTab('login')">লগইন করুন</span>
+      <div class="auth-alt">
+        আগে থেকে একাউন্ট আছে? <span onclick="switchAuthTab('login')">লগইন করুন</span>
       </div>
     </div>
   </div>
@@ -745,6 +760,7 @@ function switchAuthTab(tab){
   document.getElementById(tab === 'login' ? 'loginForm' : 'registerForm').classList.add('active');
   document.getElementById('loginError').classList.remove('show');
   document.getElementById('registerError').classList.remove('show');
+  document.getElementById('authTitle').textContent = tab === 'login' ? 'লগইন' : 'রেজিস্ট্রেশন';
 }
 
 function showAuthError(formId, msg){
