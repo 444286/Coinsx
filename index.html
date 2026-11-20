@@ -404,24 +404,14 @@ body{display:flex;flex-direction:column;}
 @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(245,200,66,.3);}50%{box-shadow:0 0 0 10px rgba(245,200,66,0);}}
 .balance-pulse{animation:pulse 2s infinite;}
 
-/* Loading screen */
-#loadingScreen{position:fixed;inset:0;z-index:999;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;}
-.loading-logo{font-family:var(--font-en);font-weight:900;font-size:32px;background:linear-gradient(90deg,var(--gold),var(--gold2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
 </style>
 </head>
 <body>
 
 <div class="bg-mesh"></div>
 
-<!-- LOADING SCREEN -->
-<div id="loadingScreen">
-  <div style="font-size:48px;">🪙</div>
-  <div class="loading-logo">CoinsX</div>
-  <div class="spinner"></div>
-</div>
-
 <!-- AUTH SCREEN -->
-<div id="authScreen" style="display:none;">
+<div id="authScreen">
   <div class="auth-box">
     <div class="auth-logo">
       <div class="auth-logo-icon">🪙</div>
@@ -707,6 +697,9 @@ const MAIN_SITE_VIDEOS = [
 let userData = {}, config = {}, currentPage = 'home', selectedMethod = 'bkash';
 let postState = { currentCode:null, nextCode:null, copied:false, generating:false };
 
+/* Auto reject state (boot() সবার আগে চালু হতে পারে, তাই এটা উপরে declare করা হয়েছে) */
+var autoRejectCheckRunning = false;
+
 /* ═══════════════════════════════════════════
    SESSION (localStorage)
 ═══════════════════════════════════════════ */
@@ -918,13 +911,14 @@ function handleLogout(){
    BOOT
 ═══════════════════════════════════════════ */
 async function boot(){
+  startAutoRejectLoop(); // login না করলেও (শুধু সাইট খুললেই) Auto Reject চেক চালু হবে
   const session = getSession();
   if(session && session.uid){
     try {
       const snap = await dbGet(`users/${session.uid}`);
       if(snap.exists()){
         userData = snap.val();
-        if(userData.blocked === true){ clearSession(); userData={}; document.getElementById('loadingScreen').style.display='none'; document.getElementById('authScreen').style.display='flex'; showAuthError('loginError','Blocked Account'); return; }
+        if(userData.blocked === true){ clearSession(); userData={}; document.getElementById('authScreen').style.display='flex'; showAuthError('loginError','Blocked Account'); return; }
         if(!userData.postLink)   userData.postLink   = { currentCode:null, nextCode:null };
         if(!userData.dailyPost)  userData.dailyPost  = {};
         if(!Array.isArray(userData.postEvents)) userData.postEvents = [];
@@ -932,13 +926,12 @@ async function boot(){
         if(!Number.isFinite(Number(userData.postWindowBlockedUntil))) userData.postWindowBlockedUntil = 0;
 
         await loadConfig();
-        document.getElementById('loadingScreen').style.display = 'none';
+        document.getElementById('authScreen').style.display = 'none';
         document.getElementById('app').style.display = 'flex';
         renderAll();
         window._dbOnValue(dbRef('supportTickets'),()=>{if(currentPage==='support')renderMySupportTickets();});
         listenUserBalance();
         runClientAutoReject();
-        if(!window._coinsxAutoRejectTimer) window._coinsxAutoRejectTimer = setInterval(() => { runClientAutoReject(); }, 1 * 60 * 1000);
         if(!window._coinsxPostCountdownTimer) window._coinsxPostCountdownTimer = setInterval(() => { if(!document.hidden) renderPostCard(); }, 1000);
         showStartupPopup();
         initPostCopy();
@@ -947,13 +940,12 @@ async function boot(){
     } catch(e){ console.warn('Session restore failed:', e); }
     clearSession();
   }
-  document.getElementById('loadingScreen').style.display = 'none';
   document.getElementById('authScreen').style.display = 'flex';
 }
 
 if(window._firebaseReady){ boot(); }
 else{ document.addEventListener('firebaseReady', boot, { once:true }); }
-document.addEventListener('visibilitychange', () => { if(window._firebaseReady && userData && userData.uid) runClientAutoReject(); });
+document.addEventListener('visibilitychange', () => { if(window._firebaseReady && !document.hidden) runClientAutoReject(); });
 
 
 /* ═══════════════════════════════════════════
@@ -1426,13 +1418,15 @@ async function refundRejectedWithdrawal(withdrawalId, withdrawal, source){
   const amount = Number(w.amount);
   if(!uid || !Number.isFinite(amount) || amount <= 0){
     await dbUpdate(`withdrawals/${withdrawalId}`, {refundError: !uid ? 'missing_uid' : 'invalid_amount'});
-    throw new Error(!uid ? 'Withdraw record-এ uid/userId নেই' : 'Withdraw amount সঠিক নয়');
+    throw new Error(!uid ? 'Withdraw record-এ uid/userId নেই' : 'Withdraw amount সঠিক নয়');
   }
 
-  // Balance এবং refund marker একই user transaction-এ লেখা হয়, তাই একই
-  // withdrawal একাধিকবার process হলেও balance দ্বিতীয়বার বাড়বে না।
+  // Balance এবং refund marker একই user transaction-এ লেখা হয়, তাই একই
+  // withdrawal একাধিকবার process হলেও balance দ্বিতীয়বার বাড়বে না।
   const tx = await dbTransaction(`users/${uid}`, user => {
-    if(!user) return;
+    // Local cache খালি থাকলে (null) abort না করে সেটাই ফেরত দেওয়া হয়,
+    // তাহলে Firebase সার্ভারের আসল value দিয়ে আবার চেষ্টা করে।
+    if(user === null) return user;
     const oldWithdraw = user.withdrawRefunds || {};
     const oldAuto = user.autoRejectRefunds || {};
     const alreadyRefunded = Object.prototype.hasOwnProperty.call(oldWithdraw, withdrawalId) ||
@@ -1457,10 +1451,10 @@ async function refundRejectedWithdrawal(withdrawalId, withdrawal, source){
   ));
   if(!hasMarker){
     const userSnap = await dbGet(`users/${uid}`);
-    if(!userSnap.exists()) throw new Error(`users/${uid} পাওয়া যায়নি`);
+    if(!userSnap.exists()) throw new Error(`users/${uid} পাওয়া যায়নি`);
     const user = userSnap.val() || {};
-    if(!Number.isFinite(Number(user.balance))) throw new Error('User balance সংখ্যা নয় বা পাওয়া যায়নি');
-    throw new Error('Firebase balance transaction commit হয়নি');
+    if(!Number.isFinite(Number(user.balance))) throw new Error('User balance সংখ্যা নয় বা পাওয়া যায়নি');
+    throw new Error('Firebase balance transaction commit হয়নি');
   }
 
   // এই update ব্যর্থ হলেও refund marker থাকবে; পরের retry-তে টাকা আবার যোগ হবে না।
@@ -1474,9 +1468,13 @@ async function refundRejectedWithdrawal(withdrawalId, withdrawal, source){
   return true;
 }
 
-let autoRejectCheckRunning=false;
+/* ═══════════════════════════════════════════
+   AUTO REJECT (Admin না খুললেও কাজ করবে)
+   সাইটে যে-ই ঢুকুক (login না করলেও) এই চেক চলবে,
+   এবং প্রতি ৩০ সেকেন্ডে আবার চেক হবে।
+═══════════════════════════════════════════ */
 async function runClientAutoReject(){
-  if(autoRejectCheckRunning) return;
+  if(autoRejectCheckRunning || !window._firebaseReady) return;
   autoRejectCheckRunning=true;
   try{
     const cfgSnap=await dbGet('settings/autoReject');
@@ -1487,23 +1485,42 @@ async function runClientAutoReject(){
     const reason=String(cfg.reason||'নির্ধারিত সময়ের মধ্যে Withdraw প্রসেস করা হয়নি।').trim();
     const wSnap=await dbGet('withdrawals');
     if(!wSnap.exists()) return;
+
     for(const [id,w] of Object.entries(wSnap.val()||{})){
-      if(w && w.status==='rejected' && w.refundRequired===true && w.userRefunded!==true){
-        try { await refundRejectedWithdrawal(id, w, w.autoRejected ? 'auto' : 'manual'); }
-        catch(refundErr){ console.error('Pending refund retry failed:', id, refundErr); }
+      if(!w) continue;
+
+      // আগে reject হয়ে refund বাকি থাকলে আবার refund চেষ্টা
+      if(w.status==='rejected' && w.refundRequired===true && w.userRefunded!==true){
+        try{ await refundRejectedWithdrawal(id, w, w.autoRejected ? 'auto' : 'manual'); }
+        catch(e){ console.error('Pending refund retry failed:', id, e); }
         continue;
       }
+
+      if(w.status!=='pending' || w.manualProcessed===true) continue;
       const requestedAt=Number(w.requestedAt||(w.createdAt?new Date(w.createdAt).getTime():0));
-      if(!requestedAt||requestedAt>cutoff) continue;
-      const claim=await dbTransaction(`withdrawals/${id}`,current=>{ if(!current||current.status!=='pending'||current.manualProcessed===true) return; return{...current,status:'rejected',reason:'[Auto] '+reason,autoRejected:true,refundRequired:true,rejectedAt:Date.now()}; });
-      const latest=claim.snapshot&&claim.snapshot.val();
-      if(latest&&latest.status==='rejected'&&latest.autoRejected&&latest.userRefunded!==true){
-        try { await refundRejectedWithdrawal(id, latest, 'auto'); }
-        catch(refundErr){ console.error('Auto reject refund failed:', id, refundErr); }
-      }
+      if(!requestedAt || requestedAt>cutoff) continue;
+
+      try{
+        const claim=await dbTransaction(`withdrawals/${id}`,current=>{
+          if(current===null) return current; // cache খালি হলে সার্ভার থেকে retry
+          if(current.status!=='pending'||current.manualProcessed===true) return; // abort
+          return {...current,status:'rejected',reason:'[Auto] '+reason,autoRejected:true,
+                  refundRequired:true,rejectedAt:Date.now(),processedAt:Date.now()};
+        });
+        const latest=claim.snapshot&&claim.snapshot.val();
+        if(claim.committed && latest && latest.status==='rejected' && latest.autoRejected && latest.userRefunded!==true){
+          await refundRejectedWithdrawal(id, latest, 'auto');
+        }
+      }catch(e){ console.error('Auto reject failed:', id, e); }
     }
   }catch(err){ console.warn('Auto reject check failed:',err); }
   finally{ autoRejectCheckRunning=false; }
+}
+
+function startAutoRejectLoop(){
+  if(window._coinsxAutoRejectTimer) return;
+  runClientAutoReject();
+  window._coinsxAutoRejectTimer=setInterval(runClientAutoReject, 30*1000);
 }
 
 
